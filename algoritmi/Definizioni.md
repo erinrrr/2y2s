@@ -29,3 +29,10 @@
 [^2]: Tesi di Church-Turing estesi: i modelli di calcolo realistici sono tra loro polinomialemente correlati. Il concetto di trattabilità è indipendente dalla macchina
 
 -----
+*%% lezione 28/02/2025 %%*
+
+# Grafi
+$G(V,E), |V|=n \ (\text{archi}), |E|= m\ (\text{nodi})$ (arco = coppie  di nodi)
+vi sono relazioni binarie
+
+- cappi: nodi che nascono e muoiono su loro stessi

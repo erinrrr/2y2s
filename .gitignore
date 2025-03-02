@@ -1,4 +1,5 @@
-.obsidian/app.json
-.obsidian/appearance.json
-.obsidian/hotkeys.json
-.obsidian/workspace
+.obsidian/*
+.obsidian/workspace/*
+# os settings and caches
+.trash/
+.DS_Store

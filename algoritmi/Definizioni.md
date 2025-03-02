@@ -31,8 +31,19 @@
 -----
 *%% lezione 28/02/2025 %%*
 
-# Grafi
-$G(V,E), |V|=n \ (\text{archi}), |E|= m\ (\text{nodi})$ (arco = coppie  di nodi)
+# Grafi (to fix)
+[[Grafi]]
+$G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi)
 vi sono relazioni binarie
 
 - cappi: nodi che nascono e muoiono su loro stessi
+- grafi diretti: direzionali
+- grafi non diretti: i collegamenti sono bilaterali
+
+- grafo sparso se $m= O(n)$
+- grafo denso se $m = \Omega(n^2)$
+	- un grafo si dice completo se ha tutti gli archi
+	- si dice torneo se tra ogni coppia di nodi c'è esattamente un arco
+- un grafo può essere né sparso né denso
+
+**Albero**: grafo particolare che ha sempre $m = n-1$ archi

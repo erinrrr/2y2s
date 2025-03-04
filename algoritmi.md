@@ -1,2 +1,4 @@
-### [[Definizioni]]
+### [[Definizioni]]:
+- [[Grafi]]
+- 
 ### [[uguaglianze asintotiche]]

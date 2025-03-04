@@ -45,4 +45,7 @@ $G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi
 	- si dice torneo se tra ogni coppia di nodi c'è esattamente un arco
 - un grafo può essere né sparso né denso
 
+- grafo planare: grafi che possono essere disegnati senza che gli archi si intersechino
+
 **Albero**: grafo particolare che ha sempre $m = n-1$ archi
+

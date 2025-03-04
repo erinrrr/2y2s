@@ -34,7 +34,6 @@
 # Grafi (to fix)
 [[Grafi]]
 $G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi)
-vi sono relazioni binarie
 
 - cappi: nodi che nascono e muoiono su loro stessi
 - grafi diretti: direzionali

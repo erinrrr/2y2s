@@ -131,4 +131,4 @@ def pozzoU2(M):
 
 [^4]: (poiché $i=1$ è stato scartato prima)
 
-Per scoprire le proprietà di un grafo devo visitarlo: [[algoritmi/Visite nei grafi|Visite nei grafi]]
+Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi|Visite nei grafi]]

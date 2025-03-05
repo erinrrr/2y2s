@@ -29,7 +29,7 @@
 [^2]: Tesi di Church-Turing estesi: i modelli di calcolo realistici sono tra loro polinomialemente correlati. Il concetto di trattabilità è indipendente dalla macchina
 
 -----
-*%% lezione 28/02/2025 %%*
+*%% lezione 28/02/2025 - 03/03/2025 %%*
 
 # Grafi (to fix)
 [[Grafi]]
@@ -76,7 +76,6 @@ In un grafo diretto sommando le liste ottengo tutti i nodi raggiunti dagli archi
 ## Visite nei grafi
 - DFS: Depth-first search (visita in profondità)
 - BFS: Breadth-first search (visita in ampiezza)- [ ] 17:07 - 17:37 Pomodoro #1
-
 
 
 [^3]: SCC : Strongly Connected Components

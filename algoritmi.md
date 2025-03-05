@@ -1,4 +1,8 @@
-### [[Definizioni]]:
+#### [[Definizioni]]:
 - [[Grafi]]
-- 
-### [[uguaglianze asintotiche]]
+	- [[Visite nei grafi]]
+
+
+
+
+[[uguaglianze asintotiche]]

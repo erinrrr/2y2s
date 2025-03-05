@@ -69,10 +69,11 @@ in un albero diretto sulla $j$ ci stanno gli archi entranti e sulla $i$ gli arch
 ### Rappresentazione di grafi tramite liste di adiacenza
 Si utilizza una lista di liste, che ha tanti elementi quanti nodi del grafo $G$, dove $G[x]$ è una lista contenente i nodi raggiunti da archi che partono da $x$, *(nodi adiacenti al nodo $x$)*
 ![[Pasted image 20250302235308.png]] rappresentazione più usata
+
 Vantaggi:
 - risparmio di spazio nel caso di grafi sparsi
 - vedere se due archi sono connessi può costare anche $O(n)$
-
+[[Definizioni#Chi preferire?|quale preferire?]]
 ### Pozzi
 - In un grafo diretto un pozzo è un nodo senza archi uscenti, con un massimo di n pozzi
 - mentre un pozzo universale è un pozzo verso cui tutti gli altri nodi hanno un arco, se c'è è unico
@@ -130,3 +131,4 @@ def pozzoU2(M):
 
 [^4]: (poiché $i=1$ è stato scartato prima)
 
+Per scoprire le proprietà di un grafo devo visitarlo: [[algoritmi/Visite nei grafi|Visite nei grafi]]

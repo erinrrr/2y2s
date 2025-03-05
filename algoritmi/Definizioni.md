@@ -47,5 +47,36 @@ $G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi
 
 - grafo planare: grafi che possono essere disegnati senza che gli archi si intersechino
 
-**Albero**: grafo particolare che ha sempre $m = n-1$ archi
+##### differenza tra raggiungibilità e connettività
+- raggiungibilità: ho un nodo $u$, quali nodi posso raggiungere
+	- può essere unidirezionale, $u$ può essere raggiunto da $v$, ma non necessariamente il contrario
+	- in un grafo diretto un nodo $u$ è raggiungibile se esiste un percorso diretto dal nodo $v$
+- connettività: si riferisce alla possibilità di raggiungere qualsiasi nodo partendo da qualsiasi altro nodo
+	- in un grafo non orientato, il grafo è connesso se esiste un percorso tra ogni coppia di nodi
+	- in un grafo diretto: 
+		- il grafo fortemente connesso $(SCC)$[^3]: se per ogni coppia di nodi $u,v$ esiste
+			- un cammino diretto da $u$ a $v$
+			- un cammino diretto da $v$ a $u$
+		- se la connettività esiste solo ignorando la direzione degli archi, il grafo è **debolmente connesso**.
 
+- La **raggiungibilità** riguarda singole coppie di nodi.
+- La **connettività** riguarda l’intero grafo e la presenza di percorsi tra tutti i nodi.
+
+--
+
+In un grafo diretto sommando le liste ottengo tutti i nodi raggiunti dagli archi nel grafo
+
+**Albero**: grafo particolare che ha sempre $m = n-1$ archi (quindi è sparso)
+### Chi preferire? 
+- Si preferisce una matrice quando
+	abbiamo un numero di archi vicino a $n^2$ ovvero un grafo denso e se dobbiamo controllare frequentemente l’esistenza di archi o in generale vogliamo accessi costanti
+- Lista di adiacenza
+	se abbiamo un grafo sparso, vogliamo risparmiare memoria e dobbiamo iterare sui nodi adiacenti di un nodo
+
+## Visite nei grafi
+- DFS: Depth-first search (visita in profondità)
+- BFS: Breadth-first search (visita in ampiezza)- [ ] 17:07 - 17:37 Pomodoro #1
+
+
+
+[^3]: SCC : Strongly Connected Components

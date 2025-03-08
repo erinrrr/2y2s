@@ -132,3 +132,86 @@ def pozzoU2(M):
 [^4]: (poiché $i=1$ è stato scartato prima)
 
 Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi|Visite nei grafi]]
+
+Durante una visita DFS non vengono attraversati tutti gli archi ma solo un sottoinsieme e poiché non ci sono cicli l'algoritmo crea un albero detto albero DFS
+![[Pasted.png]]
+a sx un grafo $G$, a dx gli alberi DFS che si ottengono a partire dai nodi $9,4,3$ 
+(supponendo che le liste di adiacenza siano ordinate crescentemente)
+
+un albero DFS può essere memorizzato tramite il vettore dei padri
+
+#### Il vettore dei padri
+Il vettore dei padri $P$ di un albero DFS di un grafo di $n$ nodi ha $n$ componenti:
+- se $i$ è nodo dell'albero allora $P[i]$ contiene il padre del nodo $i$
+- se $i$ non è nodo (non è stato esplorato) allora $P[i]$ contiene il valore $-1$
+
+il valore $-1$ viene dato anche per convenzione negli algoritmi quando non è ancora stato esplorato
+inoltre se $P[i]=i$ allora $i$ è la radice dell'albero
+
+prendendo l'albero DFS fatto a partire dal nodo $9$ abbiamo che il vettore dei padri è[^5]:
+$$
+\begin{array}{|c|c|}
+\hline index & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+\hline vettore \ vuoto &-1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 \\
+\hline vettore \ dei padri &9 & 0 & 9 & 2 & 7 & -1 & -1 & 2 & 9 & 9 \\
+\hline
+\end{array}
+$$
+[^5]: il padre di $0$ è $9$
+
+col vettore dei padri non ho nessuna difficoltà dalla foglia a salire fino alla radice
+
+- se il grafo non è diretto: ci saranno lo stesso numero di nodi, non importa la radice
+- mentre se è diretto: potrà variare in quanto potrebbero esserci dei pozzi ad esempio
+- sta di fatto che in entrambi in base alla radice che scegliamo avremmo un forma diversa
+
+codice $O(n+m)$:
+```python 
+def Padri(u,G):
+	#genera il vettore dei padri P radicato nel nodo u
+	def DFSr(x,G,P):
+		for y in G[x]: #per ogni nodo y adiacente a x (liste di adiacenza G[x]) 
+			if P[y] == -1: #-1 = non ancora visitato
+				P[y] = x #assegna x come padre di y
+				DFSr(y,G,P)
+
+	n = len(G)
+	P = [-1] * n #inizializza il vettore dei padri O(n)
+	P[u] = u
+	DFSr(u,G,P) #O(n+m)
+	return P
+```
+il vettore dei padri rimane lo stesso salvo modifiche del tipo aggiunta/rimozione archi/nodi
+##### Cammino 
+Il vettore dei padri radicato in $x$ permette di verificare se un nodo $y$ è raggiungibile ma anche di ricostruire il percorso da $x$ a $y$:
+- se $P[y]\ne-1$ allora $y$ è raggiungibile
+- partendo da $y$ risaliamo l'albero fino ad $x$
+- ci salviamo il percorso e invertendolo abbiamo ottenuto il **cammino** da $x$ a $y$ 
+
+codice $O(n)$ (se si dispone del vettore dei padri):
+```python
+	Def CamminoR(u.P):
+		if P[u] == -1 return []
+		if P[u] == u return [u]
+		return CamminoR(P[u],P) +u 
+```
+
+iterative code[^6] 
+
+ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cammino$ non garantisce di restituire il cammino minimo, (quello che attraversa il minor numero di archi)
+
+[^6]: ```python 
+	def Cammino(u,P):
+		#restituisce cammino dal nodo radice dell'albero P al nodo u
+		if P[u]==1 return []
+		path = []
+		while P[u] != u: #O(n), could be log ma dobbiamo considere il caso chain
+			path.append(u)
+			u = P[u]
+		path.append(u)
+		path.reverse() #O(n) (magari è il primo figlio)
+		return path
+	```
+
+
+ 

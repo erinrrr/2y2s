@@ -51,7 +51,6 @@ def DFS(u, G):
 - worst case: grafo completo poiché $O(n^2)$
 
 
-
 partendo da $x$ sapendo che arrivo a $7$ tra $x$ e $7$ non ci possono essere $0$ (che indicherebbe che non ho ancora visitato il nodo, se si sarà $1$ alla prossima iterazione)
 
 accorgimenti:
@@ -62,7 +61,9 @@ accorgimenti:
 	mentre inserire in un insieme python non costa precisamente $O(1)$ in quanto andrebbe controllato (politica no duplicati)
 - per ogni algoritmo ricorsivo ne esiste il corrispondente iterativo, che simula lo stack con la pila[^1]
 
-[^1]: ```python 
+
+[^1]: 
+```python 
 	def DFS_iterativo(u.G):
 		#esegue visita dei nodi di G raggiungibili a partire dal nodo u
 		visitati = [0] * len(G)
@@ -79,4 +80,3 @@ accorgimenti:
 		#complessita O(n+m)
 		#complessità di spazio O(n)
 ```
-git

@@ -47,8 +47,11 @@ $G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi
 	- un grafo si dice completo se ha tutti gli archi
 	- si dice torneo se tra ogni coppia di nodi c'è esattamente un arco
 - un grafo può essere né sparso né denso
+- grafo vuoto: grafo senza archi
 
 - grafo planare: grafi che possono essere disegnati senza che gli archi si intersechino
+
+ciclo dispari: grafo ciclico di dispari nodi
 
 ##### differenza tra raggiungibilità e connettività
 - raggiungibilità: ho un nodo $u$, quali nodi posso raggiungere
@@ -90,3 +93,12 @@ il vettore dei padri $P$ di un albero DFS di un grafo di $n$ nodi ha $n$ compone
 
 Cammino: funzione che restituisce il cammino dalla radice dell'albero DFS fino a $u$ utilizzando il vettore dei padri $P$ 
 il cammino minimo è quello che attraversa il minor numero di archi
+
+Teorema dei 4 colori: un grafo planare richiede al più 4 colori per essere colorato
+
+
+>- Una componente connessa di un grafo è un sottografo composto da un insieme di nodi connessi con dei cammini. 
+	- Un grafo si dice connesso se ha una sola componente connessa.
+
+>- Una componente fortemente connessa di un grafo diretto è un sottografo composto da un insieme massimale di nodi connessi da cammini
+	- Un grafo diretto si dice fortemente connesso se ha una sola componente

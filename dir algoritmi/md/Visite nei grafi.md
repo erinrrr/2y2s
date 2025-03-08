@@ -1,3 +1,4 @@
+*%% lezione 03/03/2025 %%*
 Dato un grafo G ed un suo nodo $u$ vogliamo sapere quali nodi del grafo sono raggiungibili da $u$
 
 controllare i vicini alla peggio ci costa $O(n)$

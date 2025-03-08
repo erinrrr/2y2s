@@ -1,4 +1,4 @@
-*%% lezione 28/02/2025 %%*
+*%% lezione 28/02/2025 - %%*
 
 Definizione di grafo: $G(V,E)$
 $|V|=n, \ V$ è l'insieme dei nodi (finito)
@@ -214,4 +214,6 @@ ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cam
 	```
 
 
+#### Colorazione di Grafi
+[[Colorazione di Grafi]]
  

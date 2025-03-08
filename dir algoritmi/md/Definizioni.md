@@ -68,6 +68,7 @@ ciclo dispari: grafo ciclico di dispari nodi
 - La **raggiungibilità** riguarda singole coppie di nodi.
 - La **connettività** riguarda l’intero grafo e la presenza di percorsi tra tutti i nodi.
 
+- nodo sorgente: nodo in cui non entrano archi
 -
 
 In un grafo diretto sommando le liste ottengo tutti i nodi raggiunti dagli archi nel grafo
@@ -105,3 +106,6 @@ Teorema dei 4 colori: un grafo planare richiede al più 4 colori per essere colo
 
 ###### Grafo trasposto:
 dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta
+
+##### Ordinamento topologico: 
+l'**ordinamento topologico** di un **grafo diretto aciclico (DAG)** è una disposizione lineare dei suoi nodi tale che, per ogni arco $u \to v$, il nodo $u$ compare **prima** del nodo $v$ nella sequenza.

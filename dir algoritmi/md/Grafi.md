@@ -231,3 +231,11 @@ def Trasposto(G):
 			GT[v].append(i)
 	return GT
 ```
+
+
+ Un grafo diretto cattura relazioni di propedeuticità un arco da $a$ a $b$ indica che $a$ è propedeutico a $b$, se riesco a ordinare i nodi del grafo in modo che gli archi vadano tutti ida sinistra verso destra potrò rispettare le propedeuticità
+>questo ordinamento è detto [[Ordinamento topologico|topologico]]
+
+un grafo diretto può avere da $0$ a $n!$ ordinamenti topologici [^7]
+
+[^7]: un algoritmo esaustivo che genera i differenti ordinamenti e controlla il vincolo sugli archi ha complessità $\Omega(n!)$ ed è quindi improponibile

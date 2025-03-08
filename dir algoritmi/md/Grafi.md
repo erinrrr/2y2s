@@ -216,4 +216,18 @@ ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cam
 
 #### Colorazione di Grafi
 [[Colorazione di Grafi]]
- 
+
+##### Grafi trasposti
+Dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta
+![[Pasted image 20250308151011.png]]
+
+- i nodi che in $G$ portano a $u$ sono i nodi che in $G^T$ sono raggiungibili a partire da $u$
+- codice che traspone il grafo in $O(n+m)$:
+```python 
+def Trasposto(G):
+	GT = [[] for _ in G]
+	for i in range(len(G)):
+		for v in G[i]:
+			GT[v].append(i)
+	return GT
+```

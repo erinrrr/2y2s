@@ -97,8 +97,11 @@ il cammino minimo è quello che attraversa il minor numero di archi
 Teorema dei 4 colori: un grafo planare richiede al più 4 colori per essere colorato
 
 
->- Una componente connessa di un grafo è un sottografo composto da un insieme di nodi connessi con dei cammini. 
-	- Un grafo si dice connesso se ha una sola componente connessa.
+>Una componente connessa di un grafo è un sottografo composto da un insieme di nodi connessi con dei cammini. 
+	 Un grafo si dice connesso se ha una sola componente connessa.
 
->- Una componente fortemente connessa di un grafo diretto è un sottografo composto da un insieme massimale di nodi connessi da cammini
-	- Un grafo diretto si dice fortemente connesso se ha una sola componente
+>Una componente fortemente connessa di un grafo diretto è un sottografo composto da un insieme massimale di nodi connessi da cammini
+	 Un grafo diretto si dice fortemente connesso se ha una sola componente
+
+###### Grafo trasposto:
+dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta

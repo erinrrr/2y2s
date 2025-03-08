@@ -1,4 +1,4 @@
-*%% lezione 06/03/2025 %%*
+*%% lezione 06/03/2025 - 07/03/2025%%*
 
 Dato un grafo connesso $G$ e un intero $k$ vogliamo sapere se è possibile colorare i nodi del grafo in modo che nodi adiacenti abbiano sempre colori distinti
 
@@ -94,3 +94,54 @@ Questo algoritmo scorre tutti i nodi nella liste di adiacenza, inizia con un val
 - $1°$ visita $O(n_{1}+m_{1})$
 - $2°$ visita $O(n_{2}+m_{2})$
 - $\dots$ $k° \Rightarrow O(n_{k}+m_{k}) \Rightarrow \ generalizzando \  O(n+m)$
+### Componente fortemente connessa
+Una componente fortemente connessa di un grafo diretto è un sottografo composto da un insieme massimale di nodi connessi da cammini (c'è una sorta di ciclicità, il path tra le comp fc è chiuso tra di loro)
+Un grafo diretto si dice fortemente connesso se ha una sola componente
+![[Pasted image 20250308145233.png]]
+
+Il vettore $C$ delle componenti fortemente connesse di un grafo $G$ è il vettore che ha tanti elementi quanti sono i nodi del grafo e $C[u]=C[v] \iff u$ e $v$ sono nella stessa componente fortemente connessa
+$C=[1,1,2,1,1,3,1,1,4,5,4,4]$
+
+Non possiamo usare lo stesso algoritmo delle componenti connesse in quanto essendo in un grafo diretto pur avendo un cammino da $x$ a $y$ non è detto il contrario, il nuovo algoritmo sarà:
+
+- calcolare l'insieme $A$ dei nodi di $G$ raggiungibili da $u$ 
+	visita DFS quindi $O(n+m)$
+- calcolare l'insieme $B$ dei nodi di $G$ che portano a $u$
+	ci calcoliamo il [[Definizioni#Grafo trasposto|grafo trasposto]] in $O(n+m)$
+	visita DFS in $G^T$, $O(n+m)$		
+- restituire l'intersezione di questi due insiemi
+	$O(n)$
+	
+$\Rightarrow$ l'algoritmo per calcolare le componenti fortemente connesse di un nodo $x$ ha complessità $O(n+m)$ ed è il seguente:
+```python 
+def ComponenteFC(x, G):
+	visitati1 = DFS(x ,G)
+	G1 = Trasposto(G)
+	visitati2 = DFS(x, G1)
+	componente = []
+	for i in range(len(G)):
+		if visitati1[i] == visitati2[i] == 1:
+			componente.append(i)
+	return componente
+```
+
+ove volessimo il **vettore delle componenti fortemente connesse** possiamo usare l’algoritmo `ComponenteFC` come subroutine e ottenere:
+```python 
+def compFC(G):
+	FC = [0] * len(G)
+	c = 0
+	for i in range(len(G)): #θ(n)
+		if FC[i] == 0:
+			E = ComponenteFC(i, G) #O(n+m)
+			c += 1
+			for x in E:
+				FC[x] = c
+	return FC
+```
+che ha complessità $\theta(n)\cdot O(n+m)=O(n^2+nm)=O(n^3)$
+al caso pessimo invece è $\theta(n^3)$[^1]
+
+Per il calcolo del vettore CF delle componenti fortemente connesse sono noti diversi algoritmi non banali che lavorano in tempo (ad esempio l’algoritmo di Tarjan o quello di Kosaraju)
+
+[^1]: esempio il grafo diretto G avente un arco da $u$ a $v$ per ogni coppia di nodi $u, v$ con $u<v$.
+	Nota che questo grafo ha $\theta(n^2)$ archi e $n$ componenti fortemente connesse (ciascuna composta da un singolo nodo).![[Pasted image 20250308154504.png]]

@@ -1,8 +1,3 @@
-- [[Prima lezione#Shell|Shell]]
-- [[Prima lezione#Prompt|Prompt]]
-- [[Prima lezione#Comandi|Comandi]]
-- [[Prima lezione#User|User]]
-
 ### Shell
 La Shell è un interprete di comandi quindi un programma che serve ad eseguire altri comandi, ne esistono vari tipi:
 - Thompson / Bourne shell: sh
@@ -17,7 +12,6 @@ Una volta aperta la shell questa scrive un prompt all’utente in attesa di rice
 	- la tilde ~, indica la home dir, ove non vi trovassimo in sub-dir della home avremmo l'absolute path
 
 ### Comandi
-
 Ogni comando viene eseguito nel seguente modo: `comando [opzioni] argomenti_obbligatori`
 
 - i parametri tra le parentesi quadre indicano argomenti opzionali
@@ -39,7 +33,7 @@ Ogni comando viene eseguito nel seguente modo: `comando [opzioni] argomenti_obbl
 	- esistono gruppi definiti per scopi amministrativi `groups [nomeutente]`
 
 - Creazione di altri utenti:
-	 `adduser nuovoutente`, di default l'utente creato non appartiene al gruppo sudo
+	 `adduser nuovoutente`[^4], di default l'utente creato non appartiene al gruppo sudo, si può fare solo da super user
 	 oppure `useradd utente`:
 		 non crea una cartella per l'utente e non richiede di impostare una password, che potremmo fare in un secondo momento con: `passwd utente` (non è molto comodo dal punto di vista della sicurezza dato che un utente dovrebbe poter accedere soltanto alla sua cartella)
 - aggiungere un utente ad un gruppo
@@ -62,4 +56,8 @@ Gli utenti che possono eseguire il comando `sudo` sono definiti _sudoer_ apparte
 - il comando `sudo` prende come input un altro comando
 ![[Pasted image 20250310125557.png]]
 
+`sudo su -` dice che voglio diventare root user, chiede la pass dell'user attuale
 
+per il log out: `exit` o `ctrl+b` 
+
+[^4]: primarily available on Debian-based systems

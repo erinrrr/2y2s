@@ -1,0 +1,9 @@
+- creare l'intero albero di directory: `home/utente1/dir1/dir3/dir/7` :
+	- `mkdir dir1`
+	- `mkdir dir1/dir3`
+	- `mkdir dir1/dir3/dir7`
+- creare un file vuoto in `dir7`:
+	- `cd dir1/dir3/dir7`
+	- `touch file`
+- aprirlo ed editarlo con gedit 
+	- `gedit file`

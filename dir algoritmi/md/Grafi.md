@@ -6,7 +6,7 @@ $|E|= m, \ E \subseteq V \times V$ è un insieme di archi che possono essere ori
 - $0 \le m \le n(n-1) = O(n^2)$ se il grafo è diretto
 - $0 \le m \le \frac{n(n-1)}{2} = O(n^2)$ se il grafo è non diretto[^1]
  
- ![[Pasted image 20250302213524.png]]
+ ![[dir algoritmi/asset/file 1.png]]
 
 Esistono diverse caratterizzazioni di grafi: 
 - grafi sparsi: se $m = O(n)$, quindi "ha pochi archi"
@@ -20,11 +20,11 @@ Esistono diverse caratterizzazioni di grafi:
 
 ## Albero
 Un albero è un grafo connesso, senza cicli, e sparso in quanto ha esattamente $n-1$ archi [^2]
-![[Pasted image 20250302220220.png]]
+![[dir algoritmi/asset/file 2.png]]
 
 [^2]: non tutti i grafi sono alberi (vale il contrario)
 
-![[Pasted image 20250302220511.png]] grafo sconnesso con ciclo
+![[dir algoritmi/asset/file 3.png]] grafo sconnesso con ciclo
 
 Per albero radicato si intende un albero cui abbiamo definito una radice, definire una radice porta a una gerarchia e quindi in base al nodo cui radichiamo avremo un diverso albero, potremmo intenderlo come un grafo diretto
 
@@ -40,19 +40,19 @@ si dimostra facilmente per induzione sul numero n di nodi che un albero ha sempr
 
 ## Grafo planare
 I grafi planari sono quei grafi che posso disegnare sul piano senza che gli archi si intersechino e sono un esempio di grafo sparso
-![[Pasted image 20250302234216.png]]
+![[dir algoritmi/asset/file 4.png]]
 gli alberi sono un sottoinsieme di grafi planari
 tutti i grafi di 4 nodi sono planari
 
 #### Teorema di Eulero
 Un grafo planare di $n > 2$ nodi ha al più $3n-6$ archi
-![[Pasted image 20250302234405.png]]
+![[dir algoritmi/asset/file 5.png]]
 Osservando la tabella deduciamo quindi che da $n=5$ in poi esistono di certo grafi non planari, essenzialmente la tabella mi dice che se ad esempio ho 5 nodi e disegno 10 archi è impossibile avere un grafo planare ma se ne disegno 9 ho la possibilità di fare un grafo planare.
 
 ### Rappresentazione di grafi tramite matrici binarie
 Dato un grafo $M[i][j] = 1$ se è solo se c'è un arco diretto da $i$ a $j$
 $n^2$ è la dimensione di matrice
-![[Pasted image 20250302234632.png]] 
+![[file 6.png]] 
 $$
 \begin{array}{|c|c|c|c|c|c|}
 \hline 0 & 0 & 1 & 0 & 0 & 1 \\
@@ -68,7 +68,7 @@ $$
 in un albero diretto sulla $j$ ci stanno gli archi entranti e sulla $i$ gli archi uscenti
 ### Rappresentazione di grafi tramite liste di adiacenza
 Si utilizza una lista di liste, che ha tanti elementi quanti nodi del grafo $G$, dove $G[x]$ è una lista contenente i nodi raggiunti da archi che partono da $x$, *(nodi adiacenti al nodo $x$)*
-![[Pasted image 20250302235308.png]] rappresentazione più usata
+![[file 7.png]] rappresentazione più usata
 
 Vantaggi:
 - risparmio di spazio nel caso di grafi sparsi
@@ -82,7 +82,7 @@ Vantaggi:
 Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi|Visite nei grafi]]
 
 Durante una visita DFS non vengono attraversati tutti gli archi ma solo un sottoinsieme e poiché non ci sono cicli l'algoritmo crea un albero detto albero DFS
-![[Pasted.png]]
+![[dir algoritmi/asset/file.png]]
 a sx un grafo $G$, a dx gli alberi DFS che si ottengono a partire dai nodi $9,4,3$ 
 (supponendo che le liste di adiacenza siano ordinate crescentemente)
 
@@ -167,7 +167,7 @@ ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cam
 
 #### Grafi trasposti
 Dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta
-![[Pasted image 20250308151011.png]]
+![[file 14.png]]
 
 - i nodi che in $G$ portano a $u$ sono i nodi che in $G^T$ sono raggiungibili a partire da $u$
 - codice che traspone il grafo in $O(n+m)$:
@@ -189,11 +189,11 @@ un grafo diretto può avere da $0$ a $n!$ ordinamenti topologici [^6]
 [^6]: un algoritmo esaustivo che genera i differenti ordinamenti e controlla il vincolo sugli archi ha complessità $\Omega(n!)$ ed è quindi improponibile
 
 Un grafo G si dice parzialmente orientato se contiene sia archi orientati che archi non orientati
-![[Pasted image 20250313211901.png]]
+![[file 18.png]]
 
 #### Cicli
 Dato un grafo $G$ diretto o non diretto ed un suo nodo $u$ vogliamo sapere se da $u$ è possibile raggiungere un ciclo in $G$
-![[Pasted image 20250313213058.png]]
+![[file 19.png]]
 partendo da questo grafo e dal nodo $1$ è possibile raggiungere il ciclo $2,4,6$ un idea per questo problema potrebbe essere: fare una ricerca e se si visita un nodo già visitato allora siamo in un ciclo[^7], ma non funziona nel caso avessimo a che fare con grafi non diretti in quanto due nodi se sono collegati appariranno ciascuno nella lista di adiacenza dell'altro e questo viene interpretato come un ciclo di lunghezza $2$ dall'algoritmo andando a restituire True
 
 [^5]: ```python 
@@ -234,14 +234,14 @@ def DFSr(u, padre, G, visitati):
 - se il grafo non contiene cicli allora ha al più $n−1$ archi e quindi $O(n+m)=O(n)$
 - se invece contiene cicli ne scopriamo uno dopo aver considerato al più $n$ archi e l’algoritmo termina
 
-In realtà l'algoritmo originariamente pensato potrebbe sbagliare anche con alcuni grafi diretti come ad esempio:  ![[Pasted image 20250313221751.png]]
+In realtà l'algoritmo originariamente pensato potrebbe sbagliare anche con alcuni grafi diretti come ad esempio:  ![[file 20.png]]
 
 Durante la visita DFS posso incontrare nodi già visitati in tre modi diversi:
 - **archi in avanti** ovvero le frecce che da un antenato puntano ad un discendente
 - **archi all’indietro** ovvero le frecce che da un discendente vanno ad un antenato
 - **archi di attraversamento** ovvero quelle frecce che ci portano da un sottoalbero ad un altro
 
-![[Pasted image 20250313222155.png]] in questo albero DFS abbiamo diversi nodi già visitati:
+![[file 21.png]] in questo albero DFS abbiamo diversi nodi già visitati:
 - 3 → 5 questo è un arco in avanti dato che 3 è antenato di 5
 - 6 → 1 arco indietro perché 1 e antenato di 6
 - 2 → 3 è di attraversamento dato che ci porta in un altro sottoalbero (o comunque non è ne avanti ne indietro)

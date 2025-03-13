@@ -14,3 +14,9 @@
 
 
 [[Esercizi]]
+
+to-do
+- [x] lezione 1
+- [x] lezione 2
+- [x] lezione 3
+- [ ] lezione 4

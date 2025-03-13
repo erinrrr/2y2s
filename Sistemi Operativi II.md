@@ -5,5 +5,12 @@
 	- [[Introduzione#Comandi|Comandi]]
 	- [[Introduzione#User|User]]
 - [[File System]]
+	- [[File System#Organizzazione|Organizzazione]]
+	- [[File System#Mounting e partizioni|Mounting e partizioni]]
+	- [[File System#Tipi di filesystem|Tipi di filesystem]]
+	- [[File System#Passwd e group|Passwd e group]]
+	- [[File System#Informazioni sui file|Informazioni sui file]]
+	- [[File System#Permessi di accesso ai file|Permessi di accesso ai file]]
+
 
 [[Esercizi]]

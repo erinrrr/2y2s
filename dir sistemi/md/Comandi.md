@@ -8,4 +8,6 @@
 `pwd`: print working directory
 
 `ls`: list file
-	`-l`: long listing format (le directory inizieranno con _d_)
+	`-l`: long listing format (le directory iniziano con _d_) (diritti, user, group, date, size, time)
+	`-i`: shows the inode number
+	`-n`: shows userID and groupID instead of the full name

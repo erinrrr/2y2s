@@ -74,63 +74,11 @@ Vantaggi:
 - risparmio di spazio nel caso di grafi sparsi
 - vedere se due archi sono connessi può costare anche $O(n)$
 [[Definizioni#Chi preferire?|quale preferire?]]
-### Pozzi
-- In un grafo diretto un pozzo è un nodo senza archi uscenti, con un massimo di n pozzi
-- mentre un pozzo universale è un pozzo verso cui tutti gli altri nodi hanno un arco, se c'è è unico
-![[Pasted image 20250302235629.png]]$\Omega(n)$ per controllare se c'è un pozzo in quanto devo scorrere tutti i nodi (dimensione dei dati)
 
-- per trovare un pozzo: 
-	bisogna trovare (se c'è) la riga della matrice che contiene solo valori 0, quindi non ha archi uscenti
-- per trovare il pozzo universale
-	bisogna controllare che il nodo sia un pozzo,
-	dobbiamo controllare se la colonna di quel nodo abbia tutti valori 1, (tranne su se stesso), ovvero che tutti puntino verso di lui
-	 così: ![[Pasted image 20250304122438.png]]
+#### Pozzi
+[[Pozzi]]
 
-a livello algoritmico per trovarlo potremmo usare un algoritmo che controlla l'intera matrice e quindi ci verrà a costare $O(n^2)$
-
-Ma esiste un algoritmo che verifica se un grado diretto ha un pozzo universale in $\theta(n)$:
-- prendiamo i nodi $i,j$ e controlliamo i loro valori:
-$$
-M[i][j]=\begin{cases}
-1 \quad \text{i non é pozzo} \\
-0 \quad \text{j non é pozzo universale}
-\end{cases}
-$$
-
-se la cella vale $1$ allora $i$ ha un nodo verso $j$, avendo un arco uscente non può essere pozzo universale, se troviamo uno $0$ allora $j$ non è un pozzo universale dato che non tutti i nodi hanno un arco verso di lui, però può essere ancora un pozzo.
-
-Utilizziamo un **approccio con due indici**: $i$ e $j$, inizializzati a $i = 0$, $j = 1$ (suppongo $i\ne j$)
-
-| $i$ | $j$ | controllo $M[i][j]$ | Azione                                   |
-| --- | --- | ------------------- | ---------------------------------------- |
-| 0   | 1   | $M[0][1] = 0$       | $j$ non può essere pozzo → Avanziamo $j$ |
-| 0   | 2   | $M[0][2] = 1$       | $i$ non può essere pozzo → $i = 2$[^4]   |
-| 2   | 3   | $M[2][3] = 0$       | $j$ non può essere pozzo → Avanziamo $j$ |
-| 2   | 4   | $M[2][4] = 0$       | $j$ non può essere pozzo → Avanziamo $j$ |
-| 2   | 5   | $M[2][5] = 0$       | $j$ non può essere pozzo → Avanziamo $j$ |
-| 2   | 6   | $M[2][6] = 0$       | $j$ non può essere pozzo → Avanziamo $j$ |
-| 2   | 7   | $M[2][7] = 0$       | $j$ non può essere pozzo → Avanziamo $j$ |
-```python
-def pozzoU2(M):
-    '''restituisce True se il grafo M ha pozzo universale, False Altrimenti'''
-    L=[x for x in range(len(M))]
-    while len(L)>1:
-        a=L.pop()
-        b=L.pop()
-        if M[a][b]:
-            L.append(b)
-        else:
-            L.append(a)
-    x=L.pop()
-    for j in range(len(M)):
-        if M[x][j]: return False
-    for i in range(len(M)):
-        if i!=x and M[i][x]==0: return False
-    return True
-```
-
-[^4]: (poiché $i=1$ è stato scartato prima)
-
+#### Visite nei grafi
 Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi|Visite nei grafi]]
 
 Durante una visita DFS non vengono attraversati tutti gli archi ma solo un sottoinsieme e poiché non ci sono cicli l'algoritmo crea un albero detto albero DFS
@@ -148,7 +96,7 @@ Il vettore dei padri $P$ di un albero DFS di un grafo di $n$ nodi ha $n$ compone
 il valore $-1$ viene dato anche per convenzione negli algoritmi quando non è ancora stato esplorato
 inoltre se $P[i]=i$ allora $i$ è la radice dell'albero
 
-prendendo l'albero DFS fatto a partire dal nodo $9$ abbiamo che il vettore dei padri è[^5]:
+prendendo l'albero DFS fatto a partire dal nodo $9$ abbiamo che il vettore dei padri è[^4]:
 $$
 \begin{array}{|c|c|}
 \hline index & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
@@ -157,7 +105,7 @@ $$
 \hline
 \end{array}
 $$
-[^5]: il padre di $0$ è $9$
+[^4]: il padre di $0$ è $9$
 
 col vettore dei padri non ho nessuna difficoltà dalla foglia a salire fino alla radice
 
@@ -196,11 +144,11 @@ codice $O(n)$ (se si dispone del vettore dei padri):
 		return CamminoR(P[u],P) +u 
 ```
 
-iterative code[^6] 
+iterative code[^5] 
 
 ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cammino$ non garantisce di restituire il cammino minimo, (quello che attraversa il minor numero di archi)
 
-[^6]: ```python 
+[^5]: ```python 
 	def Cammino(u,P):
 		#restituisce cammino dal nodo radice dell'albero P al nodo u
 		if P[u]==1 return []
@@ -217,7 +165,7 @@ ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cam
 #### Colorazione di Grafi
 [[Colorazione di Grafi]]
 
-##### Grafi trasposti
+#### Grafi trasposti
 Dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta
 ![[Pasted image 20250308151011.png]]
 
@@ -236,6 +184,105 @@ def Trasposto(G):
  Un grafo diretto cattura relazioni di propedeuticità un arco da $a$ a $b$ indica che $a$ è propedeutico a $b$, se riesco a ordinare i nodi del grafo in modo che gli archi vadano tutti ida sinistra verso destra potrò rispettare le propedeuticità
 >questo ordinamento è detto [[Ordinamento topologico|topologico]]
 
-un grafo diretto può avere da $0$ a $n!$ ordinamenti topologici [^7]
+un grafo diretto può avere da $0$ a $n!$ ordinamenti topologici [^6]
 
-[^7]: un algoritmo esaustivo che genera i differenti ordinamenti e controlla il vincolo sugli archi ha complessità $\Omega(n!)$ ed è quindi improponibile
+[^6]: un algoritmo esaustivo che genera i differenti ordinamenti e controlla il vincolo sugli archi ha complessità $\Omega(n!)$ ed è quindi improponibile
+
+Un grafo G si dice parzialmente orientato se contiene sia archi orientati che archi non orientati
+![[Pasted image 20250313211901.png]]
+
+#### Cicli
+Dato un grafo $G$ diretto o non diretto ed un suo nodo $u$ vogliamo sapere se da $u$ è possibile raggiungere un ciclo in $G$
+![[Pasted image 20250313213058.png]]
+partendo da questo grafo e dal nodo $1$ è possibile raggiungere il ciclo $2,4,6$ un idea per questo problema potrebbe essere: fare una ricerca e se si visita un nodo già visitato allora siamo in un ciclo[^7], ma non funziona nel caso avessimo a che fare con grafi non diretti in quanto due nodi se sono collegati appariranno ciascuno nella lista di adiacenza dell'altro e questo viene interpretato come un ciclo di lunghezza $2$ dall'algoritmo andando a restituire True
+
+[^5]: ```python 
+def ciclo(u, G):
+	visitati = [0] * len(G)
+	return DFSr(u, G, visitati)
+	#
+	def DFSr(u, G, visitati):
+		#restituisce True se nella visita da u si incontra un nodo già visitato
+		visitati[u] = 1
+		for v in G[u]:
+			if visitati[v] == 1:
+				return True
+			if DFSr(v, G, visitati):
+					return True
+		return False
+	```
+
+Per risolvere questo problema devo distinguere per ciascun nodo $y$ il nodo $x$ che mi ha portato a visitarlo:
+```python 
+def ciclo(u, G):
+	visitati = [0] * len(G)
+	return DFSr(u, u, G, visitati)
+ 
+def DFSr(u, padre, G, visitati):
+	visitati[u] = 1
+	for v in G[u]:
+		if visitati[v] == 1:
+			if v != padre:
+				return True
+		else:
+			if DFSr(v, u, G, visitati):
+				return True
+	return False
+```
+
+ complessità $O(n)$:
+- se il grafo non contiene cicli allora ha al più $n−1$ archi e quindi $O(n+m)=O(n)$
+- se invece contiene cicli ne scopriamo uno dopo aver considerato al più $n$ archi e l’algoritmo termina
+
+In realtà l'algoritmo originariamente pensato potrebbe sbagliare anche con alcuni grafi diretti come ad esempio:  ![[Pasted image 20250313221751.png]]
+
+Durante la visita DFS posso incontrare nodi già visitati in tre modi diversi:
+- **archi in avanti** ovvero le frecce che da un antenato puntano ad un discendente
+- **archi all’indietro** ovvero le frecce che da un discendente vanno ad un antenato
+- **archi di attraversamento** ovvero quelle frecce che ci portano da un sottoalbero ad un altro
+
+![[Pasted image 20250313222155.png]] in questo albero DFS abbiamo diversi nodi già visitati:
+- 3 → 5 questo è un arco in avanti dato che 3 è antenato di 5
+- 6 → 1 arco indietro perché 1 e antenato di 6
+- 2 → 3 è di attraversamento dato che ci porta in un altro sottoalbero (o comunque non è ne avanti ne indietro)
+
+Soltanto la presenza di archi all’indietro indica la presenza di un ciclo. Dobbiamo quindi distinguere la scoperta di nodi già visitati grazie ad un arco all’indietro rispetto agli altri
+
+Soltanto nel caso di archi all’indietro andiamo a visitare un nodo già visitato che non ha ancora finito la sua ricorsione, ad esempio nel grafo sopra abbiamo 6 che ci porta ad 1, un nodo già visitato e 1 non ha ancora finito la sua ricorsione
+
+Progettiamo un algoritmo per il vettore V dei visitati, un nodo vale:
+
+- 0 se il nodo non è stato ancora visitato
+- 1 se il nodo è stato visitato ma la ricorsione su quel nodo non è ancora finita
+- 2 se il nodo è stato visitato e ha terminato la sua ricorsione
+
+In questo modo se troviamo un arco diretto verso un nodo che ha valore 1 abbiamo trovato un ciclo, codice con:
+```python 
+def DFSr(u, G, visitati):
+	#restituisce True se la DFS da u trova un arco all'indientro e quindi un ciclo
+	visitati[u] = 1
+	for v in G[u]:
+		if visitati[v] == 1:
+			return True #nodo già esplorato, caso arco all'indietro
+		if visitati[v] == 0: #non ancora visitato
+			if DFSr(v, G, visitati):
+				return True
+	visitati[u] = 2 #nodo completamente esplorato
+	return False
+ 
+def cicloD(u, G):
+	visitati = [0] * len(G)
+	return DFSr(u, G, visitati)
+```
+
+complessità $O(n+m)$ in quanto devo visitarlo tutto non importa da che punto parto, stessa cosa vale nel caso di grafi diretti[^7]
+
+[^7]: ```python 
+def cicloD(G):
+	visitati = [0] * len(G)
+	for u in range(len(G)):
+		if visitati[u] == 0: #viene avviata la DFS solo dai nodi non ancora visitati
+			if DFSr(u, G, visitati):
+				return True
+	return False
+	```

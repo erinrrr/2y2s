@@ -30,8 +30,41 @@ def sortTop(G):
             if gradoEnt[v] == 0:
                 sorgenti.append(v)
                 
-    if len(ST) == len(G): return ST #controlliamo che lordinamento contenga tutti i nodi
+    if len(ST) == len(G): return ST #controlliamo che l'ordinamento contenga tutti i nodi
     return []
 ```
 
 - costo = $O(n+m)+O(n)+O(m)=O(n+m)$
+
+Possiamo anche usare un algoritmo alternativo che:
+- effettua una visita DFS del DAG a partire dal nodo 0
+- dopo aver visitato tutti i successori inserisce i nodi in una lista
+- restituisce il reverse della lista
+
+![[Pasted image 20250313174354.png]]
+In questo caso se effettuiamo una visita sul nodo 0 otteniamo:
+- $[2,5,6,0,4,3]$ si parte dal nodo 0 e una volta terminato, continuiamo ad effettuare visite sui nodi rimanente ovvero 3 e 4, di cui verrà restituito il reverse quindi $[3,4,0,6,5,2]$
+
+prova di correttezza, siano $x$ e $y$ due nodi adiacenti possono verificarsi due casi:
+- l'arco $(x,y)$ viene attraversato durante la visita, in questo caso banalmente la visita di $y$ finisce prima di quella di $x$, e quindi $y$ finirà nella lista prima di $x$
+- l'arco $(x,y)$ **non** viene attraversato durante la visita di $x$ dunque $y$ è stato già visitato e la sua visita è terminata altrimenti vi sarebbe un cammino da $x$ a $y$ e quindi anche un ciclo, ma per definizione il DAG è aciclico, quindi anche in questo caso $y$ finisce nella lista prima di $x$
+
+```python 
+def sortTop1(G):
+	#sort topologico del DAG G
+	def DFSr(u, G, visitati, lista):
+		visitati[u] = 1
+		for v in G[u]:
+			if visitati[v] == 0:
+				DFSr(v, G, visitati, lista)
+		lista.append(u)
+ 
+	visitati = [0] * len(G)
+	lista = []
+	for u in range(len(G)):
+		if visitati[u] == 0:
+			DFSr(u, G, visitati, lista)
+	lista.reverse()
+	return lista
+```
+Che ha una complessità di $O(n+m)+O(n)=O(n+m)$

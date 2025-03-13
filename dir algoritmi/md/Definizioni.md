@@ -50,7 +50,7 @@ $G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi
 - grafo vuoto: grafo senza archi
 
 - grafo planare: grafi che possono essere disegnati senza che gli archi si intersechino
-
+- grafo parzialmente orientato: contiene sia archi orientati che archi non orientati
 ciclo dispari: grafo ciclico di dispari nodi
 
 ##### differenza tra raggiungibilità e connettività

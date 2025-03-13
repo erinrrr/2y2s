@@ -145,5 +145,3 @@ Per il calcolo del vettore CF delle componenti fortemente connesse sono noti div
 
 [^1]: esempio il grafo diretto G avente un arco da $u$ a $v$ per ogni coppia di nodi $u, v$ con $u<v$.
 	Nota che questo grafo ha $\theta(n^2)$ archi e $n$ componenti fortemente connesse (ciascuna composta da un singolo nodo).![[Pasted image 20250308154504.png]]
-
-## 

@@ -11,3 +11,6 @@
 	`-l`: long listing format (le directory iniziano con _d_) (diritti, user, group, date, size, time)
 	`-i`: shows the inode number
 	`-n`: shows userID and groupID instead of the full name
+
+
+`chmod mode [,mode...] filename`: change access permissions, **ch**ange **mod**e.

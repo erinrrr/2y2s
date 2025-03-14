@@ -142,4 +142,92 @@ per le informazioni estese usare il comando `info ls` ad esempio
 un altro comando per ricavare informazioni sui file è `stat [-c format] file`, che restituisce varie informazioni mentre con`stat -c %B filename` per ricaviamo la dimensione del blocco su disco che coincide con la dimensione di un settore di disco
 
 
-## Permessi di accesso ai file
+## Permessi di accesso 
+#### File
+- utente proprietario - chi crea il file/directory
+- gruppo proprietario - gruppo primario dell'utente proprietario
+il proprietario definisce i permessi di accesso, chi può leggere, scrivere ed eseguire un file/directory, sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valori `r,w,e`, esempio: ![[dir sistemi/asset/file 6.png]]
+generalemente:
+![[dir sistemi/asset/file 7.png]]
+#### Directory
+![[dir sistemi/asset/file 8.png]]
+
+#### Permessi speciali
+Questo tipo di permessi può essere applicato sia a file che a directory, troviamo:
+- sticky bit `t`
+- setuid bit `s`
+- setgid bit `s`
+
+##### sticky bit
+- inutile sui file
+- se invece è applicato su una directory corregge il comportamento di `w+x` in modo da non permettere la cancellazione di file anche senza permessi sul file stesso.
+
+Siano:
+- $D$ una directory
+- $U$ e $U’$ due utenti diversi
+- $D$ appartiene a $U$
+- $D$ non appartiene a $U’$ ne al gruppo di $U’$
+- $f$ un file in $D$
+Se $U’$ cerca di cancellare $f$ allora:
+- senza sticky bit su $D$ sarà sufficiente avere i diritti di scrittura su $D$ anche se non li si hanno su $f$
+- con lo sticky bit sono necessari anche i permessi di scrittura su $f$ per cancellarlo
+
+##### setuid bit
+- si usa solo per file eseguibili 
+- dato un file con il setuid bit settato, il file opererà con i permessi del proprietario di quel file  e non dell’esecutore quindi se il proprietario è root il programma viene eseguito con privilegi di root indipendentemente dall’esecutore
+- Il comando `passwd` ha il setuid, permette a un utente di cambiare solo la propria password, mentre l'utente root può cambiare la password di qualsiasi utente, il proprietario è root
+- generalmente non vogliamo che questo comportamento sia possibile, poiché come root possiamo eliminare dei file su cui non abbiamo permessi di scrittura o di cui non siamo proprietari, esempio il comando `rm`
+- i programmi con setuid implementano dei controlli interni per garantire che gli utenti non possano abusarne
+
+##### setgid bit
+- analogo al setuid ma con i gruppi
+- i privilegi sono quelli del gruppo che è proprietario del file eseguibile
+- può essere applicato ad una directory e allora tutti i file creati al suo interno ereditano il gruppo della directory, anziché il gruppo primario dell'utente che li crea
+
+Per visualizzare gli attributi di accesso possiamo usare il comando `ls` o `stat`:
+![[dir sistemi/asset/file 9.png]]
+
+I permessi speciali vengono visualizzati al posto del bit di execute(`x`):
+- il `setuid` nella terna user
+- il `setgid` nella terna group
+- lo `sticky` nella terna other
+
+se il permesso di esecuzione, quindi il bit della `x` c'era allora la `s`o la `t`saranno minuscoli altrimenti saranno maiuscoli
+
+### Cambiare i permessi di un file
+il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o directory, ci sono due modi:
+- formato ottale:
+	- 4 numeri tra 0 e 7 come la tabella vista prima
+	- il primo numero indica setuid(4), setgid(2) e sticky(1)
+	- gli altri sono per utente, gruppo e other
+	- si possono fornire 3 numeri se si assume setuid, setgid e sticky settati
+	- dobbiamo effettuare somme in binario per decidere i permessi speciali[^4]
+- modalità simbolica:
+	- format: `chmod [ugoa][+-=][perms...]`[^5]
+		- **+**: aggiungere permessi
+		- **-**: rimuovere permessi
+		- **=**: assegnare permessi esplicitamente, sovrascrivendo quelli esistenti con quelli specificati
+	- dove perms è:
+		- zero 
+		- una o più lettere `rwxXst` per i permessi[^6]
+		- una lettera dell'insieme `{ugo}` 
+
+
+
+[^4]: | Valore   | Significato                                   |
+| -------- | --------------------------------------------- |
+| **1XXX** | Sticky Bit (`+t`) attivo                      |
+| **2XXX** | SetGID (`+s` sul gruppo) attivo               |
+| **4XXX** | SetUID (`+s` sul proprietario) attivo         |
+| **6XXX** | SetUID + SetGID attivi (4+2=6)                |
+| **7XXX** | SetUID + SetGID + Sticky Bit attivi (4+2+1=7) |
+
+[^5]: `a = u+g+o` (all) la `a` tiene conto del masking (we don't know it yet)
+
+[^6]: - **r**: lettura (read)
+	- **w**: scrittura (write)
+	- **x**: esecuzione (execute)
+	- **X**: esecuzione, ma solo se il file è una directory o se il proprietario del file ha permesso di esecuzione
+	- **s**: SetUID (per i file eseguibili) o SetGID (per i file o directory)
+	- **t**: Sticky bit (per directory, ad esempio `/tmp`)
+

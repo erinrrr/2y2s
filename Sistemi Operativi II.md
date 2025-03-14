@@ -10,7 +10,8 @@
 	- [[File System#Tipi di filesystem|Tipi di filesystem]]
 	- [[File System#Passwd e group|Passwd e group]]
 	- [[File System#Informazioni sui file|Informazioni sui file]]
-	- [[File System#Permessi di accesso ai file|Permessi di accesso ai file]]
+	- [[File System#Permessi di accesso|Permessi di accesso]]
+	- [[File System#Cambiare i permessi di un file|Cambiare i permessi di un file]]
 
 
 [[Esercizi]]

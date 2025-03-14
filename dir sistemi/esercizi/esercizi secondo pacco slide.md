@@ -21,3 +21,5 @@
 	- modificarlo
 	- leggerlo
 	- verificare che i valori per atime ed mtime cambiano
+- capire perché il comando `adduser` va usato solo da un utente amministratore, mentre il comando `groups` no
+

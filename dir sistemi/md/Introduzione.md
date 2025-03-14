@@ -29,6 +29,7 @@ Ogni comando viene eseguito nel seguente modo: `comando [opzioni] argomenti_obbl
 - durante un'installazione di linux è necessario specificare almeno un utente[^2]
 - non tutti gli utenti possono fare login
 	- root[^3] non può fare il login, ma un altro utente può invece acquisire i poteri di root con `su` o `sudo`
+		- se viene inserita una password sbagliata, il tentativo viene registrato
 - gli utenti sono organizzati in gruppi, e ogni utente appartiene almeno a un gruppo
 	- esistono gruppi definiti per scopi amministrativi `groups [nomeutente]`
 

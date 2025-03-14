@@ -91,7 +91,7 @@ i file passwd e group si trovano in:
 	- ogni riga contiene dei campi separati da `:`
 - il file `passwd` ha la seguente struttura:
 	- `username:password:uid:gid:gecos:homedir:shell` 
-	- dove al posto della password avremo una `x`per indicare che questa è cifrata.
+	- dove al posto della password avremo una `x` per indicare che questa è cifrata
 - Il file `group` invece:
 	- `groupname:password:groupID:listautenti` 
 	- dove gli utenti nella lista sono separati da `,`; anche qui troveremo una password cifrata e quindi indicata da una `x`

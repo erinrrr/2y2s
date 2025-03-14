@@ -115,3 +115,6 @@ l'**ordinamento topologico** di un **grafo diretto aciclico (DAG)** è una dispo
 - **archi di attraversamento** ovvero quelle frecce che ci portano da un sottoalbero ad un altro
 
 - ponte: arco la cui eliminazione disconnette il grafo
+
+- punto di articolazione: vertice la cui rimozione è in grado di sconnettere il grafo
+- grafo cactus: grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo

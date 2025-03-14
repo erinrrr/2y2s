@@ -346,3 +346,7 @@ Per trovare i ponti potremmo:
 	    return ponti
 	```
 
+- un punto di articolazione è un vertice la cui rimozione è in grado di sconnettere il grafo
+- un grafo cactus è un grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo
+	- in un grafo cactus due cicli distinti possono avere al massimo un vertice in comune, senza condividerne archi 
+	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[file 26.png]]

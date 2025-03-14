@@ -109,3 +109,9 @@ dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di
 
 ##### Ordinamento topologico: 
 l'**ordinamento topologico** di un **grafo diretto aciclico (DAG)** è una disposizione lineare dei suoi nodi tale che, per ogni arco $u \to v$, il nodo $u$ compare **prima** del nodo $v$ nella sequenza.
+
+- **archi in avanti** ovvero le frecce che da un antenato puntano ad un discendente
+- **archi all’indietro** ovvero le frecce che da un discendente vanno ad un antenato
+- **archi di attraversamento** ovvero quelle frecce che ci portano da un sottoalbero ad un altro
+
+- ponte: arco la cui eliminazione disconnette il grafo

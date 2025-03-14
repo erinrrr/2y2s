@@ -15,6 +15,8 @@
 		- [[Colorazione di Grafi]]
 	- [[Grafi#Grafi trasposti|Grafi trasposti]]
 		- [[Ordinamento topologico]]
+	- [[Grafi#Cicli|Cicli]]
+	- [[Grafi#Ponti|Ponti]]
 
 [[uguaglianze asintotiche]]
 
@@ -28,4 +30,5 @@ to-do
 - [x] lezione 4
 - [x] lezione 5
 - [x] lezione 6
-- [ ] lezione 7
+- [x] lezione 7
+- [ ] lezione 8

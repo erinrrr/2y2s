@@ -286,3 +286,63 @@ def cicloD(G):
 				return True
 	return False
 	```
+
+### Ponti
+Un arco la cui eliminazione disconnette il grafo è detto **ponte**, essi rappresentano criticità nel grafo ed è utile identificarli
+![[file 22.png]]
+
+- un grafo può non avere neanche un ponte, caso di grafi ciclici
+- oppure ogni suo arco potrebbe essere un ponte, caso degli alberi
+
+Per trovare i ponti potremmo:
+- fare una ricerca esaustiva: controllare se ogni arco è ponte o meno
+	- eliminiamo un arco $(a,b)$ fare una DFS e controllare se $b$ è raggiungibile da $a$, complessità $O(m+n)*m = O(m^2) = O(n^4)$ nel caso di un grafo denso
+- usare una DFS opportunamente modificata per risolvere il problema in $O(m)$
+	- nota: i ponti vanno ricercati unicamente tra gli archi dell’albero DFS 
+	- ![[file 23.png|400]]
+	- nota: se un arco non è un ponte, significa che esiste almeno un altro percorso alternativo
+	- proprietà: se prendiamo $(u,v)$ un arco dell’albero DFS con $u$ padre e $v$ figlio, l’arco è un ponte se e solo se non ci sono altri archi tra i nodi del sottoalbero radicato in $v$ e il nodo $u$o antenati di $u$ 
+	- ![[file 24.png|200]] cancellare l’arco $u−v$ in questo grafo non lo disconnette, abbiamo l’arco $x−y$ che ci “protegge”, dove $x$ è discendente di $v$ e $x$ è antenato di $u$, l'arco $u$ non ha informazioni tali da poter capire se l'arco $(u,v)$ è un ponte, ma lo scoprirà una volta terminata la visita di $v$
+	- algoritmo:[^8]
+		- Nodo $v$: esplora il proprio sottoalbero e restituisce al padre $u$ il valore $b$, cioè il livello minimo raggiungibile da $v$ e i suoi discendenti utilizzando anche eventuali archi all’indietro
+		- Nodo $u$: confronta $b$ con la propria altezza, se b è maggiore dell’altezza di $u$, l’arco $(u, v)$ è l’unico collegamento, dunque è un ponte; altrimenti, c’è un percorso alternativo che collega il sottoalbero di $v$ a $u$ o ad un suo antenato, per cui l’arco non è un ponte
+	- ricordiamo di non dover considerare l’arco stesso per il calcolo dell’altezza minima da restituire
+	- implementazione in $O(n+m)$ [^9]
+![[file 25.png]]
+
+[^8]: algoritmo dettagliato:
+	- per ogni arco padre - figlio $(u,v)$ presente nell’albero DFS il nodo $u$ è in grado di scoprire se l’arco $(u,v)$ è ponte o meno usando questa strategia:
+		- ogni nodo $v$
+			- calcola la sua altezza nell’albero
+			- calcola e restituisce al padre l’altezza minima che si può raggiungere con archi che partono dai nodi del suo sottoalbero diversi dall’arco $(u,v)$
+		- Il nodo $u$ ricevuta l’informazione dal figlio $v$ confronta la sua altezza con quella ricevuta del figlio, affinché l’arco sia ponte, l’altezza di $u$ deve essere minore di quella restituita dal figlio
+
+[^9]: ```python 
+	def trova_ponti(G):
+	    """ 
+	    trova tutti i ponti in un grafo connesso non orientato G.
+	    G è rappresentato come una lista di adiacenza.
+	    restituisce una lista di coppie (u, v) che sono ponti.
+	    """
+	    def dfs(x, padre, altezza, ponti):
+	        #assegna l'altezza al nodo corrente
+	        if padre == -1:
+	            altezza[x]=0
+	        else:
+	            altezza[x] = altezza[padre] + 1
+	        min_raggiungibile = altezza[x] #minima altezza raggiungibile dal sottoalbero di x
+	        for y in G[x]:
+	            if altezza[y] == -1: #il nodo y non è stato ancora visitato
+	                b = dfs(y, x, altezza, ponti)
+	                if b > altezza[x]: #l'altezza di x è minore di quella ritornata da y
+	                    ponti.append((x, y)) #(x,y) è un ponte
+	                min_raggiungibile = min(min_raggiungibile, b)
+	            elif y != padre: #y già visitato e (x,y) è un arco all'indietro
+	                min_raggiungibile = min(min_raggiungibile, altezza[y])
+	        return min_raggiungibile
+	    altezza = [-1] * len(G) #array per memorizzare l'altezza dei nodi nella DFS
+	    ponti = []
+	    dfs(0, -1, altezza, ponti)
+	    return ponti
+	```
+

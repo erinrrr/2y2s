@@ -106,9 +106,9 @@ Un file ha diversi attributi:
 - Group ID - ID del gruppo a cui è associato il file
 - Mode - permessi di accesso al file da parte di utenti e gruppi
 - Size - dimensione in byte del file
-- Timestamps
+- Timestamps:
     - mtime - indica l’ultima volta che il file è stato modificato (content modification time)
-    - ctime - indica l’ultima volta che è stato modificato un attributo del file (inode changing time)
+    - ctime - indica l’ultima volta che è stato modificato un attributo del file (inode changing time), non viene modificato nel caso di accesso in lettura al file
     - atime - indica l’ultima volta che è stato letto qualcosa dal file (content access time)
 - Link count - numero di hard link che puntano a quel file
 - Data Pointers - puntatore alla lista di blocchi che compongono il file, se si tratta di una directory allora il contenuto su disco è costituito da una tabella di 2 colonne: nome del file / directory e inode number
@@ -194,6 +194,7 @@ I permessi speciali vengono visualizzati al posto del bit di execute(`x`):
 
 se il permesso di esecuzione, quindi il bit della `x` c'era allora la `s`o la `t`saranno minuscoli altrimenti saranno maiuscoli
 
+- i permessi di un file appena creato dovrebbero essere `rw- r-- r--` = 666 - 022 (valore di umask generally)
 ### Cambiare i permessi di un file
 il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o directory, ci sono due modi:
 - formato ottale:
@@ -213,7 +214,6 @@ il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o
 		- una lettera dell'insieme `{ugo}` 
 
 
-
 [^4]: | Valore   | Significato                                   |
 | -------- | --------------------------------------------- |
 | **1XXX** | Sticky Bit (`+t`) attivo                      |
@@ -227,7 +227,31 @@ il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o
 [^6]: - **r**: lettura (read)
 	- **w**: scrittura (write)
 	- **x**: esecuzione (execute)
-	- **X**: esecuzione, ma solo se il file è una directory o se il proprietario del file ha permesso di esecuzione
+	- **X**: (execute condizionale), aggiunge `x` solo se il file è una directory o se almeno un utente aveva già il permesso di esecuzione[^7]
 	- **s**: SetUID (per i file eseguibili) o SetGID (per i file o directory)
 	- **t**: Sticky bit (per directory, ad esempio `/tmp`)
 
+[^7]: si usa per:
+	- rendere eseguibili solo le directory (ma non i file normali)
+	- aggiungere `x` solo ai file che già lo avevano per qualcuno
+	- non succede niente se un file non aveva il permesso di esecuzione per nessuno, `+X` non lo rende eseguibile
+
+
+_esempi_
+- Per settare `rws r-S -w-` 
+	- usiamo `chmod 6742 filename
+	- in modalità simbolica: `chmod u=rS,g=rws,o=w filename` oppure:
+	    - `chmod g+rwsx filename`
+	    - `chmod u+rs filename`
+	    - `chmod o+w filename
+
+- Per settare `rwx r-- -wT` usiamo `chmod 1742 filename`
+
+##### Cambiare owner e gruppo di un file
+- `chown [-R] proprietario {file}`
+- `chgrp [-R] gruppo {file}`
+
+- questi comandi possono essere usati solo da `root`
+- l'opzione `-R` esegue il comando ricorsivo su tutte le sub-directory
+
+[[Cheat sheet filesystem]]

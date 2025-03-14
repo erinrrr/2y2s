@@ -1,4 +1,4 @@
-[[Comandi]]
+[[Personal man]]
 - [[Introduzione]]
 	- [[Introduzione#Shell|Shell]]
 	- [[Introduzione#Prompt|Prompt]]
@@ -12,6 +12,8 @@
 	- [[File System#Informazioni sui file|Informazioni sui file]]
 	- [[File System#Permessi di accesso|Permessi di accesso]]
 	- [[File System#Cambiare i permessi di un file|Cambiare i permessi di un file]]
+	- [[File System#Cambiare owner e gruppo di un file|Cambiare owner e gruppo di un file]]
+- [[Cheat sheet filesystem]]
 
 
 [[Esercizi]]

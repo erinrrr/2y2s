@@ -51,7 +51,7 @@ Ogni comando viene eseguito nel seguente modo: `comando [opzioni] argomenti_obbl
 
 [^3]: utente con poteri di amministratore (super user)
 
-#### Sudo
+### Sudo
 Gli utenti che possono eseguire il comando `sudo` sono definiti _sudoer_ appartengono al gruppo predefinito _sudo_ e possono eseguire i comandi root
 
 - il comando `sudo` prende come input un altro comando

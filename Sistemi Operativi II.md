@@ -1,5 +1,5 @@
 [[Personal man]]
-- [[Introduzione]]
+- [[dir sistemi/md/Introduzione|Introduzione]]
 	- [[Introduzione#Shell|Shell]]
 	- [[Introduzione#Prompt|Prompt]]
 	- [[Introduzione#Comandi|Comandi]]

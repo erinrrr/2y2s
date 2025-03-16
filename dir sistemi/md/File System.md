@@ -147,7 +147,7 @@ un altro comando per ricavare informazioni sui file è `stat [-c format] file`, 
 - utente proprietario - chi crea il file/directory
 - gruppo proprietario - gruppo primario dell'utente proprietario
 il proprietario definisce i permessi di accesso, chi può leggere, scrivere ed eseguire un file/directory, sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valori `r,w,e`, esempio: ![[dir sistemi/asset/file 6.png]]
-generalemente:
+generalmente:
 ![[dir sistemi/asset/file 7.png]]
 #### Directory
 ![[dir sistemi/asset/file 8.png]]
@@ -195,6 +195,7 @@ I permessi speciali vengono visualizzati al posto del bit di execute(`x`):
 se il permesso di esecuzione, quindi il bit della `x` c'era allora la `s`o la `t`saranno minuscoli altrimenti saranno maiuscoli
 
 - i permessi di un file appena creato dovrebbero essere `rw- r-- r--` = 666 - 022 (valore di umask generally)
+
 ### Cambiare i permessi di un file
 il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o directory, ci sono due modi:
 - formato ottale:
@@ -216,20 +217,20 @@ il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o
 
 [^4]: | Valore   | Significato                                   |
 | -------- | --------------------------------------------- |
-| **1XXX** | Sticky Bit (`+t`) attivo                      |
-| **2XXX** | SetGID (`+s` sul gruppo) attivo               |
-| **4XXX** | SetUID (`+s` sul proprietario) attivo         |
-| **6XXX** | SetUID + SetGID attivi (4+2=6)                |
-| **7XXX** | SetUID + SetGID + Sticky Bit attivi (4+2+1=7) |
+| 1XXX | Sticky Bit (`+t`) attivo                      |
+| 2XXX | SetGID (`+s` sul gruppo) attivo               |
+| 4XXX | SetUID (`+s` sul proprietario) attivo         |
+| 6XXX | SetUID + SetGID attivi (4+2=6)                |
+| 7XXX | SetUID + SetGID + Sticky Bit attivi (4+2+1=7) |
 
 [^5]: `a = u+g+o` (all) la `a` tiene conto del masking (we don't know it yet)
 
-[^6]: - **r**: lettura (read)
-	- **w**: scrittura (write)
-	- **x**: esecuzione (execute)
-	- **X**: (execute condizionale), aggiunge `x` solo se il file è una directory o se almeno un utente aveva già il permesso di esecuzione[^7]
-	- **s**: SetUID (per i file eseguibili) o SetGID (per i file o directory)
-	- **t**: Sticky bit (per directory, ad esempio `/tmp`)
+[^6]: - r: lettura (read)
+	- w: scrittura (write)
+	- x: esecuzione (execute)
+	- X: (execute condizionale), aggiunge `x` solo se il file è una directory o se almeno un utente aveva già il permesso di esecuzione[^7]
+	- s: SetUID (per i file eseguibili) o SetGID (per i file o directory)
+	- t: Sticky bit (per directory, ad esempio `/tmp`)
 
 [^7]: si usa per:
 	- rendere eseguibili solo le directory (ma non i file normali)

@@ -6,12 +6,22 @@
 	- [[Diagrammi UML#Associazioni che insistono più volte sulla stessa classe|Associazioni che insistono più volte sulla stessa classe]]
 	- [[Diagrammi UML#Associazione con attributi|Associazione con attributi]]
 	- [[Diagrammi UML#Tipi di dato concettuali|Tipi di dato concettuali]]
+	- [[Diagrammi UML#]]
 
 
 
 to-do
-- [ ] lezione 1
-- [ ] lezione 2
+- [x] lezione 1
+- [x] lezione 2
 - [ ] lezione 3 
 - [ ] lezione 4
 - [ ] lezione 5
+
+dominio-association_class
+
+esercizi:
+- [ ] azienda 1
+- [ ] università 1
+- [ ] voli aerei 1
+- [ ] voli aerei 2
+- [ ] accademia 1

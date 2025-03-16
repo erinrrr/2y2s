@@ -74,3 +74,23 @@ Un’associazione di questo tipo è anche chiamata **association class** dato 
 
 
 ###### Tipi di dato concettuali
+Durante l'analisi non vogliamo effettuare scelte tecnologiche ma dobbiamo definire il tipo di ogni attributo, di classe e di associazione:
+- usiamo dei _tipi concettuali_ che siano realizzabili con qualsiasi tecnologia
+- _tipi base_, Stringa, Intero, Reale, Booleano, Data, Ora$\dots$
+- _tipi specializzati_: con un range di valori ammessi, `Intero > 0`, `18..30`$\dots$
+- _tipi enumerativi_: che definiscono esplicitamente e completamente l'insieme di valori possibili per l'attributo, `{maschio, femmina}`, sono etichette non stringhe
+- _nuovi tipi_ di dato: `Tipo Genere = {maschio, femmina}` (dominio enumerativo)
+- _tipi record_: tipi di dato composti da più campi, `Indirizzo = (via:Stringa, civico:Intero>0, cap:Intero>0)` (potremmo trovare dei composti anche al loro interno): ![[dir basi/asset/file 11.png|300]]
+
+- **vincoli di molteplicità degli attributi**: anche gli attributi di classe e associazione possono avere vincoli di molteplicità, di default sono `1..1`
+	- ad esempio uno studente può avere più email:![[dir basi/asset/file 12.png|300]]
+
+
+#### Vincoli di identificazione di classe
+Il **vincolo di identificazione di classe** impone che non possono coesistere oggetti di una classe che abbiano stesso valore su determinati attributi scelti, o sono legati tramite link agli stessi oggetti di altre classi
+- ogni attributo può partecipare a più gruppi identificativi
+- un vincolo di identificazione di classe può coinvolgere solo attributi e/o ruoli della classe a molteplicità `1..1`
+
+ove non volessimo avere due o più istanze di `Persona` che hanno simultaneamente uguali il campo `cf` e neanche gli attributi `nome, cognome, nascita` (considerato come gruppo, quindi contemporaneamente)![[dir basi/asset/file 14.png|300]]
+
+- un vincolo di identificazione di classe può coinvolgere anche i _ruoli_ della classe:![[dir basi/asset/file 15.png|400]]in questo caso possono esistere due o più studenti con la stessa matricola ma non all'interno della stessa università

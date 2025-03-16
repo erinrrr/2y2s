@@ -6,6 +6,7 @@
 	- [[Grafi#Rappresentazione di grafi tramite matrici binarie|Rappresentazione di grafi tramite matrici binarie]]
 	- [[Grafi#Rappresentazione di grafi tramite liste di adiacenza|Rappresentazione di grafi tramite liste di adiacenza]]
 	- [[Grafi#Pozzi|Pozzi]]
+		- [[Pozzi]]
 	- [[Grafi#Visite nei grafi|Visite nei grafi]]
 		- [[Visite nei grafi]]
 	- [[Grafi#Il vettore dei padri|Il vettore dei padri]]

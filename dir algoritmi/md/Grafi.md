@@ -2,7 +2,7 @@
 
 Definizione di grafo: $G(V,E)$
 $|V|=n, \ V$ è l'insieme dei nodi (finito)
-$|E|= m, \ E \subseteq V \times V$ è un insieme di archi che possono essere orientati (grafo diretto) o meno (grafo non diretto) dove: arco = coppie  di nodi
+$|E|= m, \ E \subseteq V \times V$ è un insieme di archi che possono essere orientati (grafo diretto) o meno (grafo non diretto) dove: arco = coppie di nodi
 - $0 \le m \le n(n-1) = O(n^2)$ se il grafo è diretto
 - $0 \le m \le \frac{n(n-1)}{2} = O(n^2)$ se il grafo è non diretto[^1]
  
@@ -51,8 +51,7 @@ Osservando la tabella deduciamo quindi che da $n=5$ in poi esistono di certo g
 
 ### Rappresentazione di grafi tramite matrici binarie
 Dato un grafo $M[i][j] = 1$ se è solo se c'è un arco diretto da $i$ a $j$
-$n^2$ è la dimensione di matrice
-![[file 6.png]] 
+$n^2$ è la dimensione di matrice 
 $$
 \begin{array}{|c|c|c|c|c|c|}
 \hline 0 & 0 & 1 & 0 & 0 & 1 \\

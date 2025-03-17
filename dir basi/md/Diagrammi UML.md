@@ -91,6 +91,18 @@ Il **vincolo di identificazione di classe** impone che non possono coesistere og
 - ogni attributo può partecipare a più gruppi identificativi
 - un vincolo di identificazione di classe può coinvolgere solo attributi e/o ruoli della classe a molteplicità `1..1`
 
-ove non volessimo avere due o più istanze di `Persona` che hanno simultaneamente uguali il campo `cf` e neanche gli attributi `nome, cognome, nascita` (considerato come gruppo, quindi contemporaneamente)![[dir basi/asset/file 14.png|300]]
+ove non volessimo avere due o più istanze di `Persona` che hanno simultaneamente uguali il campo `cf` e neanche gli attributi `nome`,`cognome`,`nascita` (considerato come gruppo, quindi contemporaneamente)![[dir basi/asset/file 14.png|300]]
 
 - un vincolo di identificazione di classe può coinvolgere anche i _ruoli_ della classe:![[dir basi/asset/file 15.png|400]]in questo caso possono esistere due o più studenti con la stessa matricola ma non all'interno della stessa università
+
+#### Relazione is-a tra classi
+Molte volte è necessario rappresentare il fatto che due classi abbiano una relazione di _sottoinsieme_ e possiamo farlo con il concetto di **relazione is-a** tra classi:
+- "è anche un", ogni istanza della classe Studente (sotto-classe) è anche un istanza della classe Persona
+- non vale il viceversa, non tutte le istanze di Persona devono per forza essere anche istanze di Studente
+![[dir basi/asset/file 17.png|350]]
+In presenza di relazioni is-a vige il meccanismo dell'**ereditarietà**:
+- avremo che ogni Studente ha anche i campi per gli attributi `nome`,`genere` oltre che a `matricola`
+- possiamo avere anche la relazione is-a a più livelli, concetto di transitività ![[dir basi/asset/file 18.png|450]]
+tutti gli StudentiStraniero sono <em>anche</em> Studenti e quindi sono <em>anche</em> Persone, quindi di ogni StudenteStraniero stiamo rappresentando: `nome`, `genere`, `matricola`stiamo anche rappresentando le relazione delle varie sottoclassi, ad ogni Persona è associata una `città di nascita`, quindi anche Studente e StudenteStraniero parteciperanno ad un link `nascita`, poi abbiamo Studente che può partecipare a `tutor stud`, e ove vi partecipasse, stessa cosa farà StudenteStraniero ma non Persona
+
+#### Generalizzazioni e Classi più specifiche di un oggetto

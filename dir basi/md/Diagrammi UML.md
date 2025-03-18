@@ -24,7 +24,7 @@ Una classe invece:
 - un diagramma delle classi in generale permette la coesistenza di oggetti identici
 - il simbolo `<< >>` indica uno stereotipo
 
-#### Link e Associazioni
+### Link e Associazioni
 - un'associazione modella la _possibilità_ che oggetti di due o più oggetti abbiano dei legami (inizia per minuscola e segue lo snake_case)
 - le istanze delle associazioni si chiamano link
 	- quindi se $A$ è un’associazione tra le classi $C_{1}$ e $C_{2}$, una istanza di $A$ è un link tra due oggetti, uno di $C_{1}$ e l’altro di $C_{2}$
@@ -162,3 +162,41 @@ Come detto all'inizio, un oggetto ha:
 <br>
 - il concetto di ereditarietà si applica anche alle operazioni di classe:
 	- dato che StudenteStraniero essendo sottoclasse di Studente eredita anche le operazioni quindi possiamo chiamare `ss.media_fino_a(2/6/2023)` che restituisce `28.3` ![[dir basi/asset/file 26.png|350]]
+- il diagramma delle classi non definisce cosa calcolano le operazioni e nemmeno il come modificano i dati, ad ogni diagramma andrà affiancato un documento che specifica per queste informazioni.
+
+#### Specializzazioni
+In una generalizzazione una classe può avere proprietà aggiuntive rispetto alla superclasse ma può anche **specializzare** le proprietà ereditate dalla superclasse, restringendone il tipo e quindi il dominio (non potrà mai estenderlo)
+
+###### Specializzazione di attributo:
+- lo schema a sinistra è ammesso perché l’articolo nuovo riduce il dominio di `anni_garanzia` richiedendo una garanzia di almeno 2 anni, la classe a destra non è ammessa perché estende il dominio da `Interi` a `Reali`![[file 27.png]]
+###### Specializzazione di associazioni:
+- un’associazione con degli attributi abbiamo detto che si chiama *association class* ed essendo quindi una classe può anche essere radice di relazioni is-a e generalizzazioni
+- È importante che l’associazione `vend_nuovo` sia compatibile con l’associazione `venditore`, quindi che metta in relazione oggetti che hanno lo stesso tipo degli oggetti messi in relazione dalla relazione padre (`venditore`) ![[file 28.png]]
+- in questo caso è ok perché `ArticoloNuovo` è un `ArticoloInVendita` e un `VenditoreProfessionale` è anche un `Utente`
+- un `ArticoloNuovo` può essere legato a un `VenditoreProfessionale` e può partecipare a più link `venditore` con `Utente`
+	- link venditore può diventare un link vend_nuovo quindi restringendo il dominio
+	- preso $a_{1},a_{2}$ articoli nuovo e $v_{1},v_{2}$ venditori professionali:
+		- data la coppia (i link sono coppie): $(a_{1},v_{1})$ vend_nuovo, non può esistere la coppia $(a_{2},v_{1})$ con vend_nuovo però può esistere $(a_{1},v_{2})$ con venditore
+		- $(a_{1},v_{1})$ con vend_nuovo e $(a_{1},v_{1})$ con venditore non possono esistere poiché un link vend_nuovo è un link venditore (subset)
+<br>
+- in questo caso il sistema deve rappresentare impiegati e il dipartimento a cui afferisce ogni impiegato con data di inizio del lavoro e il direttore del dipartimento (che è un impiegato)
+- i direttori devono afferire al dipartimento che dirigono![[file 29.png|400]]
+###### Condizioni di Correttezza
+Le specializzazioni di associazioni hanno bisogno di particolare attenzione per quanto riguarda i vincoli di molteplicità
+
+- `ArticoloNuovo` può partecipare a infiniti link di `vend_nuovo`, ma questo va in contraddizione con l’associazione venditore che limita i link di `ArticoloInVendita` ad 1
+- link `vend_nuovo` è un link `venditore` a tutti gli effetti, possiamo solo restringere il vincolo
+![[file 30.png]]
+
+- in questo caso siamo obbligati ad avere due link di `vend_nuovo` ma l’associazione `venditore` ci limita ad 1 e quindi vanno in contraddizione
+![[file 31.png]]
+
+###### Specializzazione di operazioni di classe
+Anche le operazioni possono essere oggetto di specializzazioni in sottoclassi
+- uno schema per degli articoli in vendita avrà un’operazione per calcolare il prezzo in base ad alcuni parametri
+- la sottoclasse `ArticoloInOfferta` eredita la stessa operazione ma la modifica ad esempio applicandoci uno sconto ![[file 32.png|400]]
+- le operazioni devono essere _compatibili_:
+	- stesso numero e tipo di argomenti
+	- il tipo di ritorno dell’operazione nella sottoclasse è dello stesso tipo o sotto-tipo di quello dell’operazione nella superclasse
+<br>
+- per le operazioni abbiamo il documento di specifica delle operazioni, in questo caso: ![[file 33.png]]

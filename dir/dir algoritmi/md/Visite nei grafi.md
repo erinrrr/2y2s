@@ -6,7 +6,7 @@ in una matrice pago esattamente $\theta(n)$
 mentre in una lista di adiacenza $\theta(1)$ *basta fare $len(G[u])$*
 
 
-![[dir algoritmi/asset/file 10.png]]
+![[dir/dir algoritmi/asset/file 10.png|dir algoritmi/asset/file 10.png]]
 - Raggiungibili da $(0,G)={0,1,2,3,4,5,6}$
 - Raggiungibili da $(6,G)={2,4,6}$
 - Raggiungibili da $(5,G)={5}$

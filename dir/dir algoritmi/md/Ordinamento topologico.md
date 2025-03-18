@@ -1,5 +1,5 @@
 L'**ordinamento topologico** di un **grafo diretto aciclico (DAG)** è una disposizione lineare dei suoi nodi tale che, per ogni arco $(u,v)$, il nodo $u$ compare **prima** del nodo $v$ nella sequenza.
-![[dir algoritmi/asset/file 16.png]]
+![[dir/dir algoritmi/asset/file 16.png|dir algoritmi/asset/file 16.png]]
 il fatto di essere un DAG è condizione **necessaria** affinché $G$ possa avere un ordinamento topologico, poiché la presenza di un ciclo non ammette propedeuticità.
 
 - ad essere precisi la condizione di essere DAG è sufficiente perché l'ordinamento topologico esista
@@ -41,7 +41,7 @@ Possiamo anche usare un algoritmo alternativo che:
 - dopo aver visitato tutti i successori inserisce i nodi in una lista
 - restituisce il reverse della lista
 
-![[dir algoritmi/asset/file 17.png]]
+![[dir/dir algoritmi/asset/file 17.png|dir algoritmi/asset/file 17.png]]
 In questo caso se effettuiamo una visita sul nodo 0 otteniamo:
 - $[2,5,6,0,4,3]$ si parte dal nodo 0 e una volta terminato, continuiamo ad effettuare visite sui nodi rimanente ovvero 3 e 4, di cui verrà restituito il reverse quindi $[3,4,0,6,5,2]$
 

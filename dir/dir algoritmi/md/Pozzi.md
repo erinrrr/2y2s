@@ -1,6 +1,6 @@
 - In un grafo diretto un pozzo è un nodo senza archi uscenti, con un massimo di n pozzi
 - mentre un pozzo universale è un pozzo verso cui tutti gli altri nodi hanno un arco, se c'è è unico
-![[dir algoritmi/asset/file 8.png]]
+![[dir/dir algoritmi/asset/file 8.png|dir algoritmi/asset/file 8.png]]
 $\Omega(n)$ per controllare se c'è un pozzo in quanto devo scorrere tutti i nodi (dimensione dei dati)
 
 - per trovare un pozzo: 
@@ -8,7 +8,7 @@ $\Omega(n)$ per controllare se c'è un pozzo in quanto devo scorrere tutti i nod
 - per trovare il pozzo universale
 	bisogna controllare che il nodo sia un pozzo,
 	dobbiamo controllare se la colonna di quel nodo abbia tutti valori 1, (tranne su se stesso), ovvero che tutti puntino verso di lui
-	 così: ![[dir algoritmi/asset/file 9.png]]
+	 così: ![[dir/dir algoritmi/asset/file 9.png|dir algoritmi/asset/file 9.png]]
 
 a livello algoritmico per trovarlo potremmo usare un algoritmo che controlla l'intera matrice e quindi ci verrà a costare $O(n^2)$
 

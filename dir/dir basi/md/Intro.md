@@ -52,4 +52,4 @@ Nella progettazione e sviluppo di un software sono presenti varie figure:
 In contesti didattici si usa un modello _a cascata_ ovvero ogni attività inizia quando termina le precedente
 
 Principalmente invece viene utilizzato un modello _a spirale o iterativo_ ovvero si continuano a ripetere tutte le fasi e a ogni iterazione si rilascia una nuova versione più completa
-![[dir basi/asset/file.png]]
+![[dir/dir basi/asset/file.png|dir basi/asset/file.png]]

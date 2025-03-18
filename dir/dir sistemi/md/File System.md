@@ -61,7 +61,7 @@ Un singolo disco può essere diviso in una o più partizioni ad esempio una part
 - o se volessimo installare una diversa lezione di Linux in un'altra partizione o un altro disco possiamo sempre montare $B$ su `/home` del nuovo filesystem senza dover ricopiare i dati 
 
 #### Tipi di filesystem
-![[dir sistemi/asset/file 1.png]]
+![[dir/dir sistemi/asset/file 1.png]]
 
 Per l’utente finale il filesystem può indicare:
 - La dimensione massima delle partizioni
@@ -70,14 +70,14 @@ Per l’utente finale il filesystem può indicare:
 - Se c’è journaling o no
 Per un programmatore invece indica il tipo di codifica dei dati
 
-![[dir sistemi/asset/file 2.png]]I principali FS di Windows sono:
+![[dir/dir sistemi/asset/file 2.png|dir sistemi/asset/file 2.png]]I principali FS di Windows sono:
 - NTFS, MSDOS, FAT32, FAT64 - FAT e NTFS possono essere montati anche su Linux
 
 Diversi modi per visualizzare i file system montati:
 - `mount`
 - `cat /etc/mtab`
 - `cat /etc/fstab` - Questo visualizza i dischi da montare al boot del sistema
-![[dir sistemi/asset/file 3.png]]
+![[dir/dir sistemi/asset/file 3.png]]
 
 #### Passwd e group
 i file passwd e group si trovano in:
@@ -113,12 +113,12 @@ Un file ha diversi attributi:
 - Data Pointers - puntatore alla lista di blocchi che compongono il file, se si tratta di una directory allora il contenuto su disco è costituito da una tabella di 2 colonne: nome del file / directory e inode number
 
 Ad esempio un filesystem ext2, è organizzato su disco nel seguente modo:
-![[dir sistemi/asset/file 4.png]]
+![[dir/dir sistemi/asset/file 4.png|dir sistemi/asset/file 4.png]]
 la tabella inode si trova all'inizio del disco.
 I primi 1024 bytes del disco sono riservati per la partizione di boot e non vengono usati quindi dal filesystem, il resto è separato in diversi blocchi.
 
 per accedere a un file dobbiamo andare a leggere gli inode delle directory sul percorso, nell'immagine viene cercato il path: `/home/ealtieri/hello.txt`
-![[dir sistemi/asset/file 5.png]]
+![[dir/dir sistemi/asset/file 5.png]]
 1. root si trova in inode 2 che ci porta al blocco 0 ( leggiamo l'inode della directory root(`/`) per trovare l'inode della directory `/home`)
 2. home si trova all’inode 13 che si trova al blocco 0
 3. ealtieri si trova all’inode 31 sempre al blocco 0
@@ -145,11 +145,11 @@ un altro comando per ricavare informazioni sui file è `stat [-c format] file`, 
 #### File
 - utente proprietario - chi crea il file/directory
 - gruppo proprietario - gruppo primario dell'utente proprietario
-il proprietario definisce i permessi di accesso, chi può leggere, scrivere ed eseguire un file/directory, sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valori `r,w,e`, esempio: ![[dir sistemi/asset/file 6.png]]
+il proprietario definisce i permessi di accesso, chi può leggere, scrivere ed eseguire un file/directory, sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valori `r,w,e`, esempio: ![[dir/dir sistemi/asset/file 6.png]]
 generalmente:
-![[dir sistemi/asset/file 7.png]]
+![[dir/dir sistemi/asset/file 7.png|dir sistemi/asset/file 7.png]]
 #### Directory
-![[dir sistemi/asset/file 8.png]]
+![[dir/dir sistemi/asset/file 8.png]]
 
 #### Permessi speciali
 Questo tipo di permessi può essere applicato sia a file che a directory, troviamo:
@@ -184,7 +184,7 @@ Se $U’$ cerca di cancellare $f$ allora:
 - può essere applicato ad una directory e allora tutti i file creati al suo interno ereditano il gruppo della directory, anziché il gruppo primario dell'utente che li crea
 
 Per visualizzare gli attributi di accesso possiamo usare il comando `ls` o `stat`:
-![[dir sistemi/asset/file 9.png|dir sistemi/asset/file 9.png]]
+![[dir/dir sistemi/asset/file 9.png|dir sistemi/asset/file 9.png]]
 
 I permessi speciali vengono visualizzati al posto del bit di execute(`x`):
 - il `setuid` nella terna user

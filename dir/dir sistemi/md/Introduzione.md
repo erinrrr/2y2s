@@ -55,7 +55,7 @@ Ogni comando viene eseguito nel seguente modo: `comando [opzioni] argomenti_obbl
 Gli utenti che possono eseguire il comando `sudo` sono definiti _sudoer_ appartengono al gruppo predefinito _sudo_ e possono eseguire i comandi root
 
 - il comando `sudo` prende come input un altro comando
-![[dir sistemi/asset/file.png]]
+![[dir/dir sistemi/asset/file.png]]
 
 `sudo su -` dice che voglio diventare root user, chiede la pass dell'user attuale
 

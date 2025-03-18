@@ -4,7 +4,7 @@ Un oggetto in UML:
 - ha vita propria
 - è un'istanza di una classe (classe più specifica)
 - è identificato univocamente mediante l'identificatore di oggetto
-- viene indicato così: ![[dir basi/asset/file 1.png|300]]
+- viene indicato così: ![[dir/dir basi/asset/file 1.png|300]]
 	- `div_comm` è l'identificatore di oggetto
 	- `Libro` è la classe più specifica di cui l'oggetto è istanza
 	- si noti la <u>sottolineatura</u>, in quanto oggetto
@@ -16,7 +16,7 @@ Una classe invece:
 	- un insieme di proprietà:
 		- statiche: attributi
 		- dinamiche: metodi
- ![[dir basi/asset/file 2.png]]
+ ![[dir/dir basi/asset/file 2.png|dir basi/asset/file 2.png]]
 - il livello superiore è detto delle classi, intensionale ed è quello più astratto
 - mentre quello inferiore è il possibile livello degli oggetti, estensionale
 <br>
@@ -28,22 +28,22 @@ Una classe invece:
 - un'associazione modella la _possibilità_ che oggetti di due o più oggetti abbiano dei legami (inizia per minuscola e segue lo snake_case)
 - le istanze delle associazioni si chiamano link
 	- quindi se $A$ è un’associazione tra le classi $C_{1}$ e $C_{2}$, una istanza di $A$ è un link tra due oggetti, uno di $C_{1}$ e l’altro di $C_{2}$
-	- ![[dir basi/asset/file 3.png]]
+	- ![[dir/dir basi/asset/file 3.png|dir basi/asset/file 3.png]]
 	- i link non hanno degli identificatori espliciti quindi vengono identificati implicitamente dalla coppia di oggetti, non si possono quindi avere due link uguali
 
 _esempio_:
 abbiamo un applicazione che permette ai clienti di prenotare hotel via web
-![[dir basi/asset/file 4.png]]
+![[dir/dir basi/asset/file 4.png|dir basi/asset/file 4.png]]
 così facendo Alice non potrebbe prenotare una seconda volta presso h1 perché avremmo due link uguali e quindi indistinguibili, per risolvere creiamo una nuova classe prenotazione in modo da dare alla prenotazione "vita propria"
-![[dir basi/asset/file 5.png]]
+![[dir/dir basi/asset/file 5.png|dir basi/asset/file 5.png]]
 
-- Tra le diverse classi possono essere definite più associazioni che modellano legami di natura diversa:![[dir basi/asset/file 6.png]]
+- Tra le diverse classi possono essere definite più associazioni che modellano legami di natura diversa:![[dir/dir basi/asset/file 6.png|dir basi/asset/file 6.png]]
 
 
 #### Vincoli di molteplicità
 UML permette di definire vincoli di integrità in un diagramma delle classi ossia ulteriori restrizioni sui livelli estensionali ammessi
 
-I vincoli di molteplicità:![[dir basi/asset/file 7.png]]
+I vincoli di molteplicità:![[dir/dir basi/asset/file 7.png|dir basi/asset/file 7.png]]
 In questo modo stiamo dicendo che:
 - "un qualsiasi oggetto della classe Impiegato può essere associato soltanto ad un oggetto di Città" (non si può nascere in due città)
 <br>
@@ -55,7 +55,7 @@ Supponiamo di voler modellare i sovrani di un regno, di ogni sovrano ci interess
 - nome
 - periodo in cui ha regnato
 - predecessore
-![[dir basi/asset/file 8.png]]
+![[dir/dir basi/asset/file 8.png|dir basi/asset/file 8.png]]
 sappiamo che un link sono coppie di oggetti Sovrano quindi
 - siamo obbligati a dare i _nomi di ruolo_ per etichettare la coppia affinché non ci sia ambiguità, la coppia ($s_{1},s_{2}$) diventa (predecessore: $s_{1}$, successore: $s_{2}$)
 - "ogni oggetto Sovrano partecipa alla relazione successione con al massimo un predecessore e al massimo un successore" (con cardinalità che va da $0$ a $1$)
@@ -63,14 +63,14 @@ sappiamo che un link sono coppie di oggetti Sovrano quindi
 
 #### Associazione con attributi
 Vogliamo progettare un sistema per gestire gli esiti dei test superati dagli studenti di un corso, che è diviso in moduli e uno studente può superare ogni modulo al più una volta; il voto non è né una proprietà di Studente né di Modulo, è una _proprietà dell'associazione_
-- possiamo aggiungere degli attributi all'associazione tra Studente e Modulo ![[dir basi/asset/file 9.png]]
+- possiamo aggiungere degli attributi all'associazione tra Studente e Modulo ![[dir/dir basi/asset/file 9.png|dir basi/asset/file 9.png]]
 - in questo modo lo stesso studente può partecipare più volte alla relazione `test_superato` (per diversi esami) e possiamo assegnare ad ogni link un voto ed una data diversi
 <br>
 - aggiungere attributi alla relazione non ci permette comunque di avere più link fra gli stessi oggetti, (es: stesso studente partecipare a 2 link con stesso modulo e attributi diversi nel link)
 - in altre parole: stessa coppia di oggetti può formare al più un link dell'associazione
 
 Un’associazione di questo tipo è anche chiamata **association class** dato che a sua volta può essere collegata con altre associazioni, e come prima non ci permette comunque di avere due o più link uguali anche se con attributi o relazioni associate diversi
-- esempio:![[dir basi/asset/file 10.png]]con questa struttura, non sarebbe ammesso avere due record distinti dello stesso `studente` che ha superato lo stesso `modulo` con `voti`, `date` e `docenti` diversi
+- esempio:![[dir/dir basi/asset/file 10.png|dir basi/asset/file 10.png]]con questa struttura, non sarebbe ammesso avere due record distinti dello stesso `studente` che ha superato lo stesso `modulo` con `voti`, `date` e `docenti` diversi
 
 
 #### Tipi di dato concettuali
@@ -80,10 +80,10 @@ Durante l'analisi non vogliamo effettuare scelte tecnologiche ma dobbiamo defini
 - _tipi specializzati_: con un range di valori ammessi, `Intero > 0`, `18..30`$\dots$
 - _tipi enumerativi_: che definiscono esplicitamente e completamente l'insieme di valori possibili per l'attributo, `{maschio, femmina}`, sono etichette non stringhe
 - _nuovi tipi_ di dato: `Tipo Genere = {maschio, femmina}` (dominio enumerativo)
-- _tipi record_: tipi di dato composti da più campi, `Indirizzo = (via:Stringa, civico:Intero>0, cap:Intero>0)` (potremmo trovare dei composti anche al loro interno): ![[dir basi/asset/file 11.png|300]]
+- _tipi record_: tipi di dato composti da più campi, `Indirizzo = (via:Stringa, civico:Intero>0, cap:Intero>0)` (potremmo trovare dei composti anche al loro interno): ![[dir/dir basi/asset/file 11.png|300]]
 
 - **vincoli di molteplicità degli attributi**: anche gli attributi di classe e associazione possono avere vincoli di molteplicità, di default sono `1..1`
-	- ad esempio uno studente può avere più email:![[dir basi/asset/file 12.png|300]]
+	- ad esempio uno studente può avere più email:![[dir/dir basi/asset/file 12.png|300]]
 
 
 #### Vincoli di identificazione di classe
@@ -91,32 +91,32 @@ Il **vincolo di identificazione di classe** impone che non possono coesistere og
 - ogni attributo può partecipare a più gruppi identificativi
 - un vincolo di identificazione di classe può coinvolgere solo attributi e/o ruoli della classe a molteplicità `1..1`
 
-ove non volessimo avere due o più istanze di `Persona` che hanno simultaneamente uguali il campo `cf` e neanche gli attributi `nome`,`cognome`,`nascita` (considerato come gruppo, quindi contemporaneamente)![[dir basi/asset/file 14.png|300]]
+ove non volessimo avere due o più istanze di `Persona` che hanno simultaneamente uguali il campo `cf` e neanche gli attributi `nome`,`cognome`,`nascita` (considerato come gruppo, quindi contemporaneamente)![[dir/dir basi/asset/file 14.png|300]]
 
-- un vincolo di identificazione di classe può coinvolgere anche i _ruoli_ della classe:![[dir basi/asset/file 15.png|400]]in questo caso possono esistere due o più studenti con la stessa matricola ma non all'interno della stessa università
+- un vincolo di identificazione di classe può coinvolgere anche i _ruoli_ della classe:![[dir/dir basi/asset/file 15.png|400]]in questo caso possono esistere due o più studenti con la stessa matricola ma non all'interno della stessa università
 
 #### Relazione is-a tra classi
 Molte volte è necessario rappresentare il fatto che due classi abbiano una relazione di _sottoinsieme_ e possiamo farlo con il concetto di **relazione is-a** tra classi:
 - "è anche un", ogni istanza della classe Studente (sotto-classe) è anche un istanza della classe Persona
 - non vale il viceversa, non tutte le istanze di Persona devono per forza essere anche istanze di Studente
-![[dir basi/asset/file 17.png|350]]
+![[dir/dir basi/asset/file 17.png|350]]
 In presenza di relazioni is-a vige il meccanismo dell'**ereditarietà**:
 - avremo che ogni Studente ha anche i campi per gli attributi `nome`,`genere` oltre che a `matricola`
-- possiamo avere anche la relazione is-a a più livelli, concetto di transitività ![[dir basi/asset/file 18.png|450]]
+- possiamo avere anche la relazione is-a a più livelli, concetto di transitività ![[dir/dir basi/asset/file 18.png|450]]
 tutti gli StudentiStraniero sono <em>anche</em> Studenti e quindi sono <em>anche</em> Persone, quindi di ogni StudenteStraniero stiamo rappresentando: `nome`, `genere`, `matricola`stiamo anche rappresentando le relazione delle varie sottoclassi, ad ogni Persona è associata una `città di nascita`, quindi anche Studente e StudenteStraniero parteciperanno ad un link `nascita`, poi abbiamo Studente che può partecipare a `tutor stud`, e ove vi partecipasse, stessa cosa farà StudenteStraniero ma non Persona
 
 #### Generalizzazioni e Classi più specifiche di un oggetto
 - le **classi più specifiche** sono le classi di cui l'oggetto è istanza che sono sono a loro volta super classi di altre classi dell'oggetto
 - un oggetto può essere istanza di più classi
 - una classe non può essere sottoclasse di più classi
-- in questo caso l'oggetto `anna` è istanza di `Persona`, `Studente` e `Lavoratore`, l'insieme delle classi più specifiche sono `Studente`, `Lavoratore` in quanto non sono superclassi di altre di cui `anna` è istanza![[/dir basi/asset/file 19.png|450]]
+- in questo caso l'oggetto `anna` è istanza di `Persona`, `Studente` e `Lavoratore`, l'insieme delle classi più specifiche sono `Studente`, `Lavoratore` in quanto non sono superclassi di altre di cui `anna` è istanza![[dir/dir basi/asset/file 19.png|450]]
 - il costrutto della **generalizzazione** è un costrutto più complesso della relazione is-a
-- permette di definire che le istanze di una classe possono essere istanze di più classi figlie secondo uno stesso criterio concettuale ![[dir basi/asset/file 20.png|400]] - otteniamo:
+- permette di definire che le istanze di una classe possono essere istanze di più classi figlie secondo uno stesso criterio concettuale ![[dir/dir basi/asset/file 20.png|400]] - otteniamo:
 	- `Studente` is-a `Persona`
 	- `Lavoratore` is-a `Persona`
 	- il concetto dell'`occupazione` è quello secondo cui una `Persona` è uno `Studente` e/o un `Lavoratore`
 	- quindi un oggetto in questo modo potrebbe essere sia `Studente` che `Lavoratore`
-- la stessa classe può essere superclassi di generalizzazioni distinte, quindi più di un criterio per ogni classe![[dir basi/asset/file 21.png|400]]
+- la stessa classe può essere superclassi di generalizzazioni distinte, quindi più di un criterio per ogni classe![[dir/dir basi/asset/file 21.png|400]]
 	- secondo il criterio del genere le `Persone` possono essere `Uomo` e/o `Donna`
 	- secondo il criterio dell’occupazione(indipendente) le `Persone` possono essere `Studente` e/o `Lavoratore`
 	- dunque un'istanza di `Persona` può essere:
@@ -131,10 +131,10 @@ tutti gli StudentiStraniero sono <em>anche</em> Studenti e quindi sono <em>anche
 	- non limitiamo il caso in cui sia istanza di più classi
 - unendo i vincoli avremmo _disjoint + complete_ così da risolvere i casi ambigui
 	- in questo caso ogni oggetto sarà istanza di esattamente una sola delle sottoclassi della generalizzazione 
-![[dir basi/asset/file 22.png|400]]
-generalmente: ![[dir basi/asset/file 23.png]]
+![[dir/dir basi/asset/file 22.png|400]]
+generalmente: ![[dir/dir basi/asset/file 23.png|dir basi/asset/file 23.png]]
 <br>
-- una classe può essere sottoclasse di più classi, anche se generalmente questo concetto non è rappresentabile a livello pratico ![[dir basi/asset/file 24.png|400]]
+- una classe può essere sottoclasse di più classi, anche se generalmente questo concetto non è rappresentabile a livello pratico ![[dir/dir basi/asset/file 24.png|400]]
 
 #### Operazioni di classe
 Come detto all'inizio, un oggetto ha:
@@ -161,7 +161,7 @@ Come detto all'inizio, un oggetto ha:
 - un'operazione di classe supporta i vincoli di molteplicità sia in input che in output
 <br>
 - il concetto di ereditarietà si applica anche alle operazioni di classe:
-	- dato che StudenteStraniero essendo sottoclasse di Studente eredita anche le operazioni quindi possiamo chiamare `ss.media_fino_a(2/6/2023)` che restituisce `28.3` ![[dir basi/asset/file 26.png|350]]
+	- dato che StudenteStraniero essendo sottoclasse di Studente eredita anche le operazioni quindi possiamo chiamare `ss.media_fino_a(2/6/2023)` che restituisce `28.3` ![[dir/dir basi/asset/file 26.png|350]]
 - il diagramma delle classi non definisce cosa calcolano le operazioni e nemmeno il come modificano i dati, ad ogni diagramma andrà affiancato un documento che specifica per queste informazioni.
 
 #### Specializzazioni

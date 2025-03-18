@@ -1,4 +1,4 @@
-![[dir sistemi/asset/file 10.png]]
+![[dir/dir sistemi/asset/file 10.png]]
 
 - `umask` definisce i permessi di default che vengono assegnati ai file e alle directory quando vengono creati, codifica ottale
 	- `000` indica nessuna restrizione sui permessi

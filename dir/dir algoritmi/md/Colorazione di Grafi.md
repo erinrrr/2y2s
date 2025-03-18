@@ -65,10 +65,10 @@ la complessità dell'algoritmo per testare se un grafo è bi-colorabile è quell
 ### Componente connessa
 Una componente connessa di un grafo è un sottografo composto da un insieme di nodi connessi con dei cammini. Un grafo **si dice connesso se ha una sola componente connessa**.
 Esempio di grafo con più componenti connesse:
-![[dir algoritmi/asset/file 11.png]]
+![[dir/dir algoritmi/asset/file 11.png|dir algoritmi/asset/file 11.png]]
 
 Il vettore $C$ delle componenti connesse di un grafo $G$ è il vettore che ha tanti elementi quanti sono i nodi del grafo e $C[u]=C[v] \iff u$ e $v$ sono nella stessa componente connessa
-![[dir algoritmi/asset/file 12.png]]
+![[dir/dir algoritmi/asset/file 12.png|dir algoritmi/asset/file 12.png]]
 $C=[2,1,2,3,4,5,2,1,1,1,2,3,5,1,5,1,2,5,3]$
 
 ```python 
@@ -97,7 +97,7 @@ Questo algoritmo scorre tutti i nodi nella liste di adiacenza, inizia con un val
 ### Componente fortemente connessa
 Una componente fortemente connessa di un grafo diretto è un sottografo composto da un insieme massimale di nodi connessi da cammini (c'è una sorta di ciclicità, il path tra le comp fc è chiuso tra di loro)
 Un grafo diretto si dice fortemente connesso se ha una sola componente
-![[dir algoritmi/asset/file 13.png]]
+![[dir/dir algoritmi/asset/file 13.png|dir algoritmi/asset/file 13.png]]
 
 Il vettore $C$ delle componenti fortemente connesse di un grafo $G$ è il vettore che ha tanti elementi quanti sono i nodi del grafo e $C[u]=C[v] \iff u$ e $v$ sono nella stessa componente fortemente connessa
 $C=[1,1,2,1,1,3,1,1,4,5,4,4]$
@@ -144,4 +144,4 @@ al caso pessimo invece è $\theta(n^3)$[^1]
 Per il calcolo del vettore CF delle componenti fortemente connesse sono noti diversi algoritmi non banali che lavorano in tempo (ad esempio l’algoritmo di Tarjan o quello di Kosaraju)
 
 [^1]: esempio il grafo diretto G avente un arco da $u$ a $v$ per ogni coppia di nodi $u, v$ con $u<v$.
-	Nota che questo grafo ha $\theta(n^2)$ archi e $n$ componenti fortemente connesse (ciascuna composta da un singolo nodo).![[dir algoritmi/asset/file 15.png]]![[dir algoritmi/asset/file 22.png]]
+	Nota che questo grafo ha $\theta(n^2)$ archi e $n$ componenti fortemente connesse (ciascuna composta da un singolo nodo).![[dir/dir algoritmi/asset/file 15.png|dir algoritmi/asset/file 15.png]]![[dir/dir algoritmi/asset/file 22.png|dir algoritmi/asset/file 22.png]]

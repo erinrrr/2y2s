@@ -25,11 +25,18 @@
 - [ ] esercizi
 
 to-do
-- [x] lezione 1
-- [x] lezione 2
-- [x] lezione 3
-- [x] lezione 4
-- [x] lezione 5
-- [x] lezione 6
-- [x] lezione 7
-- [ ] lezione 8
+- settimana 1
+	- [x] lezione 1
+	- [x] lezione 2
+- settimana 2
+	- [x] lezione 3
+	- [x] lezione 4
+	- [x] lezione 5
+- settimana 3
+	- [x] lezione 6
+	- [x] lezione 7
+	- [ ] lezione 8
+- settimana 4
+	- [ ] lezione 9
+	- [ ] lezione 10
+	- [ ] lezione 11

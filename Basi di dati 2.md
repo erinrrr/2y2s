@@ -14,11 +14,17 @@
 
 
 to-do
-- [x] lezione 1
-- [x] lezione 2
-- [ ] lezione 3 
-- [ ] lezione 4
-- [ ] lezione 5
+- settimana 1
+	- [x] lezione 1
+- settimana 2
+	- [x] lezione 2
+	- [x] lezione 3 
+- settimana 3
+	- [x] lezione 4
+	- [ ] lezione 5
+- settimana 4
+	- [ ] lezione 6
+	- [ ] lezione 7
 
 dominio-association_class
 

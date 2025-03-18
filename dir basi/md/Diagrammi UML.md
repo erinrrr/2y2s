@@ -8,7 +8,7 @@ Un oggetto in UML:
 	- `div_comm` è l'identificatore di oggetto
 	- `Libro` è la classe più specifica di cui l'oggetto è istanza
 	- si noti la <u>sottolineatura</u>, in quanto oggetto
-<br>
+
 Una classe invece:
 - modella un insieme di oggetti omogenei (le istanze di una classe)
 - descritta da:
@@ -42,7 +42,7 @@ così facendo Alice non potrebbe prenotare una seconda volta presso h1 perché a
 
 #### Vincoli di molteplicità
 UML permette di definire vincoli di integrità in un diagramma delle classi ossia ulteriori restrizioni sui livelli estensionali ammessi
-<br>
+
 I vincoli di molteplicità:![[dir basi/asset/file 7.png]]
 In questo modo stiamo dicendo che:
 - "un qualsiasi oggetto della classe Impiegato può essere associato soltanto ad un oggetto di Città" (non si può nascere in due città)
@@ -68,7 +68,7 @@ Vogliamo progettare un sistema per gestire gli esiti dei test superati dagli stu
 <br>
 - aggiungere attributi alla relazione non ci permette comunque di avere più link fra gli stessi oggetti, (es: stesso studente partecipare a 2 link con stesso modulo e attributi diversi nel link)
 - in altre parole: stessa coppia di oggetti può formare al più un link dell'associazione
-<br>
+
 Un’associazione di questo tipo è anche chiamata **association class** dato che a sua volta può essere collegata con altre associazioni, e come prima non ci permette comunque di avere due o più link uguali anche se con attributi o relazioni associate diversi
 - esempio:![[dir basi/asset/file 10.png]]con questa struttura, non sarebbe ammesso avere due record distinti dello stesso `studente` che ha superato lo stesso `modulo` con `voti`, `date` e `docenti` diversi
 
@@ -130,7 +130,8 @@ tutti gli StudentiStraniero sono <em>anche</em> Studenti e quindi sono <em>anche
 - *complete*: l'intersezione delle istanze è uguale all'insieme totale delle istanze, un oggetto sarò istanza di almeno una classe fra quelle della generalizzazione
 	- non limitiamo il caso in cui sia istanza di più classi
 - unendo i vincoli avremmo _disjoint + complete_ così da risolvere i casi ambigui
-	- in questo caso ogni oggetto sarà istanza di esattamente una sola delle sottoclassi della generalizzazione ![[dir basi/asset/file 22.png|400]]
+	- in questo caso ogni oggetto sarà istanza di esattamente una sola delle sottoclassi della generalizzazione 
+![[dir basi/asset/file 22.png|400]]
 generalmente: ![[dir basi/asset/file 23.png]]
 <br>
 - una classe può essere sottoclasse di più classi, anche se generalmente questo concetto non è rappresentabile a livello pratico ![[dir basi/asset/file 24.png|400]]

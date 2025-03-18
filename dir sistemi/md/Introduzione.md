@@ -32,7 +32,7 @@ Ogni comando viene eseguito nel seguente modo: `comando [opzioni] argomenti_obbl
 		- se viene inserita una password sbagliata, il tentativo viene registrato
 - gli utenti sono organizzati in gruppi, e ogni utente appartiene almeno a un gruppo
 	- esistono gruppi definiti per scopi amministrativi `groups [nomeutente]`
-
+<br>
 - Creazione di altri utenti:
 	 `adduser nuovoutente`[^4], di default l'utente creato non appartiene al gruppo sudo, si può fare solo da super user
 	 oppure `useradd utente`:

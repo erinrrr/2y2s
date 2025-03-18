@@ -12,5 +12,4 @@
 	`-i`: shows the inode number
 	`-n`: shows userID and groupID instead of the full name
 
-
 `chmod mode [,mode...] filename`: change access permissions, **ch**ange **mod**e.

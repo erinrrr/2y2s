@@ -37,7 +37,6 @@ Per creare i file invece possiamo usare `touch nomefile` [^2]
 che sarà un `.txt` di default 
 
 Se vogliamo visualizzare ad albero tutte le directory ed i file che contengono possiamo usare l’opzione `-R` per il comando `ls` oppure installare una utility esterna chiamata `Tree`
-	- `Tree`
 
 [^1]: tipicamente config file, o file usati a supporto di comandi e applicazioni
 
@@ -185,7 +184,7 @@ Se $U’$ cerca di cancellare $f$ allora:
 - può essere applicato ad una directory e allora tutti i file creati al suo interno ereditano il gruppo della directory, anziché il gruppo primario dell'utente che li crea
 
 Per visualizzare gli attributi di accesso possiamo usare il comando `ls` o `stat`:
-![[dir sistemi/asset/file 9.png]]
+![[dir sistemi/asset/file 9.png|dir sistemi/asset/file 9.png]]
 
 I permessi speciali vengono visualizzati al posto del bit di execute(`x`):
 - il `setuid` nella terna user

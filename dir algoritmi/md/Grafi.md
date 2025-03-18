@@ -24,7 +24,7 @@ Un albero è un grafo connesso, senza cicli, e sparso in quanto ha esattamente $
 
 [^2]: non tutti i grafi sono alberi (vale il contrario)
 
-![[dir algoritmi/asset/file 3.png]] grafo sconnesso con ciclo
+![[dir algoritmi/asset/file 3.png|300]]grafo sconnesso con ciclo
 
 Per albero radicato si intende un albero cui abbiamo definito una radice, definire una radice porta a una gerarchia e quindi in base al nodo cui radichiamo avremo un diverso albero, potremmo intenderlo come un grafo diretto
 
@@ -67,7 +67,7 @@ $$
 in un albero diretto sulla $j$ ci stanno gli archi entranti e sulla $i$ gli archi uscenti
 ### Rappresentazione di grafi tramite liste di adiacenza
 Si utilizza una lista di liste, che ha tanti elementi quanti nodi del grafo $G$, dove $G[x]$ è una lista contenente i nodi raggiunti da archi che partono da $x$, *(nodi adiacenti al nodo $x$)*
-![[file 7.png]] rappresentazione più usata
+![[dir algoritmi/asset/file 7.png]] rappresentazione più usata
 
 Vantaggi:
 - risparmio di spazio nel caso di grafi sparsi
@@ -78,7 +78,7 @@ Vantaggi:
 [[Pozzi]]
 
 #### Visite nei grafi
-Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi|Visite nei grafi]]
+Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi]]
 
 Durante una visita DFS non vengono attraversati tutti gli archi ma solo un sottoinsieme e poiché non ci sono cicli l'algoritmo crea un albero detto albero DFS
 ![[dir algoritmi/asset/file.png]]
@@ -166,7 +166,7 @@ ove esistessero più cammini che vanno dal nodo $x$ al nodo $y$ la funzione $Cam
 
 #### Grafi trasposti
 Dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta
-![[file 14.png]]
+![[dir algoritmi/asset/file 14.png]]
 
 - i nodi che in $G$ portano a $u$ sono i nodi che in $G^T$ sono raggiungibili a partire da $u$
 - codice che traspone il grafo in $O(n+m)$:
@@ -188,11 +188,11 @@ un grafo diretto può avere da $0$ a $n!$ ordinamenti topologici [^6]
 [^6]: un algoritmo esaustivo che genera i differenti ordinamenti e controlla il vincolo sugli archi ha complessità $\Omega(n!)$ ed è quindi improponibile
 
 Un grafo G si dice parzialmente orientato se contiene sia archi orientati che archi non orientati
-![[file 18.png]]
+![[dir algoritmi/asset/file 18.png]]
 
 #### Cicli
 Dato un grafo $G$ diretto o non diretto ed un suo nodo $u$ vogliamo sapere se da $u$ è possibile raggiungere un ciclo in $G$
-![[file 19.png]]
+![[dir algoritmi/asset/file 19.png]]
 partendo da questo grafo e dal nodo $1$ è possibile raggiungere il ciclo $2,4,6$ un idea per questo problema potrebbe essere: fare una ricerca e se si visita un nodo già visitato allora siamo in un ciclo[^7], ma non funziona nel caso avessimo a che fare con grafi non diretti in quanto due nodi se sono collegati appariranno ciascuno nella lista di adiacenza dell'altro e questo viene interpretato come un ciclo di lunghezza $2$ dall'algoritmo andando a restituire True
 
 [^5]: ```python 
@@ -233,14 +233,14 @@ def DFSr(u, padre, G, visitati):
 - se il grafo non contiene cicli allora ha al più $n−1$ archi e quindi $O(n+m)=O(n)$
 - se invece contiene cicli ne scopriamo uno dopo aver considerato al più $n$ archi e l’algoritmo termina
 
-In realtà l'algoritmo originariamente pensato potrebbe sbagliare anche con alcuni grafi diretti come ad esempio:  ![[file 20.png]]
+In realtà l'algoritmo originariamente pensato potrebbe sbagliare anche con alcuni grafi diretti come ad esempio:  ![[dir algoritmi/asset/file 20.png]]
 
 Durante la visita DFS posso incontrare nodi già visitati in tre modi diversi:
 - **archi in avanti** ovvero le frecce che da un antenato puntano ad un discendente
 - **archi all’indietro** ovvero le frecce che da un discendente vanno ad un antenato
 - **archi di attraversamento** ovvero quelle frecce che ci portano da un sottoalbero ad un altro
 
-![[file 21.png]] in questo albero DFS abbiamo diversi nodi già visitati:
+![[dir algoritmi/asset/file 21.png|300]] in questo albero DFS abbiamo diversi nodi già visitati:
 - 3 → 5 questo è un arco in avanti dato che 3 è antenato di 5
 - 6 → 1 arco indietro perché 1 e antenato di 6
 - 2 → 3 è di attraversamento dato che ci porta in un altro sottoalbero (o comunque non è ne avanti ne indietro)
@@ -288,7 +288,7 @@ def cicloD(G):
 
 ### Ponti
 Un arco la cui eliminazione disconnette il grafo è detto **ponte**, essi rappresentano criticità nel grafo ed è utile identificarli
-![[file 22.png]]
+![[dir algoritmi/asset/file 22.png]]
 
 - un grafo può non avere neanche un ponte, caso di grafi ciclici
 - oppure ogni suo arco potrebbe essere un ponte, caso degli alberi
@@ -298,16 +298,16 @@ Per trovare i ponti potremmo:
 	- eliminiamo un arco $(a,b)$ fare una DFS e controllare se $b$ è raggiungibile da $a$, complessità $O(m+n)*m = O(m^2) = O(n^4)$ nel caso di un grafo denso
 - usare una DFS opportunamente modificata per risolvere il problema in $O(m)$
 	- nota: i ponti vanno ricercati unicamente tra gli archi dell’albero DFS 
-	- ![[file 23.png|400]]
+	- ![[dir algoritmi/asset/file 23.png|400]]
 	- nota: se un arco non è un ponte, significa che esiste almeno un altro percorso alternativo
 	- proprietà: se prendiamo $(u,v)$ un arco dell’albero DFS con $u$ padre e $v$ figlio, l’arco è un ponte se e solo se non ci sono altri archi tra i nodi del sottoalbero radicato in $v$ e il nodo $u$o antenati di $u$ 
-	- ![[file 24.png|200]] cancellare l’arco $u−v$ in questo grafo non lo disconnette, abbiamo l’arco $x−y$ che ci “protegge”, dove $x$ è discendente di $v$ e $x$ è antenato di $u$, l'arco $u$ non ha informazioni tali da poter capire se l'arco $(u,v)$ è un ponte, ma lo scoprirà una volta terminata la visita di $v$
+	- ![[dir algoritmi/asset/file 24.png|200]] cancellare l’arco $u−v$ in questo grafo non lo disconnette, abbiamo l’arco $x−y$ che ci “protegge”, dove $x$ è discendente di $v$ e $x$ è antenato di $u$, l'arco $u$ non ha informazioni tali da poter capire se l'arco $(u,v)$ è un ponte, ma lo scoprirà una volta terminata la visita di $v$
 	- algoritmo:[^8]
 		- Nodo $v$: esplora il proprio sottoalbero e restituisce al padre $u$ il valore $b$, cioè il livello minimo raggiungibile da $v$ e i suoi discendenti utilizzando anche eventuali archi all’indietro
 		- Nodo $u$: confronta $b$ con la propria altezza, se b è maggiore dell’altezza di $u$, l’arco $(u, v)$ è l’unico collegamento, dunque è un ponte; altrimenti, c’è un percorso alternativo che collega il sottoalbero di $v$ a $u$ o ad un suo antenato, per cui l’arco non è un ponte
 	- ricordiamo di non dover considerare l’arco stesso per il calcolo dell’altezza minima da restituire
 	- implementazione in $O(n+m)$ [^9]
-![[file 25.png]]
+![[dir algoritmi/asset/file 26.png]]
 
 [^8]: algoritmo dettagliato:
 	- per ogni arco padre - figlio $(u,v)$ presente nell’albero DFS il nodo $u$ è in grado di scoprire se l’arco $(u,v)$ è ponte o meno usando questa strategia:
@@ -348,4 +348,4 @@ Per trovare i ponti potremmo:
 - un punto di articolazione è un vertice la cui rimozione è in grado di sconnettere il grafo
 - un grafo cactus è un grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo
 	- in un grafo cactus due cicli distinti possono avere al massimo un vertice in comune, senza condividerne archi 
-	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[file 26.png]]
+	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[dir algoritmi/asset/file 26.png]]

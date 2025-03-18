@@ -47,8 +47,8 @@
 	- `-c`: total, mostra anche il totale dello spazio occupato alla fine dell'output.
 	- `-s`: summarize, mostra solo il totale dello spazio occupato da ogni directory, senza elencare i singoli file al suo interno
 	- `-a`: all, mostra lo spazio elencato da tutti i file e non solo dalle directory
-	- `-h`: human-readable: mostra le dimensioni in un formato leggibile, _KB, MB, GB_ invece che in blocchi di $1024$ _byte_
-	- **`--exclude=PATTERN`**: esclude file o directory che corrispondono al pattern specificato
+	- `-h`: human-readable: mostra le dimensioni in un formato leggibile,KB, MB, GB invece che in blocchi di $1024$ byte
+	- `--exclude=PATTERN`: esclude file o directory che corrispondono al pattern specificato
 
 - `df [-h] [-l] [-i] [file]` (disk free)
 	- mostrare lo spazio disponibile e utilizzato nei filesystem montati

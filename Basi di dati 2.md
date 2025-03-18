@@ -9,6 +9,7 @@
 	- [[Diagrammi UML#Vincoli di identificazione di classe|Vincoli di identificazione di classe]]
 	- [[Diagrammi UML#Relazione is-a tra classi|Relazione is-a tra classi]]
 	- [[Diagrammi UML#Generalizzazioni e Classi più specifiche di un oggetto|Generalizzazioni e Classi più specifiche di un oggetto]]
+	- [[Diagrammi UML#Operazioni di classe|Operazioni di classe]]
 
 
 

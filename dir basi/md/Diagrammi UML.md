@@ -8,7 +8,7 @@ Un oggetto in UML:
 	- `div_comm` è l'identificatore di oggetto
 	- `Libro` è la classe più specifica di cui l'oggetto è istanza
 	- si noti la <u>sottolineatura</u>, in quanto oggetto
-
+<br>
 Una classe invece:
 - modella un insieme di oggetti omogenei (le istanze di una classe)
 - descritta da:
@@ -16,10 +16,10 @@ Una classe invece:
 	- un insieme di proprietà:
 		- statiche: attributi
 		- dinamiche: metodi
-- ![[dir basi/asset/file 2.png]]
+ ![[dir basi/asset/file 2.png]]
 - il livello superiore è detto delle classi, intensionale ed è quello più astratto
 - mentre quello inferiore è il possibile livello degli oggetti, estensionale
-
+<br>
 - un oggetto è identificato da un identificatore univoco
 - un diagramma delle classi in generale permette la coesistenza di oggetti identici
 - il simbolo `<< >>` indica uno stereotipo
@@ -42,11 +42,11 @@ così facendo Alice non potrebbe prenotare una seconda volta presso h1 perché a
 
 #### Vincoli di molteplicità
 UML permette di definire vincoli di integrità in un diagramma delle classi ossia ulteriori restrizioni sui livelli estensionali ammessi
-
+<br>
 I vincoli di molteplicità:![[dir basi/asset/file 7.png]]
 In questo modo stiamo dicendo che:
 - "un qualsiasi oggetto della classe Impiegato può essere associato soltanto ad un oggetto di Città" (non si può nascere in due città)
-
+<br>
 - `1..1` - "ogni istanza di impiegato deve essere coinvolta in un numero di link dell’associazioni nascita che va da 1 a 1", equivalente a "un’istanza di Impiegato può essere associata ad un’istanza di città solo una volta tramite l’associazione nascita"
 - `0..*` - "ogni istanza di Città deve essere coinvolta in un numero di link dell’associazione nascita che da 0 all’infinito", equivalente a "un’istanza di città può essere associata ad un qualunque numero di istanze di Impiegato tramite nascita"
 
@@ -65,15 +65,15 @@ sappiamo che un link sono coppie di oggetti Sovrano quindi
 Vogliamo progettare un sistema per gestire gli esiti dei test superati dagli studenti di un corso, che è diviso in moduli e uno studente può superare ogni modulo al più una volta; il voto non è né una proprietà di Studente né di Modulo, è una _proprietà dell'associazione_
 - possiamo aggiungere degli attributi all'associazione tra Studente e Modulo ![[dir basi/asset/file 9.png]]
 - in questo modo lo stesso studente può partecipare più volte alla relazione `test_superato` (per diversi esami) e possiamo assegnare ad ogni link un voto ed una data diversi
-
+<br>
 - aggiungere attributi alla relazione non ci permette comunque di avere più link fra gli stessi oggetti, (es: stesso studente partecipare a 2 link con stesso modulo e attributi diversi nel link)
 - in altre parole: stessa coppia di oggetti può formare al più un link dell'associazione
-
+<br>
 Un’associazione di questo tipo è anche chiamata **association class** dato che a sua volta può essere collegata con altre associazioni, e come prima non ci permette comunque di avere due o più link uguali anche se con attributi o relazioni associate diversi
 - esempio:![[dir basi/asset/file 10.png]]con questa struttura, non sarebbe ammesso avere due record distinti dello stesso `studente` che ha superato lo stesso `modulo` con `voti`, `date` e `docenti` diversi
 
 
-###### Tipi di dato concettuali
+#### Tipi di dato concettuali
 Durante l'analisi non vogliamo effettuare scelte tecnologiche ma dobbiamo definire il tipo di ogni attributo, di classe e di associazione:
 - usiamo dei _tipi concettuali_ che siano realizzabili con qualsiasi tecnologia
 - _tipi base_, Stringa, Intero, Reale, Booleano, Data, Ora$\dots$
@@ -106,3 +106,58 @@ In presenza di relazioni is-a vige il meccanismo dell'**ereditarietà**:
 tutti gli StudentiStraniero sono <em>anche</em> Studenti e quindi sono <em>anche</em> Persone, quindi di ogni StudenteStraniero stiamo rappresentando: `nome`, `genere`, `matricola`stiamo anche rappresentando le relazione delle varie sottoclassi, ad ogni Persona è associata una `città di nascita`, quindi anche Studente e StudenteStraniero parteciperanno ad un link `nascita`, poi abbiamo Studente che può partecipare a `tutor stud`, e ove vi partecipasse, stessa cosa farà StudenteStraniero ma non Persona
 
 #### Generalizzazioni e Classi più specifiche di un oggetto
+- le **classi più specifiche** sono le classi di cui l'oggetto è istanza che sono sono a loro volta super classi di altre classi dell'oggetto
+- un oggetto può essere istanza di più classi
+- una classe non può essere sottoclasse di più classi
+- in questo caso l'oggetto `anna` è istanza di `Persona`, `Studente` e `Lavoratore`, l'insieme delle classi più specifiche sono `Studente`, `Lavoratore` in quanto non sono superclassi di altre di cui `anna` è istanza![[/dir basi/asset/file 19.png|450]]
+- il costrutto della **generalizzazione** è un costrutto più complesso della relazione is-a
+- permette di definire che le istanze di una classe possono essere istanze di più classi figlie secondo uno stesso criterio concettuale ![[dir basi/asset/file 20.png|400]] - otteniamo:
+	- `Studente` is-a `Persona`
+	- `Lavoratore` is-a `Persona`
+	- il concetto dell'`occupazione` è quello secondo cui una `Persona` è uno `Studente` e/o un `Lavoratore`
+	- quindi un oggetto in questo modo potrebbe essere sia `Studente` che `Lavoratore`
+- la stessa classe può essere superclassi di generalizzazioni distinte, quindi più di un criterio per ogni classe![[dir basi/asset/file 21.png|400]]
+	- secondo il criterio del genere le `Persone` possono essere `Uomo` e/o `Donna`
+	- secondo il criterio dell’occupazione(indipendente) le `Persone` possono essere `Studente` e/o `Lavoratore`
+	- dunque un'istanza di `Persona` può essere:
+		- sia `Uomo` che `Studente`
+		- sia `Uomo` che `Donna`
+		- né `Uomo` né `Donna`
+
+**Vincoli sulle generalizzazioni**:
+- _disjoint_: l'insieme delle istanze è disgiunto, quindi un oggetto può essere istanza soltanto di una classe fra quelle della generalizzazione
+	- resta il fatto che possa essere nessuna delle due
+- *complete*: l'intersezione delle istanze è uguale all'insieme totale delle istanze, un oggetto sarò istanza di almeno una classe fra quelle della generalizzazione
+	- non limitiamo il caso in cui sia istanza di più classi
+- unendo i vincoli avremmo _disjoint + complete_ così da risolvere i casi ambigui
+	- in questo caso ogni oggetto sarà istanza di esattamente una sola delle sottoclassi della generalizzazione ![[dir basi/asset/file 22.png|400]]
+generalmente: ![[dir basi/asset/file 23.png]]
+<br>
+- una classe può essere sottoclasse di più classi, anche se generalmente questo concetto non è rappresentabile a livello pratico ![[dir basi/asset/file 24.png|400]]
+
+#### Operazioni di classe
+Come detto all'inizio, un oggetto ha:
+- proprietà statiche: i valori cambiano a seguito di espliciti modifica dei dati da parte degli utenti nel sistema
+- _proprietà dinamiche_ (operazioni): i valori vengono calcolati ogni volta che servono, a partire dai valori di altre proprietà
+<br>
+- in generale una operazione della classe C indica che su ogni oggetto della classe C si può eseguire un calcolo per:
+	- calcolare un valore da altri dati
+	- effettuare cambiamenti di stato dell’oggetto, dei link in cui è coinvolto e/o degli oggetti a lui collegati
+<br>
+- sintassi generale: `nome_operazione(argomenti) : tipo_ritorno`
+	- `argomenti` è una lista di elementi di forma `nome_argomento : tipo_argomento`
+	- `tipo_ritorno` è il tipo del valore restituito dall'operazione
+- i tipi di ritorno e degli argomenti possono essere tipi concettuali o anche classi del diagramma
+- un’operazione di classe può essere invocata solo su un oggetto di classe, in questo modo: `oggetto.operazione(argomenti)` 
+<br>
+- un operazione può accedere a:
+	- attributi della classe cui appartiene
+	- parametri passati all'operazione
+	- oggetti della classe stessa, compresi i loro attributi e altre operazioni
+	- oggetti di altre classi, se esiste un'associazione o una dipendenza, permettendo l'accesso alle loro operazioni o attributi
+	- le associazioni della classe, navigando i link con altre classi e accedendo agli oggetti collegati.
+<br>
+- un'operazione di classe supporta i vincoli di molteplicità sia in input che in output
+<br>
+- il concetto di ereditarietà si applica anche alle operazioni di classe:
+	- dato che StudenteStraniero essendo sottoclasse di Studente eredita anche le operazioni quindi possiamo chiamare `ss.media_fino_a(2/6/2023)` che restituisce `28.3` ![[dir basi/asset/file 26.png|350]]

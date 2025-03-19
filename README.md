@@ -9,3 +9,9 @@ to do:
 - [ ] private folder??
 - [x] fix img dim on github
 - [x] auto-pathing img
+
+
+[[Algoritmi II]]
+[[Basi di dati 2]]
+[[Sistemi Operativi II]]
+[[Reti degli elaboratori]]

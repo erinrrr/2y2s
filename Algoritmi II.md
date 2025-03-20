@@ -35,7 +35,7 @@ to-do
 - settimana 3
 	- [x] lezione 6
 	- [x] lezione 7
-	- [ ] lezione 8
+	- [x] lezione 8
 - settimana 4
 	- [ ] lezione 9
 	- [ ] lezione 10

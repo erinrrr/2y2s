@@ -41,14 +41,14 @@ $G(V,E), |V|=n \ (\text{nodi}), |E|= m\ (\text{archi})$; (arco = coppie  di nodi
 - cappi: nodi che nascono e muoiono su loro stessi
 - grafi diretti: direzionali
 - grafi non diretti: i collegamenti sono bilaterali
-
+<br>
 - grafo sparso se $m= O(n)$
 - grafo denso se $m = \Omega(n^2)$
 	- un grafo si dice completo se ha tutti gli archi
 	- si dice torneo se tra ogni coppia di nodi c'è esattamente un arco
 - un grafo può essere né sparso né denso
 - grafo vuoto: grafo senza archi
-
+<br>
 - grafo planare: grafi che possono essere disegnati senza che gli archi si intersechino
 - grafo parzialmente orientato: contiene sia archi orientati che archi non orientati
 ciclo dispari: grafo ciclico di dispari nodi
@@ -64,45 +64,52 @@ ciclo dispari: grafo ciclico di dispari nodi
 			- un cammino diretto da $u$ a $v$
 			- un cammino diretto da $v$ a $u$
 		- se la connettività esiste solo ignorando la direzione degli archi, il grafo è **debolmente connesso**.
-
+<br>
 - La **raggiungibilità** riguarda singole coppie di nodi.
-- La **connettività** riguarda l’intero grafo e la presenza di percorsi tra tutti i nodi.
-
+- La **connettività** riguarda l’intero grafo e la presenza di percorsi tra tutti i nodi
+<br>
 - nodo sorgente: nodo in cui non entrano archi
--
+
 
 In un grafo diretto sommando le liste ottengo tutti i nodi raggiunti dagli archi nel grafo
 
 - **Albero**: grafo particolare che ha sempre $m = n-1$ archi (quindi è sparso)
 - Albero **DFS**: albero formato durante una visita DFS composto da nodi e archi effettivamente traversati
+- Albero **BFS**: albero formato durante una visita BFS, detto *albero dei cammini minimi*
 ### Chi preferire? 
 - Si preferisce una matrice quando
 	abbiamo un numero di archi vicino a $n^2$ ovvero un grafo denso e se dobbiamo controllare frequentemente l’esistenza di archi o in generale vogliamo accessi costanti
 - Lista di adiacenza
 	se abbiamo un grafo sparso, vogliamo risparmiare memoria e dobbiamo iterare sui nodi adiacenti di un nodo
 
-## Visite nei grafi
+###### Visite nei grafi
 - DFS: Depth-first search (visita in profondità)
+	- $O(n+m)$
 - BFS: Breadth-first search (visita in ampiezza)
-
+	- $O(n+m)$
+	- $O(n^2)$ se coda implementata tramite una lista
 #### Vettore dei padri
 Un albero DFS può essere memorizzato tramite il vettore dei padri:
 il vettore dei padri $P$ di un albero DFS di un grafo di $n$ nodi ha $n$ componenti:
 - se $i$ è nodo dell'albero allora $P[i]$ contiene il padre del nodo $i$
 - se $i$ non è nodo (non è stato esplorato) allora $P[i]$ contiene il valore $-1$
-
-
+<br>
 Cammino: funzione che restituisce il cammino dalla radice dell'albero DFS fino a $u$ utilizzando il vettore dei padri $P$ 
 il cammino minimo è quello che attraversa il minor numero di archi
-
+<br>
 Teorema dei 4 colori: un grafo planare richiede al più 4 colori per essere colorato
 
 
->Una componente connessa di un grafo è un sottografo composto da un insieme di nodi connessi con dei cammini. 
-	 Un grafo si dice connesso se ha una sola componente connessa.
+>Una componente connessa di un grafo è un sottografo composto da un insieme di nodi connessi con dei cammini
+	 Un grafo si dice connesso se ha una sola componente connessa
 
 >Una componente fortemente connessa di un grafo diretto è un sottografo composto da un insieme massimale di nodi connessi da cammini
 	 Un grafo diretto si dice fortemente connesso se ha una sola componente
+
+#### Vettore delle distanze
+- _distanza minima_: è il numero minimo di archi che bisogna attraversare per raggiungere il nodo $b$ a partire dal nodo $a$
+	- inizializzata a $+\infty$
+- il vettore delle distanze $D$ a partire da un nodo $x$, contiene in $D[y]$ la distanza di $y$ da $x$
 
 ###### Grafo trasposto:
 dato un grafo diretto $G$ il grafo trasposto di $G$, $G^T$ ha gli stessi nodi di $G$ ma archi con direzione opposta
@@ -113,7 +120,7 @@ l'**ordinamento topologico** di un **grafo diretto aciclico (DAG)** è una dispo
 - **archi in avanti** ovvero le frecce che da un antenato puntano ad un discendente
 - **archi all’indietro** ovvero le frecce che da un discendente vanno ad un antenato
 - **archi di attraversamento** ovvero quelle frecce che ci portano da un sottoalbero ad un altro
-
+<br>
 - ponte: arco la cui eliminazione disconnette il grafo
 
 - punto di articolazione: vertice la cui rimozione è in grado di sconnettere il grafo

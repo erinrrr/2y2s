@@ -73,19 +73,25 @@ Vantaggi:
 - risparmio di spazio nel caso di grafi sparsi
 - vedere se due archi sono connessi può costare anche $O(n)$
 [[Definizioni#Chi preferire?|quale preferire?]]
+- col vettore dei padri posso ricavarmi la lista di adiacenza
 
 #### Pozzi
 [[Pozzi]]
 
 #### Visite nei grafi
-Per scoprire le proprietà di un grafo devo visitarlo: [[Visite nei grafi]]
-
-Durante una visita DFS non vengono attraversati tutti gli archi ma solo un sottoinsieme e poiché non ci sono cicli l'algoritmo crea un albero detto albero DFS
+Per scoprire le proprietà di un grafo devo visitarlo: 
+- [[Visite nei grafi]]
+	- [[Visite nei grafi#DFS Depth-first search|DFS Depth-first search]]
+	- [[Visite nei grafi#BFS Breadth-First Search|BFS Breadth-First Search]]
+- durante una visita DFS non vengono attraversati tutti gli archi ma solo un sottoinsieme e poiché non ci sono cicli l'algoritmo crea un albero detto _albero DFS_
 ![[dir/dir algoritmi/asset/file.png|dir algoritmi/asset/file.png]]
 a sx un grafo $G$, a dx gli alberi DFS che si ottengono a partire dai nodi $9,4,3$ 
 (supponendo che le liste di adiacenza siano ordinate crescentemente)
 
-un albero DFS può essere memorizzato tramite il vettore dei padri
+- un albero DFS può essere memorizzato tramite il _vettore dei padri_
+<br>
+- durante una visita BFS vengono creati gli alberi BFS:
+  ![[dir/dir algoritmi/asset/file 27.png]]a sx un grafo $G$, a dx gli alberi BFS che si ottengono a partire dai nodi $0,5,2$ 
 
 #### Il vettore dei padri
 Il vettore dei padri $P$ di un albero DFS di un grafo di $n$ nodi ha $n$ componenti:
@@ -348,4 +354,6 @@ Per trovare i ponti potremmo:
 - un punto di articolazione è un vertice la cui rimozione è in grado di sconnettere il grafo
 - un grafo cactus è un grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo
 	- in un grafo cactus due cicli distinti possono avere al massimo un vertice in comune, senza condividerne archi 
-	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[dir/dir algoritmi/asset/file 26.png|dir algoritmi/asset/file 26.png]]
+	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[dir/dir algoritmi/asset/file 26.png]]
+
+

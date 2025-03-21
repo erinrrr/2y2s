@@ -356,4 +356,9 @@ Per trovare i ponti potremmo:
 	- in un grafo cactus due cicli distinti possono avere al massimo un vertice in comune, senza condividerne archi 
 	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[dir/dir algoritmi/asset/file 26.png]]
 
-
+####  Tecnica greedy e grafi pesati
+La tecnica greedy è un paradigma algoritmico:
+- le decisioni prese sono irrevocabili, _no backtracking_ non si torna indietro
+- le decisioni prese sono  basate sul una scelta "locale" si fa la scelta migliore in quel momento
+- solitamente si ottiene una soluzione subottimale 
+[[Grafi Pesati]]

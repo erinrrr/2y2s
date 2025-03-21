@@ -125,3 +125,9 @@ l'**ordinamento topologico** di un **grafo diretto aciclico (DAG)** è una dispo
 
 - punto di articolazione: vertice la cui rimozione è in grado di sconnettere il grafo
 - grafo cactus: grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo
+- nodi dummy: archi fasulli, ad esempio se un arco pesa 3 inseriamo due nodi finti in modo che è come se attraversassimo 3 archi invece che 1
+
+
+un algoritmo è:
+- corretto quando funziona sempre
+- sbagliato se sbaglia almeno in un caso

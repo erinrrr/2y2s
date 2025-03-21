@@ -18,6 +18,8 @@
 		- [[Ordinamento topologico]]
 	- [[Grafi#Cicli|Cicli]]
 	- [[Grafi#Ponti|Ponti]]
+	- [[Grafi#Tecnica greedy e grafi pesati|Tecnica greedy e grafi pesati]]
+		- [[Grafi Pesati]]
 
 [[uguaglianze asintotiche]]
 
@@ -37,6 +39,6 @@ to-do
 	- [x] lezione 7
 	- [x] lezione 8
 - settimana 4
-	- [ ] lezione 9
+	- [x] lezione 9
 	- [ ] lezione 10
-	- [ ] lezione 11
+	- [x] lezione 11 (annullata)

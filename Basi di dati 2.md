@@ -34,7 +34,15 @@ dominio-association_class
 
 esercizi:
 - [ ] azienda 1
+
 - [ ] università 1
 - [ ] voli aerei 1
-- [ ] voli aerei 2
+
 - [ ] accademia 1
+- [ ] voli aerei 2
+
+- [ ] università 2
+- [ ] impiegati e studenti
+
+- [ ] accademia 2
+- [ ] travel to the moon passo A.1

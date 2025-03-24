@@ -59,7 +59,8 @@
 
 - `dd [opzioni]`
 	- convert and copy a file
-		- spesso usato per creare immagini di dischi, copiare dispositivi di blocco (pendrive, hard disk) e per la gestione avanzata dei file
+		- spesso usato per creare immagini di dischi, copiare dispositivi di blocco (pendrive, hard disk)
+		- creare file gestendo in modo specifico i blocchi
 		- oltre che per le conversioni si usa per copiare file speciali che non possono essere copiati con `cp`
 	- le opzioni sono una sequenza `variabile=valore`, le più importanti sono:
 		- `bs=SIZE`, imposta la dimensione del blocco di lettura/scrittura
@@ -74,7 +75,7 @@
 
 - `mkfs [-t type fsoptions] device`
 	- build a linux filesystem on device, su un dispositivo di archiviazione
-		- spesso chiamato formattazione perché organizza lo spazio su disco secondo una struttura specifica, rendendolo pronto per memorizzare file in un determinato formato
+		- circa un formattazione, organizza lo spazio su disco secondo una struttura specifica preparando quella zona di memoria per memorizzare file in un determinato formato
 	- `-t`: specifica il tipo di filesystem (es. `ext4`, `xfs`, `vfat`)
 	- ` device`: device su cui creare il filesystem, device file in `/dev` oppure file regolare, creato con `dd`
 		- se è un device non deve essere montato

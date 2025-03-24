@@ -14,6 +14,7 @@
 	- [[File System#Cambiare i permessi di un file|Cambiare i permessi di un file]]
 	- [[File System#Cambiare owner e gruppo di un file|Cambiare owner e gruppo di un file]]
 - [[Cheat sheet filesystem]]
+- [[Processi]]
 
 
 [[Esercizi]]

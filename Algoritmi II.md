@@ -23,7 +23,6 @@
 
 [[uguaglianze asintotiche]]
 
-- [ ] file di recap costo algoritmi fatti??
 - [ ] esercizi
 
 to-do

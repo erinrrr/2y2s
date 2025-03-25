@@ -1,12 +1,10 @@
-*%% lezione 28/02/2025 - %%*
-
 Definizione di grafo: $G(V,E)$
 $|V|=n, \ V$ è l'insieme dei nodi (finito)
 $|E|= m, \ E \subseteq V \times V$ è un insieme di archi che possono essere orientati (grafo diretto) o meno (grafo non diretto) dove: arco = coppie di nodi
 - $0 \le m \le n(n-1) = O(n^2)$ se il grafo è diretto
 - $0 \le m \le \frac{n(n-1)}{2} = O(n^2)$ se il grafo è non diretto[^1]
  
- ![[dir/dir algoritmi/asset/file 1.png|dir algoritmi/asset/file 1.png]]
+ ![[dir/dir algoritmi/asset/file 1.png]]
 
 Esistono diverse caratterizzazioni di grafi: 
 - grafi sparsi: se $m = O(n)$, quindi "ha pochi archi"

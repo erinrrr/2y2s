@@ -19,7 +19,8 @@
 	- [[Processi#Stati di un processo|Stati di un processo]]
 	- [[Processi#Modalità di esecuzione dei processi|Modalità di esecuzione dei processi]]
 	- [[Processi#Alcuni comandi|Alcuni comandi]]
-
+- [[Introduzione a C]]
+- 
 [[Esercizi]]
 
 to-do

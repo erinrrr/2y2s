@@ -84,7 +84,7 @@ alcune aree di memoria potrebbero essere condivise:
 	- il comando `i+1` non deve necessariamente usare l'output/stderror del comando `i` quindi quello precedente
 
 --- 
-###### Altri comandi
+###### Alcuni comandi
 - `ps [opzioni] [pid]`: display information about a selection of the active processes
 	- `-e`: tutti i processi di tutti gli utenti 
 	- `-u {userlist}`: tutti i processi degli utenti specificati

@@ -15,7 +15,10 @@
 	- [[File System#Cambiare owner e gruppo di un file|Cambiare owner e gruppo di un file]]
 - [[Cheat sheet filesystem]]
 - [[Processi]]
-
+	- [[Processi#Rappresentazione dei processi|Rappresentazione dei processi]]
+	- [[Processi#Stati di un processo|Stati di un processo]]
+	- [[Processi#Modalità di esecuzione dei processi|Modalità di esecuzione dei processi]]
+	- [[Processi#Alcuni comandi|Alcuni comandi]]
 
 [[Esercizi]]
 

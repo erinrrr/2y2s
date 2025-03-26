@@ -64,3 +64,75 @@ alcune aree di memoria potrebbero essere condivise:
 	- mentre il job viene eseguito in background si possono dare altri comandi alla shell
 <br>
 - il comando `sleep` ci permette di generare un processo che si mette in pausa per un tempo specificato nell'argomento
+	- possiamo scegliere la modalità, di base viene lanciato in foreground
+	- se inseriamo `&` viene inserito in background
+<br>
+- possiamo vedere il numero di job in esecuzione con `jobs [-l] [-p]`
+	- `bg`: porta un processo in background
+	- `fg`: porta un processo in foreground
+	- facendo `CTRL + Z` stoppiamo un processo, lo risvegliamo con `bg` o `fg`
+	- `kill %job_number` termina un processo in background
+- si possono identificare job anche con:
+	- `%prefix` dove prefix è la parte iniziale del job desiderato (`%sl` per sleep)
+	- `%+` oppure `%%` per l'ultimo job mandato
+	- `%-` per il penultimo job mandato
+<br>
+- possiamo eseguire un job composto da più comandi contemporaneamente tramite il **pipelining**: 
+	- `comando1 | comando2 | ... comando n`
+	- lo standard output di un comando $i$ diventa l'input del comando $i+1$
+	- se uso `|&` ridireziono lo standard error sullo standard input del comando successivo
+	- il comando `i+1` non deve necessariamente usare l'output/stderror del comando `i` quindi quello precedente
+
+--- 
+###### Altri comandi
+- `ps [opzioni] [pid]`: display information about a selection of the active processes
+	- `-e`: tutti i processi di tutti gli utenti 
+	- `-u {userlist}`: tutti i processi degli utenti specificati
+	- `-p {pidlist}`: tutti i processi con PID nella lista specificata
+	- `-o {field}`: visualizza solo alcuni campi:
+		- PPID
+		- C: parte intera della percentuale di uso della CPU
+		- STIME: l’ora o la data in cui è stato invocato il comando
+		- TIME: tempo di uso della CPU finora
+		- CMD: comando con argomenti
+		- F: flags associati al processo
+		- S: modalità del processo
+		- UID: utente che ha lanciato il processo
+		- PRI: attuale priorità del processo
+		- NI: valore di nice da aggiungere alla priorità
+		- ADDR: indirizzo di memoria del processo
+		- SZ: dimensione totale del processo in numero di pagine sia in memoria che su disco
+		- WCHAN: se il processo è in attesa di un qualche segnale o in sleep
+<br>
+- `top` è un `ps` interattivo:
+	- `-b`: non accetta più comandi interattivi ma continua a fare refresh ogni pochi secondi
+	- `-n num`: effettua `num` refresh
+	- `-p`: funziona come in `ps
+	- da aperto `?` per avere una lista di comandi accettati
+<br>
+- `kill [-l [signal]] [-signal] [pid...]`: send a signal to a process
+	- `-l`: mostra la lista dei segnali
+	- un segnale è identificato dal numero oppure da nome `+ [SIG]`
+	- i segnali saranno presi in considerazione se il real user corrisponde con chi invia il segnale, o se lo invia un superuser
+	- alcuni segnali sono:
+		- `SIGSTOP, SIGSTP`: sospensione processo (inviabile con `ctrl + z`)
+		- `SIGCONT`: continuazione di processi stoppati
+		- `SIGKILL, SIGINT`: terminazione processi (`SIGINT` = `ctrl + c`)
+		- `bg` invia `SIGCONT` al job indicato
+		- `SIGUSR1` e `SIGUSR2` sono impostati per essere usati dall’utente per le proprie necessità, consentono una semplice forma di comunicazione tra processi [^1]
+<br>
+- `nice [-n num] [comando]`: run a program with modified scheduling priority
+	- usato senza opzioni dice quant'è il *niceness* di partenza, ossia il valore che va aggiunto alla priorità del processo
+		- default impostato a $0$
+		- varia da $-19$ a $+20$
+	- `nice comando` lancia comando con niceness uguale a 0 o a `num` se dati
+- `renice priority {pid}`:
+	- interviene su processi già in esecuzione
+- `strace [-p pid] [comando]`:
+	- lancia un comando visualizzando tutte le sue system call
+	- oppure visualizza system call del processo `pid`
+	- `-o filename` ridireziona l'output su un file
+	- utile per il debug dei programmi che utilizzano system call
+
+
+[^1]: ad esempio in un programma P1 possiamo assegnare un pezzo di codice a `SIGUSR1` e se un programma P2 invia un `SIGUSR1` a P1 questo eseguirà quel codice

@@ -26,7 +26,7 @@ potremmo modellare il problema assegnano un costo ad ogni arco, dove il costo sa
 	- non è detto che funzioni con pesi negativi
 
 l’algoritmo parte da un nodo sorgente e ad ogni passo aggiunge all’albero della ricerca l’arco che produce il nuovo cammino più economico per raggiungere un nuovo nodo, a questo nodo assegna il costo che abbiamo pagato per raggiungerlo ![[dir/dir algoritmi/asset/file 31.png]]
-###### Dimostrazione
+###### Prova di correttezza
 Pseudocodice:
 - $P[0…n−1]$ vettore dei padri inizializzato a $-1$
 - $D[0…n−1]$ vettore delle distanze inizializzato a $+\infty$
@@ -126,17 +126,17 @@ se si potesse evitare di scorrere ogni volta il vettore Lista alla ricerca del m
 def dijkstra1(s, G):
  
     n = len(G)
-    D = [float('inf')] * n  # Distanze inizialmente infinite
-    P = [-1] * n  # Predecessori inizializzati a -1
+    D = [float('inf')] * n  #distanze inizialmente infinite
+    P = [-1] * n  #predecessori inizializzati a -1
     D[s] = 0 #la sorgente dista 0 da se stessa
     P[s] = s #la sorgente è la radice dell'albero delle distanze
-    H = []  # Min-heap
+    H = []  #min-heap
     
     for y, costo in G[s]: #inizializziamo l'heap con i vicini della sorgente
         heappush(H, (costo, s, y))  #(costo, x=s, y)
     
     while H:
-        # Estrai il nodo con distanza minore
+        #estrai il nodo con distanza minore
         costo, x, y = heappop(H)
         if P[y] == -1:
             P[y] = x #inserisci y nel vettore dei padri come figlio di x
@@ -148,3 +148,59 @@ def dijkstra1(s, G):
  
 ```
 esiste anche una terza implementazione con l'heap di Fibonacci con costo di $O(m+n \log n)$
+
+### Minimo albero di copertura
+Il problema del minimo albero di copertura dato un grafo è:
+- l'albero al suo interno (grafo connesso aciclico)
+- che copre l'intero grafo
+- la cui somma dei costi dei suoi archi sia minima
+
+l'algoritmo di _Kruskal_ dato un grafo $G$ risolve questo problema:
+- partendo dal grafo $T$ contenente tutti i nodi di $G$ ma nessun suo arco
+- si considerano tutti gli archi in ordine crescente
+- se l'arco forma un ciclo in $T$ con archi già presi non lo prendiamo
+- restituiamo $T$ al termine
+rientra nel paradigma della tecnica greedy
+![[dir/dir algoritmi/asset/file 33.png|450]]![[dir/dir algoritmi/asset/file 34.png|450]]
+##### Prova di correttezza
+Dobbiamo dimostrare che al termine dell'algoritmo $T$ è un albero di copertura e che non c'è altro albero che costa meno
+
+mostriamo che è un albero di copertura con costo minore:
+- tra tutti gli archi di copertura di costo minimo per $G$ prendiamo quello che differisce meno da $T$, e lo chiamiamo $T^*$
+- supponiamo ora per assurdo che $T$ differisca da $T^*$
+- considerando gli archi $e_{1},e_{2}\dots$ nello stesso ordine in cui sono stati presi nel corso dell'algoritmo, sia $e$ il primo arco preso che non compare in $T^*$, questo significa che se lo inserissimo in $T^*$ otterremmo un ciclo $C$
+- allora il ciclo contiene almeno un arco $e'$ che non appartiene a $T$, altrimenti tutti gli archi di $C$ sarebbero in $T$
+- consideriamo ora l'albero $T'$ che si ottiene aggiungendo l'arco $e$ e rimuovendo l'arco $e'$ a $T^*$, il suo costo non può aumentare rispetto a quello di $T^*$ perché $costo(e)\le costo(e')$
+- allora $T'$ è un altro albero di copertura ottimo che differisce da $T$ in meno archi di quanto faccia $T^*$ il che contraddice l'ipotesi che $T^*$ differisce da $T$ nel minor numero di archi
+
+##### Implementazione
+```python 
+def kruskal(G):
+	E = [(c, u, v) for u in range(len(G)) for v,c in G[u] if u<v]
+	E.sort()
+	T = [[] for _ in G]
+	for c, u, v in E:
+		if not connessi(u, v, T):
+			T[u].append(v)
+			T[v].append(u)
+	return T
+ 
+ 
+def connessi(u, v, T):
+	def DFSr(a, b, T, visitati):
+		visitati[a] = 1
+		for z in T[a]:
+			if z == b:
+				return True
+			if not visitati[z]:
+				if DFSr(z, b, T, visitati):
+					return True
+		return False
+ 
+	visitati = [0] * len(T)
+	return DFSr(u, v, T, visitati)
+```
+costo:
+- sort esterno al for costa $O(m\log m)=O(m\log n^2)=O(m\log n)$
+- il for viene iterato $m$ volte, e il codice di connessi costa $O(n)$ quindi $O(m\cdot n)$
+- $totale =O(m\cdot n)$ 

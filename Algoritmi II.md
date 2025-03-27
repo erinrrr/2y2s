@@ -41,3 +41,7 @@ to-do
 	- [x] lezione 9
 	- [ ] lezione 10
 	- [x] lezione 11 (annullata)
+- settimana 5
+	- [ ] lezione 13
+	- [ ] lezione 14
+	- [ ] lezione 15

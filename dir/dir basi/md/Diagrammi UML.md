@@ -55,7 +55,7 @@ Supponiamo di voler modellare i sovrani di un regno, di ogni sovrano ci interess
 - nome
 - periodo in cui ha regnato
 - predecessore
-![[dir/dir basi/asset/file 8.png|dir basi/asset/file 8.png]]
+![[dir/dir basi/asset/file 8.png]]
 sappiamo che un link sono coppie di oggetti Sovrano quindi
 - siamo obbligati a dare i _nomi di ruolo_ per etichettare la coppia affinché non ci sia ambiguità, la coppia ($s_{1},s_{2}$) diventa (predecessore: $s_{1}$, successore: $s_{2}$)
 - "ogni oggetto Sovrano partecipa alla relazione successione con al massimo un predecessore e al massimo un successore" (con cardinalità che va da $0$ a $1$)

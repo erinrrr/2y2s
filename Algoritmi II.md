@@ -1,4 +1,5 @@
 [[Definizioni]]
+[[Algoritmi noti]]
 - [[Grafi]]
 	- [[Grafi#Albero|Albero]]
 	- [[Grafi#Grafo planare|Grafo planare]]

@@ -13,7 +13,7 @@ grazie a questa proprietà posso costruire l'ordinamento topologico dei nodi:
 
 ```python 
 def sortTop(G):
-	#restituisce un sort topologico ST do G se esiste altrimenti lista vuota
+	#restituisce un sort topologico ST di G se esiste altrimenti lista vuota
     n = len(G)
     gradoEnt = [0] * n #θ(n)
     for i in range(n): #creaiamo un array che assegna a indx[nodo] il valore di archi entratnti O(m)

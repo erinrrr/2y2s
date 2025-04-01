@@ -133,6 +133,7 @@ def Padri(u,G):
 	return P
 ```
 il vettore dei padri rimane lo stesso salvo modifiche del tipo aggiunta/rimozione archi/nodi
+
 ##### Cammino 
 Il vettore dei padri radicato in $x$ permette di verificare se un nodo $y$ è raggiungibile ma anche di ricostruire il percorso da $x$ a $y$:
 - se $P[y]\ne-1$ allora $y$ è raggiungibile
@@ -141,7 +142,7 @@ Il vettore dei padri radicato in $x$ permette di verificare se un nodo $y$ è ra
 
 codice $O(n)$ (se si dispone del vettore dei padri):
 ```python
-	Def CamminoR(u.P):
+	def CamminoR(u.P):
 		if P[u] == -1 return []
 		if P[u] == u return [u]
 		return CamminoR(P[u],P) +u 
@@ -199,7 +200,7 @@ Dato un grafo $G$ diretto o non diretto ed un suo nodo $u$ vogliamo sapere s
 ![[dir/dir algoritmi/asset/file 19.png|dir algoritmi/asset/file 19.png]]
 partendo da questo grafo e dal nodo $1$ è possibile raggiungere il ciclo $2,4,6$ un idea per questo problema potrebbe essere: fare una ricerca e se si visita un nodo già visitato allora siamo in un ciclo[^7], ma non funziona nel caso avessimo a che fare con grafi non diretti in quanto due nodi se sono collegati appariranno ciascuno nella lista di adiacenza dell'altro e questo viene interpretato come un ciclo di lunghezza $2$ dall'algoritmo andando a restituire True
 
-[^5]: ```python 
+[^7]: ```python 
 def ciclo(u, G):
 	visitati = [0] * len(G)
 	return DFSr(u, G, visitati)
@@ -278,9 +279,9 @@ def cicloD(u, G):
 	return DFSr(u, G, visitati)
 ```
 
-complessità $O(n+m)$ in quanto devo visitarlo tutto non importa da che punto parto, stessa cosa vale nel caso di grafi diretti[^7]
+complessità $O(n+m)$ in quanto devo visitarlo tutto non importa da che punto parto, stessa cosa vale nel caso di grafi diretti[^8]
 
-[^7]: ```python 
+[^8]: ```python 
 def cicloD(G):
 	visitati = [0] * len(G)
 	for u in range(len(G)):
@@ -306,21 +307,21 @@ Per trovare i ponti potremmo:
 	- nota: se un arco non è un ponte, significa che esiste almeno un altro percorso alternativo
 	- proprietà: se prendiamo $(u,v)$ un arco dell’albero DFS con $u$ padre e $v$ figlio, l’arco è un ponte se e solo se non ci sono altri archi tra i nodi del sottoalbero radicato in $v$ e il nodo $u$o antenati di $u$ 
 	- ![[dir/dir algoritmi/asset/file 24.png|200]] cancellare l’arco $u−v$ in questo grafo non lo disconnette, abbiamo l’arco $x−y$ che ci “protegge”, dove $x$ è discendente di $v$ e $x$ è antenato di $u$, l'arco $u$ non ha informazioni tali da poter capire se l'arco $(u,v)$ è un ponte, ma lo scoprirà una volta terminata la visita di $v$
-	- algoritmo:[^8]
+	- algoritmo:[^9]
 		- Nodo $v$: esplora il proprio sottoalbero e restituisce al padre $u$ il valore $b$, cioè il livello minimo raggiungibile da $v$ e i suoi discendenti utilizzando anche eventuali archi all’indietro
 		- Nodo $u$: confronta $b$ con la propria altezza, se b è maggiore dell’altezza di $u$, l’arco $(u, v)$ è l’unico collegamento, dunque è un ponte; altrimenti, c’è un percorso alternativo che collega il sottoalbero di $v$ a $u$ o ad un suo antenato, per cui l’arco non è un ponte
 	- ricordiamo di non dover considerare l’arco stesso per il calcolo dell’altezza minima da restituire
-	- implementazione in $O(n+m)$ [^9]
+	- implementazione in $O(n+m)$ [^10]
 ![[dir/dir algoritmi/asset/file 26.png|dir algoritmi/asset/file 26.png]]
 
-[^8]: algoritmo dettagliato:
+[^9]: algoritmo dettagliato:
 	- per ogni arco padre - figlio $(u,v)$ presente nell’albero DFS il nodo $u$ è in grado di scoprire se l’arco $(u,v)$ è ponte o meno usando questa strategia:
 		- ogni nodo $v$
 			- calcola la sua altezza nell’albero
 			- calcola e restituisce al padre l’altezza minima che si può raggiungere con archi che partono dai nodi del suo sottoalbero diversi dall’arco $(u,v)$
 		- Il nodo $u$ ricevuta l’informazione dal figlio $v$ confronta la sua altezza con quella ricevuta del figlio, affinché l’arco sia ponte, l’altezza di $u$ deve essere minore di quella restituita dal figlio
 
-[^9]: ```python 
+[^10]: ```python 
 	def trova_ponti(G):
 	    """ 
 	    trova tutti i ponti in un grafo connesso non orientato G.
@@ -349,8 +350,8 @@ Per trovare i ponti potremmo:
 	    return ponti
 	```
 
-- un punto di articolazione è un vertice la cui rimozione è in grado di sconnettere il grafo
-- un grafo cactus è un grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo
+- un _punto di articolazione_ è un vertice la cui rimozione è in grado di sconnettere il grafo
+- un _grafo cactus_ è un grafo connesso non orientato in cui ogni arco appartiene al massimo ad un ciclo
 	- in un grafo cactus due cicli distinti possono avere al massimo un vertice in comune, senza condividerne archi 
 	- il grafo a sinistra non è cactus in quanto l'arco $(1,2)$ appartiene a due cicli![[dir/dir algoritmi/asset/file 26.png]]
 

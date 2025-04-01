@@ -138,7 +138,7 @@ def compFC(G):
 				FC[x] = c
 	return FC
 ```
-che ha complessità $\theta(n)\cdot O(n+m)=O(n^2+nm)=O(n^3)$
+che ha complessità $\theta(n)\cdot O(n+m)=O(n^2+nm)=O(n^2)$
 al caso pessimo invece è $\theta(n^3)$[^1]
 
 Per il calcolo del vettore CF delle componenti fortemente connesse sono noti diversi algoritmi non banali che lavorano in tempo (ad esempio l’algoritmo di Tarjan o quello di Kosaraju)

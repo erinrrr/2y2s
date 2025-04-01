@@ -145,7 +145,6 @@ def dijkstra1(s, G):
                 if P[v] == -1: #se v non è ancora stato aggiunto all'albero
                     heappush(H, (D[y] + peso, y, v))
     return D, P
- 
 ```
 esiste anche una terza implementazione con l'heap di Fibonacci con costo di $O(m+n \log n)$
 
@@ -204,3 +203,55 @@ costo:
 - sort esterno al for costa $O(m\log m)=O(m\log n^2)=O(m\log n)$
 - il for viene iterato $m$ volte, e il codice di connessi costa $O(n)$ quindi $O(m\cdot n)$
 - $totale =O(m\cdot n)$ 
+
+#### Union e Find
+Possiamo migliorare l'algoritmo, ricorrendo alla struttura dati **UNION-FIND**:
+- struttura dati per la collezione $C$ delle componenti connesse di un grafo di $n$ nodi
+- permette di testare efficientemente se due nodi appartengono o meno alla stessa componente connessa
+- così riduciamo la complessità a $O(m\log n)$
+- ha le operazioni:
+	- `UNION(a,b,C)`: unisce due componenti connesse `a` e `b` in `C` in tempo $O(1)$
+	- `FIND(x,C)`: trova in `C` la componente connessa in cui si trova il nodo `x` in $O(\log n)$
+```python 
+def kruskal1(G):
+	E = [(c,u,v) for u in range(len(G)) for v,c in G[u] if u<v]
+	E.sort()
+	T = [[] for _ in G]
+	C = Crea(T)
+	for c, u, v in E:
+		cu = FIND(u, C)
+		cv = FIND(v, C)
+		if cu != cv:
+			T[u].append(v)
+			T[v].append(u)
+			Union(cu, cv, C)
+	return T
+```
+dove:
+```python 
+def Crea(G):
+	C = [(i, 1) for i in range(len(G))]
+	return C
+ 
+ 
+def Find(u, C):
+	while u != C[u]:
+		u = C[u]
+	return u
+ 
+ 
+def Union(a, b, C):
+	tota, totb = C[a][1], C[b][1]
+	if tota >= totb:
+		C[a] = (a, tota + totb)
+		C[b] = (a, totb)
+	else:
+		C[b] = (b, tota + totb)
+		C[b] = (a, totb)
+```
+- il sort costa sempre $O(m\log n)$
+- il for lo iteriamo $m$ volte e al suo interno:
+    - l’estrazione dell’arco minimo richiede $\theta(1)$
+    - il FIND costa $O(\log n)$
+    - l'UNION costa $\theta(1)$
+- quindi abbiamo che il for costa $O(m \log n)+ O(m\log n)$ per il sort e quindi il totale è $O(m\log n)$

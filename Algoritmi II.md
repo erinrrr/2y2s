@@ -46,3 +46,7 @@ to-do
 	- [ ] lezione 13
 	- [ ] lezione 14
 	- [ ] lezione 15
+- settimana 6 (31/5-06/4)
+	- [ ] lezione 16
+	- [ ] lezione 17 (esonero)
+	- [ ] lezione 18

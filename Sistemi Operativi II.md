@@ -20,7 +20,6 @@
 	- [[Processi#Modalità di esecuzione dei processi|Modalità di esecuzione dei processi]]
 	- [[Processi#Alcuni comandi|Alcuni comandi]]
 - [[Introduzione a C]]
-- 
 [[Esercizi]]
 
 to-do
@@ -38,3 +37,6 @@ to-do
 - settimana 5
 	- [ ] lezione 7
 	- [ ] lezione 8
+- settimana 6 (31/5-06/4)
+	- [ ] lezione 9
+	- [ ] lezione 10 (inizio homework)

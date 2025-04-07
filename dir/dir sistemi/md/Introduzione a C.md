@@ -94,3 +94,184 @@ Una riga preceduta da `#` indica una direttiva per il preprocessore:
 	- `<>` indica che il file header è un file standard di C
 	- `""` indica che il file header è dell'utente e si trova nella directory corrente
 	- `-I` indica di specificare le directory in cui cercare gli header file
+
+## Input e Output
+input 
+- letto da tastiera, o da un altro dispositivo e memorizzato in variabili
+
+output
+- visualizzato a monitor o inviato a un altro dispositivo, prendono valori da variabili
+- `printf("format string", value-list)`: comando per mandare in output del testo
+	- value-list può contenere:
+		- sequenze di caratteri
+		- variabili
+		- costanti
+		- operazioni logico-matematiche
+	- `printf` riceve valori. ma permette di manipolare anche indirizzi di memoria e passarli come input a funzioni
+	- `scanf`: per stampare il contenuto di una locazione di memoria di cui si consce l'indirizzo
+	- possiamo usare dei caratteri speciali speciali per gestire la spaziatura
+![[dir/dir sistemi/asset/file 14.png|250]]
+
+
+- tutte le funzioni essenziali per l'I/O sono nel file `stdio.h`
+	- l'ambiente run-time di $C$ quando esegue un programma apre i file:
+		- `stdin`
+		- `stdout`
+
+## Variabili ed espressioni
+- vi sono gli identificatori che sono parole utilizzate per identificare una variabile o costante
+- vi sono anche però dei vincoli in quanto vi sono parole riservate che fanno parte dell'alfabeto del linguaggio
+![[dir/dir sistemi/asset/file 15.png|450]]
+regole per costruire identificatori validi:
+- il primo carattere deve essere:
+	- una lettere
+	- o un underscore
+	- e può essere seguito solo da qualsiasi lettera, numero o underscore
+- case-sensitive, lettere maiuscole e minuscole sono distinte
+- non consentito:
+	- virgole
+	- spazi vuoi
+	- le parole chiave
+	- iniziare con delle cifre
+	- avere un identificatore con lunghezza superiore a 31 caratteri
+
+### Variabili
+le variabili sono locazioni di memoria dove vengono memorizzati valori
+	- possono contenere un solo valore per volta
+	- ma esso può essere modificato più volte durante il ciclo di vita del programma
+esistono diversi modi per dichiarare le variabili:
+- parametri: dichiarate nell'header delle funzioni
+- globali: dichiarate fuori dalle funzioni
+- locali: all'interno di blocchi di funzioni
+	- all'inizio della funzione[^1]
+	- prima di essere usate[^2]
+
+[^1]: vantaggi:
+	- historical context: convenzione del linguaggio
+	- memory allocation: permette al compilatore di allocare tutta la memoria necessaria una sola volta, memory layout più semplice e può essere ottimizzato più facilmente
+	- scope visibility: scopo chiaro e facili da trovare
+	- error prevention: preveniamo errori del tipo usare variabili non ancora allocate
+	- code clarity: codice più facile da leggere e da mantenere
+	svantaggi:
+	- meno chiaro dove vengono inizializzate e utilizzate per la prima volta
+	- promuove l'uso di variabile per più scopi, non un ottima abitudine
+
+[^2]: vantaggi:
+	- riduce la loro vita il più possibile
+	- limita il riuso
+	svantaggi:
+	- non mostrare le variabili in un unico punto
+
+#### Dichiarazione di variabili e costanti
+- `optional_modifier data_type name_list;`
+	- `optiona_modifier`:
+		- signed, unsigned
+		- short, long
+		- const
+	- `data_type`:
+		- specifichiamo il tipo di valore:
+			- `int x;`,`double y;`, `char c;` $\dots$
+	- `name _list`:
+		- lista di nomi di variabili
+		- buona norma avere un nome che descrive al funzione della variabile
+
+##### Assegnazione di valori
+- quando una variabile viene dichiarata e non inizializzata assume un valore indeterminato
+- l'assegnazione di un valore può essere fatta:
+	- in fase di dichiarazione: `int x = 3, y = 2;`, `double dd = 9.3;` 
+	- in fase di elaborazione con l'operatore di assegnazione `=`
+	- leggendo un valore in input, ad esempio con `scanf`
+- `=` è un operatore binario:
+	- `l_value = r_value`
+		- `l_value`: solitamente una variabile o un puntatore
+		- `r_value`: valore o un espressione
+	- è possibile fare una doppia assegnazione: `a = b = 0;` [^3]
+	- un espressione è un qualcosa del tipo: `x = y + 5`
+
+#### data type for numbers:
+- whole number (Integer):
+	- short
+	- int
+	- long
+- real numbers (Floating-point)
+	- float
+	- double
+	- long double
+
+![[dir/dir sistemi/asset/file 16.png|450]]
+
+| Type        | Storage Size | Value Range                     | Precision         |
+| ----------- | ------------ | ------------------------------- | ----------------- |
+| float       | 4 byte       | 1.2E - 38 to  <br>3.4E + 38     | 6 decimal places  |
+| double      | 8 byte       | 2.3E - 308 to  <br>1.7E + 308   | 15 decimal places |
+| long double | 10 byte      | 3.4E - 4932 to  <br>1.1E + 4932 | 19 decimal places |
+
+
+###### Char
+- per i caratteri si usa il tipo `char`
+- occupano 1 byte
+- possiamo rappresentare tutti i caratteri ASCII
+	- https://www.asciitable.com/
+
+###### Boolean
+- il tipo `_Bool` può memorizzare solo `0` e `1`
+	- valori diversi da 0 vengono memorizzati come 1
+- `bool` richiede l'uso di `<stdbool.h>`
+	- memorizza `true` e `false`
+- in ogni espressione logica
+	- `0` significa `false`
+	- `1` (o qualsiasi valore da 0) significa `true`
+
+[^3]: verrà fatto prima `b = 0` poi il valore di `b` viene assegnato ad `a`
+
+
+##### Output di variabili e placeholder
+- con `printf` possiamo scrivere il valore di una variabile su `stdout`
+- `printf(format_string, expression_list)`
+	- `format_string`: deve contenere dei _placeholder_
+	- iniziano con `%` e indicano che al loro posto ci andrà:
+		- il valore di una variabile
+		- e il tipo di dato che deve essere scritto
+	- ad esempio `print("%d, %l, integerVariable, longVariable);`
+	- placeholder più comuni per integer e float
+		- `%d` o `%i`: Integer
+		- `%l`: long
+		- `%x`: per integers in esadecimale
+		- `%o`: integers in ottale
+		- `%f`,`%e`,`%g`: float, nello specifico:
+		    - `f`: formato standard
+		    - `e`: notazione scientifica
+		    - `g`: automatico
+		- `%lf`: per double
+	- formato completo di un placeholder:
+		- `%[parameter] [flags] [width] [.precision] [length] type`
+
+#### Scanf
+- `scanf(format-string, address-list)`
+	- `format-string`:
+		- contiene placeholder che dicono a `scanf` in che tipo di dato la stringa in input viene convertita
+	- `address-list`:
+		- contiene gli indirizzi di memoria in cui devono essere memorizzati i valori ricevuti in input
+- esempio `scanf("%d", &var);`
+	- `var`: è una variabile intera
+	- `&`: estrae il suo indirizzo di memoria e lo passa a `scanf`
+
+##### Operatori
+- aritmetici:
+	- `+`, `-`, `*`, `/`, `%`
+		- per `/`, il risultato dipende dai tipi di dato degli operandi, è lo stesso tipo di dato dell'operando più grande in termini di tipo di dato
+- relazionali:
+	- `==`, `!=`, `<`, `<=`, `>`, `>=`
+- logici:
+	- `!`, `&&`, `||`
+- bitwise:
+	- `&`, `|`, `~`, `^`
+- shift
+	- `<<`, `>>`
+
+- troncamento: `int x;`, `x = 3.14;`, `x` conterrà solo 3, non da warning
+
+- `++x`: pre-incremento
+- `x++`: post-incremento
+
+w

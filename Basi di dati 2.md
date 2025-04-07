@@ -32,6 +32,9 @@ to-do
 - settimana 5
 	- [ ] lezione 8 
 	- [ ] lezione 9
+- settimana 6 (31/5-06/4)
+	- [ ] lezione 10
+	- [ ] lezione 11
 
 
 dominio-association_class

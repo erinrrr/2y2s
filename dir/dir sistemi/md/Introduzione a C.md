@@ -33,7 +33,7 @@ quindi le fasi e i tool per creare ed eseguire un programma in C sono:
 	- il processo creato sarà indipendente da gcc, quindi posso eseguirlo anche su altri sistemi senza ricompilarlo
 	- stessa cosa per C++
 
-### Struttura di un programma C
+## Struttura di un programma C
 
 - Main function: il punto da cui parte il programma quindi dove
 	- dove risiede tutto il codice
@@ -65,7 +65,7 @@ ogni funzione è composta da header e basic block
 	- `return expression`
 	- ritorna al caller/invoker il valore di ritorno in base a un espressione
 
-### Compilazione, esecuzione, precompilazione, compilazione e linking
+## Compilazione, esecuzione, precompilazione, compilazione e linking
 - compilazione: `gcc -Wall program-name.c`
 	- aggiungiamo `-lm` se ci sono librerie esterne che vogliamo includere
 	- vengono stampati i messaggi di warning se presenti
@@ -137,8 +137,8 @@ regole per costruire identificatori validi:
 
 ### Variabili
 le variabili sono locazioni di memoria dove vengono memorizzati valori
-	- possono contenere un solo valore per volta
-	- ma esso può essere modificato più volte durante il ciclo di vita del programma
+- possono contenere un solo valore per volta
+- ma esso può essere modificato più volte durante il ciclo di vita del programma
 esistono diversi modi per dichiarare le variabili:
 - parametri: dichiarate nell'header delle funzioni
 - globali: dichiarate fuori dalle funzioni
@@ -274,4 +274,136 @@ esistono diversi modi per dichiarare le variabili:
 - `++x`: pre-incremento
 - `x++`: post-incremento
 
-w
+## Loop
+
+while:
+- condizione valutata prima di entrare nel loop
+- `while (expression){basic block}`: expression è un valore `true` o `false`
+- LCV: loop control variable è la variabile il cui valore controlla la ripetizione del loop
+	- deve essere dichiarata e inizializzata prima del loop
+	- testata nella condizione del loop
+	- aggiornata nel body del loop
+
+for:
+- il numero di iterazioni è noto a priori (anche se può essere modificato)
+- `for (initialization; test; increment) {basic block}`
+
+do-while:
+- simile al while ma la condizione è testata alla fine
+- il body è eseguito almeno una volta
+- `do{statements} while (condition);`
+
+
+*break statement*:
+- si usa per uscire da un ciclo
+- si usa anche per uscire dallo `switch`
+- quando viene eseguito il `break`, il ciclo termina indipendentemente dal valore della condizione
+_continue statement_:
+- il controllo passa all'iterazione successiva
+
+
+## Stringhe
+- le stringhe in $C$ sono un array (speciale) di caratteri
+- ogni elemento dell'array è un carattere della stringa
+- ultimo elemento dell'array è il carattere di fine stringa `\0`, detto anche `NULL`
+
+inizializzazione:
+- `char s[10] = "Lezione 9";`![[dir/dir sistemi/asset/file 17.png]]
+	- `\0` inserito automaticamente
+- `char r[10] = {"L","9", " ", "4", "a", "p", "r"};`
+	- è un errore! poiché non viene inserito `\0` in maniera automatica quindi non è una stringa
+- facendo `char r[10] = "L9 4apr"` il valore `r[8]` è indeterminato
+- mentre facendo `char r[] = "L9 4 apr"` viene allocata una stringa di dimensione 8
+
+gestione delle stringhe:
+- nella libreria `string.h` sono presenti diverse funzioni comode per poter gestire le stringhe
+- lunghezza: `size_t strlen(const char *s);`
+- copia
+	- creare una copia: `char *strcpy(char *dest, const char *src);`
+	- copiare al più n byte `char *strncpy(char *dest, const char *src, size_t n);`
+- confronto:
+	- `int strcmp(const char *s1, const char *s2);`
+	- confronta i primi $n$ byte di $s1$ e $s2$ `int strcmp(const char *s1, const char *s2, size_t n);`
+	- `strcmp()` restituisce un valore che indica la relazione tra le due stringhe:
+		- $value >0 \Rightarrow s1>s2$
+		- $value =0 \Rightarrow s1=s2$
+		- $value <0 \Rightarrow s1<s2$
+- concatenazione:
+	- `char *strcat(char *dest, const char *src);`
+	- concatenati al più i primi $n$ byte `char *strncat(char *dest, const char *src, size_t n);`
+
+input/output
+- oltre a `printf` con placeholder `%s`, abbiamo opzioni più flessibili per I/O
+- output
+	- `int putchar(int c);`
+		- stampa a schermo un singolo carattere (restituisce il carattere stampato o errore)
+- `int puts(const char *s)`
+	- scrive su `stdout` una stringa, inoltre aggiunge il carattere di nuova riga `\n` e non mostra il carattere null `\0`
+- `int fputs(const char *s, FILE *stream)`
+	- scrive la stringa `s` sullo stream indicato, non scrive il carattere di fine stringa `\0`
+- input
+	- `char *gets(char *s);` (deprecated)
+		- legge una linea da `stdin` e la memorizza in `s`
+	- `char *fgets(char *s, int size, FILE *stream)`
+		- legge i caratteri dal flusso indicato posizionandosi fino al primo carattere di nuova riga incluso e ne salva il contenuto in `s`
+	- `int getchar(void)`
+		- legge un carattere da `stdin` e lo restituisce in output
+
+
+## Puntatori e allocazione dinamica della memoria
+- i **puntatori** sono variabili che contengono l’indirizzo di una locazione di memoria: `<tipo> *var_name;`
+- **valore diretto**:
+	- indirizzo di un'altra cella di memoria
+	- vi si accede mediante il nome della variabile
+- **valore indiretto**:
+	- è il valore contenuto nella cella di memoria il cui indirizzo è memorizzato nel puntatore
+
+> [!info] esempio
+> ```C
+> int *ptr = &x;   // ptr contiene l'indirizzo di x
+> printf("%p\n", ptr);   // valore diretto → stampa l’indirizzo (es. 0x4d56)
+printf("%d\n", *ptr);  // valore indiretto → stampa il valore che si trova nell'indirizzo (se all'indirizzo `0x4d56` c'è `4`, allora `*ptr = 4`)
+> ```
+
+**operatori**:
+- operatore `*`
+	- assegna alla locazione di memoria puntata dalla variabile il valore a dx dell'uguale
+- operatore `&`
+	- assegna alla variabile a sx dell'uguale l'indirizzo della variabile `&var`
+> [!info] esempio
+> ```C
+> numPtr =& num; //assegna a numPtr l’indirizzo di num
+• *numPtr = 10; //assegna alla locazione di memoria puntata da numPtr il valore 10
+> ```
+
+
+**aritmetica dei puntatori**:
+- un puntatore contiene un indirizzo quindi un numero
+- ne deriva che possiamo applicare alcune operazioni aritmetiche 
+```C
+int *ptr;
+ptr = ptr + 1; //ptr viene incrementato di 4 locazioni di memoria
+ptr = ptr + n; //ptr viene incrementato di 4*n locazioni di memoria
+```
+
+
+**vettori e puntatori**:
+```C
+int vect[10];
+int *ptr = NULL;
+ptr = &vect[0]; //puntatore al primo elemento
+ptr = vect; //puntatore al vettore
+```
+- in C, il nome dell'array (`vect`) si comporta come un puntatore al primo elemento (`&vect[0]`)
+- infatti _puntatore al primo elemento_ e _puntatore al vettore_ sono la stessa cosa
+
+
+## Allocazione dinamica
+- vettori e altre variabili sono allocate nello Stack a compile-time
+- possiamo allocare memoria a run-time, essa verrà allocata nell' Heap
+```C
+void *calloc(size_t, nmemb, size_t size);
+void *malloc(size_t size);
+void free(void *ptr);
+```
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::to-finish

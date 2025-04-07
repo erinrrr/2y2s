@@ -20,6 +20,14 @@
 	- [[Processi#Modalità di esecuzione dei processi|Modalità di esecuzione dei processi]]
 	- [[Processi#Alcuni comandi|Alcuni comandi]]
 - [[Introduzione a C]]
+	- [[Introduzione a C#Ambiente di sviluppo e di esecuzione in C|Ambiente di sviluppo e di esecuzione in C]]
+	- [[Introduzione a C#Struttura di un programma C|Struttura di un programma C]]
+	- [[Introduzione a C#Compilazione, esecuzione, precompilazione, compilazione e linking|Compilazione, esecuzione, precompilazione, compilazione e linking]]
+	- [[Introduzione a C#Input e Output|Input e Output]]
+	- [[Introduzione a C#Variabili ed espressioni|Variabili ed espressioni]]
+	- [[Introduzione a C#Loop|Loop]]
+	- [[Introduzione a C#Stringhe|Stringhe]]
+	- [[Introduzione a C#Puntatori e allocazione dinamica della memoria|Puntatori e allocazione dinamica della memoria]]
 [[Esercizi]]
 
 to-do
@@ -33,10 +41,13 @@ to-do
 	- [x] lezione 4
 - settimana 4
 	- [x] lezione 5
-	- [ ] lezione 6
+	- [x] lezione 6
 - settimana 5
-	- [ ] lezione 7
-	- [ ] lezione 8
-- settimana 6 (31/5-06/4)
+	- [x] lezione 7
+	- [x] lezione 8
+- settimana 6
 	- [ ] lezione 9
 	- [ ] lezione 10 (inizio homework)
+- settimana 7 (7/4)
+	- [x] lezione 11(annullata)
+	- [ ] lezione 12

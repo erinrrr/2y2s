@@ -105,3 +105,34 @@ int main() {
 - scaricare `divione.c`
 - verificare in che ordine vengono fatte le divisioni in questa espressione
 	- `11 / 2 / 2.0 / 2`
+
+
+#### Esercizio 9
+- implementare il seguente codice usando un while loop 
+```C
+do{
+printf("Enter a positive weight: ");
+scannf("%d", &weight);
+} while (weight <= 0);
+```
+
+#### Esercizio 10
+- scrivere un programma che riceva come input un valore n che ne indica il numero di dati che debbono essere letti da stdin
+- per ogni dato letto da stdin, verificare e imporre che sia maggiore di 0 e minore di 10
+- dopo aver letto gli n dati in input ne calcola e stampa il valore della somma e il valore medio
+- farlo con:
+	- while
+	- while + do while
+	- for + while/do-while
+
+#### Esercizio 11
+- scrivere un programma che, date due stringhe $s1$ e $s2$ con `strlen(s1)>5` e `strlen(s2)>5`, copi i primi 5 caratteri di $s2$ in $s1$. Usare la funzione `strncpy`
+- scrivere un programma che date 2 stringhe $s1$ e $s2$ concateni i primi n caratteri di s1 ad s2. Usare la funzione `strncat`
+- scrivere un programma che date 2 stringhe $s1$ e $s2$ determini quella di dimensione minore, denotata come `nMin`, e confronti i primi nMin caratteri di $s1$ e $s2$
+
+#### Esercizio 12
+- progettare ed implementare una funzione che abbia lo stesso comportamento di `char *strncpy(char *dest, const char *src, size_t n);`
+- progettare ed implementare una funzione che abbia lo stesso comportamento di `char *strncat(char *dest, const char *src, size_t n);`
+
+#### Esercizio 13
+- scrivere un programma che, facendo uso della funzione `getchar` legga dallo `stdin` una stringa di lunghezza arbitraria (ovvero lunghezza non nota a priori)(file stringInput.c)

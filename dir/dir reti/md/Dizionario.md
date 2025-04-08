@@ -6,3 +6,4 @@
 - ARPANET: Advanced Research Projects Agency Network
 - DSL: Digital Subscriber Line
 - AP: Access Point
+- throughput: misura effettiva della velocità di un link

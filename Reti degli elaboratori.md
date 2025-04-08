@@ -5,7 +5,8 @@
 	- [[Rete#Classificazione delle reti]]
 	- [[Rete#Commutazione (switching)]]
 	- [[Rete#Internet]]
-
+- [[Capacità e prestazioni delle reti| lezione 2 - Capacità e prestazioni delle reti]] 
+	- 
 
 to-do
 - settimana 1

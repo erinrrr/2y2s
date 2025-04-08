@@ -1,0 +1,8 @@
+- internet = internetwork: rete costituita da due o più reti interconnesse
+- ISP: Internet Service Provider
+- rete GARR: Gruppo per l'Armonizzazione delle Reti della Ricerca
+- FDM: Frequency Division Multiplexing suddivide la banda in frequenze
+- TDM: Time Division Multiplexing suddivide il tempo di trasmissione
+- ARPANET: Advanced Research Projects Agency Network
+- DSL: Digital Subscriber Line
+- AP: Access Point

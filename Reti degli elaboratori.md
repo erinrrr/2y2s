@@ -14,6 +14,9 @@
 	- [[Introduzione alo stack protocollare TCP-IP#Strutturazione a Livelli]]
 	- [[Introduzione alo stack protocollare TCP-IP#Stack Protocollare TCP - IP]] 
 	- [[Introduzione alo stack protocollare TCP-IP#Incapsulamento e decapsulamento]]
+	- [[Introduzione alo stack protocollare TCP-IP#Multiplexing e Demultiplexing]]
+	- [[Introduzione alo stack protocollare TCP-IP#Modello TCP/IP]]
+	- [[Introduzione alo stack protocollare TCP-IP#Creare un'applicazione di rete]]
 
 
 
@@ -25,7 +28,7 @@ to-do
 - settimana 2
 	- nessuna lezione
 - settimana 3
-	- [ ] lezione 3 
+	- [x] lezione 3 
 	- [ ] lezione 4
 	- [ ] lezione 5
 - settimana 4

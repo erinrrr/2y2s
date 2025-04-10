@@ -1,6 +1,6 @@
 [[Formulario]]
 [[Dizionario]]
-[[dir/dir reti/esercizi/esercizi]]
+[[dir/dir reti/esercizi/esercizi|esercizi]]
 - [[Rete|lezione 1 - Rete]]
 	- [[Rete#Composizione della rete]]
 	- [[Rete#Classificazione delle reti]]
@@ -10,6 +10,11 @@
 	- [[Capacità e prestazioni delle reti#Struttura di Internet]]
 	- [[Capacità e prestazioni delle reti#Capacità e prestazioni]]
 	- [[Capacità e prestazioni delle reti#Latenze e perdite]]
+- [[Introduzione alo stack protocollare TCP-IP|lezione 3 - Introduzione alo stack protocollare TCP-IP]]
+	- [[Introduzione alo stack protocollare TCP-IP#Strutturazione a Livelli]]
+	- [[Introduzione alo stack protocollare TCP-IP#Stack Protocollare TCP - IP]] 
+	- [[Introduzione alo stack protocollare TCP-IP#Incapsulamento e decapsulamento]]
+
 
 
 

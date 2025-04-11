@@ -7,15 +7,12 @@
 >   
 >   il server è un programma che usa il protocollo
 
-
-
-
 esempio: due amiche vogliono parlarsi per posta e assicurarsi che nessun altro possa leggere i loro messaggi, dovranno usare anche dei corrieri per spedire le lettere
 ![[dir/dir sistemi/asset/file 18.png]]
 ad ogni livello sembrerà di parlare soltanto con il livello simmetrico dall’altro lato, diciamo quindi che non conoscono tutta la struttura che esiste oltre a loro
 
 
-## Strutturazione a Livelli
+## Strutturazione a livelli
 - si basa sul suddividere un compito complesso in più compiti semplici
 - **modularizzazione**, indipendenza dei livelli:
 	- un modulo (livello) può essere considerato come:
@@ -27,7 +24,7 @@ ad ogni livello sembrerà di parlare soltanto con il livello simmetrico dall’a
 	- un livello usa servizi dal livello inferiore e offre servizi al livello superiore
 	- indipendentemente dall'implementazione
 
-### Principi della strutturazione a Livelli
+### Principi della strutturazione a livelli
 se richiesta una comunicazione bidirezionale:
 - ogni livello deve essere capace di effettuare il compito in entrambe le direzioni
 - gli oggetti in input/output devono essere identici:
@@ -45,7 +42,7 @@ se richiesta una comunicazione bidirezionale:
 > ![[dir/dir sistemi/asset/file 22.png]]
 
 
-## Stack Protocollare TCP - IP
+## Stack protocollare TCP - IP
 - gerarchia di protocolli costituita da moduli interagenti
 - ogni livello fornisce funzionalità specifiche_
 	1. applicazione (lvl 5, il più vicino all'utente)
@@ -120,7 +117,7 @@ se richiesta una comunicazione bidirezionale:
 
 
 
-## Incapsulamento e decapsulamento
+## Incapsulamento e Decapsulamento
 **incapsulamento**:
 - prende il pacchetto dal livello superiore gli aggiunge un header
 - _header_ contiene informazione necessari per la comunicazione peer-to-peer

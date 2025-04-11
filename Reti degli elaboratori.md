@@ -11,14 +11,13 @@
 	- [[Capacità e prestazioni delle reti#Capacità e prestazioni]]
 	- [[Capacità e prestazioni delle reti#Latenze e perdite]]
 - [[Introduzione alo stack protocollare TCP-IP|lezione 3 - Introduzione alo stack protocollare TCP-IP]]
-	- [[Introduzione alo stack protocollare TCP-IP#Strutturazione a Livelli]]
-	- [[Introduzione alo stack protocollare TCP-IP#Stack Protocollare TCP - IP]] 
-	- [[Introduzione alo stack protocollare TCP-IP#Incapsulamento e decapsulamento]]
+	- [[Introduzione alo stack protocollare TCP-IP#Strutturazione a livelli]]
+	- [[Introduzione alo stack protocollare TCP-IP#Stack protocollare TCP - IP]] 
+	- [[Introduzione alo stack protocollare TCP-IP#Incapsulamento e Decapsulamento]]
 	- [[Introduzione alo stack protocollare TCP-IP#Multiplexing e Demultiplexing]]
 	- [[Introduzione alo stack protocollare TCP-IP#Modello TCP/IP]]
 	- [[Introduzione alo stack protocollare TCP-IP#Creare un'applicazione di rete]]
-
-
+- [[Livello applicazione - HTTP, cookie, web cache| lezione 4 - Livello applicazione: HTTP, cookie, web cache]]
 
 
 to-do

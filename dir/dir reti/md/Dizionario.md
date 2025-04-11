@@ -7,3 +7,5 @@
 - DSL: Digital Subscriber Line
 - AP: Access Point
 - throughput: misura effettiva della velocità di un link
+- HTML: HyperText Markup Language
+-  URL: Uniform Resource Locator

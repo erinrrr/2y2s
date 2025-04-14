@@ -1,7 +1,17 @@
 ### Delay
 - **Transmission delay**: $R_{t} = \dfrac{L}{R}$
 	- $L$ = lunghezza del pacchetto (in bit)
-	- $R$ = Rate del collegamento (in bps)
+	- $R$ = rate del collegamento (in bps)
+- **intensità del traffico**: $\dfrac{La}{R}$
+	- come transmission delay, ma si usa quando si hanno $a$ pacchetti, si considera il traffico di più pacchetti contemporaneamente
+	- quanto carico metti sul link considerando a pacchetti contemporaneamente
+	- se tende a 1: il link è molto carico
+	- $a$ = la frequenza, quante richieste o pacchetti arrivano in un secondo (req/sec)
+	- sulla LAN, $L$ = quanto è grande una richiesta (Mb/req)
 - **Propagation delay**: $R_{p} = \dfrac{d}{s}$
 	- $d=$ lunghezza del collegamento
 	- $s=$ velocità di propagazione del collegamento ($\sim 2\cdot10^8 m/\sec$)
+- **tempo di risposta**: $2RTT + \text{tempo di trasmissione}$
+- **total delay**: $\text{LAN delay}+\text{access delay}+\text{Internet delay}$
+	- indica il tempo di risposta totale
+	- $\text{Internet delay}$ = $2sec$

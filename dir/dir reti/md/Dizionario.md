@@ -8,4 +8,19 @@
 - AP: Access Point
 - throughput: misura effettiva della velocità di un link
 - HTML: HyperText Markup Language
--  URL: Uniform Resource Locator
+- URL: Uniform Resource Locator
+- RTT: Round Trip Time
+- codici di stato della risposta HTML
+	- 200: ok
+	- 301: moved permanently
+	- 400: bad request
+	- 403: forbidden page (vietato per motivi di autorizzazione)
+	- 404: page not found
+	- 505: HTTP version not supported
+	- generally:
+		- `1xx`: information
+		- `2xx`: success
+		- `3xx`: redirection
+		- `4xx`: client error
+		- `5xx`: server error
+- SID: Session ID

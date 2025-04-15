@@ -1,3 +1,4 @@
+## Sigle
 - internet = internetwork: rete costituita da due o più reti interconnesse
 - ISP: Internet Service Provider
 - rete GARR: Gruppo per l'Armonizzazione delle Reti della Ricerca
@@ -30,3 +31,6 @@
 - RR: Resource Record
 - TTL: Time To Live
 - FTP: File Transfer Protocol
+
+## parole parole parole
+- condotta: quantità di pacchetti che possono essere inviati senza riscontro

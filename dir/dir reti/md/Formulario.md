@@ -40,4 +40,15 @@
 		- $N$ = numero di flussi attivi
 		- quando un collegamento è condiviso tra più flussi, il throughput per ogni flusso si calcola dividendo la capacità per il numero di flussi attivi
 	- [[dir/dir reti/esercizi/esercizi#Esercizio 9|esempio]]
-	- 
+- **prodotto banda-ritardo (Bandwidth-Delay Product)**:
+	- $BDP = R \cdot d_{prop}$ 
+		- se ci interessa il ritardo di propagazione
+	- $BDP = R \cdot RTT$
+		- se ci interessa la quantità di dati "in volo" durante un’intera andata e ritorno (RTT)
+	- $R$ = capacità del link (bps)
+	- $d_{prop}$ = propagation delay
+	- misura la quantità massima di dati che può "risiedere" sul collegamento in un dato momento (cioè "in volo")
+    - si interpreta come: quanti bit possono essere presenti nel collegamento mentre un bit viaggia dalla sorgente alla destinazione
+    - utile per:
+	    - valutare quanto buffer può essere necessario
+	    - capire quanta finestra di trasmissione serve per mantenere pieno il canale (in TCP)

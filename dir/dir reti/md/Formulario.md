@@ -39,4 +39,5 @@
 		- $R$ = capacità totale del link condiviso
 		- $N$ = numero di flussi attivi
 		- quando un collegamento è condiviso tra più flussi, il throughput per ogni flusso si calcola dividendo la capacità per il numero di flussi attivi
-	- [[dir/dir reti/esercizi/esercizi#Esercizio 9|esercizi|esempio]]
+	- [[dir/dir reti/esercizi/esercizi#Esercizio 9|esempio]]
+	- 

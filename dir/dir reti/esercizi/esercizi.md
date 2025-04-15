@@ -12,4 +12,7 @@ risoluzione:
 - $R_{t}= \dfrac{L}{R}= \dfrac{8000\ bit}{2 \cdot 10^6 \ bps} = 0.004 = 4\cdot 10^{-3} \ s$
 - $R_{p} = \dfrac{d}{s} = \dfrac{2,5 \cdot 10^6 \ m}{2,5 \cdot 10^8 \ m/s} = 0.01 = 1\cdot 10^{-2} \ s$
 - $D_{tot} = 0.004 \ s+0.01 \ s = 0.014 \ s$
-
+# Esercitazione intro, prestazione, applicazione
+## Esercizio 9
+![[dir/dir reti/asset/file 34.png]]
+![[dir/dir reti/asset/file 35.png]]

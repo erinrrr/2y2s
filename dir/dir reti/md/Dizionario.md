@@ -24,3 +24,9 @@
 		- `4xx`: client error
 		- `5xx`: server error
 - SID: Session ID
+- DNS: Domain Name System (DNS locale: default name server)
+- UDP: User Datagram Protocol
+- TLD: Top Level Domain
+- RR: Resource Record
+- TTL: Time To Live
+- FTP: File Transfer Protocol

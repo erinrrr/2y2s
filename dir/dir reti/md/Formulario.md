@@ -15,3 +15,28 @@
 - **total delay**: $\text{LAN delay}+\text{access delay}+\text{Internet delay}$
 	- indica il tempo di risposta totale
 	- $\text{Internet delay}$ = $2sec$
+- **RR format**: (name, value, type, TTL)
+	- type A:
+		- map: Hostname ➔ IP address
+		- name = hostname
+		- value = ip Address
+	- type CNAME:
+		- map: Alias ➔ Canonical Name
+		- name = alias
+		- value = Canonic NAME
+	- type NS:
+		- map: Domain name ➔ Name Server
+		- name = dominio
+		- value = Nome del Server authoritative di quel dominio
+	- type MX:
+		- map: Alias ➔ mail server canonical name
+		- name = _name_
+		- value = nome canonico del server di posta associato a _name_
+- **link usage**: 
+	- $\text{Utilizzo} = \dfrac{\text{Throughput effettivo}}{\text{Capacità del link}} \times 100\%$
+		- indica quanto di un collegamento viene effettivamente usato rispetto alla sua capacità totale
+	- $\text{Throughput per flusso} = \dfrac{R}{N}$
+		- $R$ = capacità totale del link condiviso
+		- $N$ = numero di flussi attivi
+		- quando un collegamento è condiviso tra più flussi, il throughput per ogni flusso si calcola dividendo la capacità per il numero di flussi attivi
+	- [[dir/dir reti/esercizi/esercizi#Esercizio 9|esercizi|esempio]]

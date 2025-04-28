@@ -50,19 +50,19 @@ to-do
 	- [ ] lezione 16
 	- [ ] lezione 17 (esonero)
 	- [ ] lezione 18
-- settimana 8
+- settimana 7
 	- [ ] lezione 19
 	- [ ] lezione 20
 	- [ ] lezione 21
-- settimana 9
+- settimana 8
 	- [ ] lezione 22
 	- [ ] lezione 23
 	- [ ] lezione 24
-- settimana 10
+- settimana 9
 	- [x] lezione 25 (pasquetta)
 	- [ ] lezione 26
 	- [x] lezione 27 (liberazione)
-- settimana 11 (28/04)
+- settimana 10 (28/04)
 	- [ ] lezione 28
 	- [ ] lezione 29
 	- [ ] lezione 30

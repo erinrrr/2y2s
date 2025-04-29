@@ -1,4 +1,4 @@
-Ok i'll try to be constant and publish my uni note, now it's public so we'll see till when i'll last
+ok i'll try to be constant and publish my uni note, now it's public so we'll see till when i'll last
 - bacione e menzione ad [alessio](https://github.com/alem1105) a cui rubo qualcosina
 
 <div style="text-align: center;">
@@ -7,8 +7,7 @@ Ok i'll try to be constant and publish my uni note, now it's public so we'll see
 to do:
 - [ ] quartz
 - [ ] private folder??
-- [x] fix img dim on github
-- [x] auto-pathing img
+- [ ] fix repo structure
 
 
 [[Algoritmi II]]

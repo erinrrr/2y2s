@@ -123,6 +123,7 @@ se si potesse evitare di scorrere ogni volta il vettore Lista alla ricerca del m
 - risolvendo il problema in $O((n+m)\log n)$
 	- se il grafo è denso $\Rightarrow O(n^2\log n)$
 ```python 
+from heapq import heappush, heappop
 def dijkstra1(s, G):
  
     n = len(G)
@@ -148,7 +149,7 @@ def dijkstra1(s, G):
 ```
 esiste anche una terza implementazione con l'heap di Fibonacci con costo di $O(m+n \log n)$
 
-### Minimo albero di copertura
+## Minimo albero di copertura
 Il problema del minimo albero di copertura dato un grafo è:
 - l'albero al suo interno (grafo connesso aciclico)
 - che copre l'intero grafo
@@ -204,7 +205,7 @@ costo:
 - il for viene iterato $m$ volte, e il codice di connessi costa $O(n)$ quindi $O(m\cdot n)$
 - $totale =O(m\cdot n)$ 
 
-#### Union e Find
+## Union e Find
 Possiamo migliorare l'algoritmo, ricorrendo alla struttura dati **UNION-FIND**:
 - struttura dati per la collezione $C$ delle componenti connesse di un grafo di $n$ nodi
 - permette di testare efficientemente se due nodi appartengono o meno alla stessa componente connessa
@@ -255,3 +256,7 @@ def Union(a, b, C):
     - il FIND costa $O(\log n)$
     - l'UNION costa $\theta(1)$
 - quindi abbiamo che il for costa $O(m \log n)+ O(m\log n)$ per il sort e quindi il totale è $O(m\log n)$
+
+[[Struttura dati per insiemi disgiunti]]
+
+## Cammini con pesi negativi

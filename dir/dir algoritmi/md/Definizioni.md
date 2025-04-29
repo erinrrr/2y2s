@@ -48,6 +48,7 @@ $G(V,E)$
 - un grafo può essere né sparso né denso
 - grafo vuoto: grafo senza archi
 - ciclo dispari: grafo ciclico di dispari nodi
+- ciclo negativo: ciclo diretto in un grafo la cui somma dei pesi degli archi che lo compongono è negativa
 
 ##### tipi di grafi
 - _grafo planare_: grafi che possono essere disegnati senza che gli archi si intersechino
@@ -101,6 +102,8 @@ In un grafo diretto sommando le liste ottengo tutti i nodi raggiunti dagli archi
 - Albero **DFS**: albero formato durante una visita DFS composto da nodi e archi effettivamente traversati
 - Albero **BFS**: albero formato durante una visita BFS, detto *albero dei cammini minimi*
 - albero radicato: albero in cui abbiamo definito una radice
+- albero bilanciato: albero in cui l'altezza dei sottoalberi di ciascun nodo differiscano al massimo di una quantità predefinita (solitamente 1)
+	- utile per mantenere basso il costo delle operazioni di ricerca, inserimento e cancellazione, garantendo complessità $O(\log n)$
 ### Chi preferire? 
 - Si preferisce una matrice quando
 	abbiamo un numero di archi vicino a $n^2$ ovvero un grafo denso e se dobbiamo controllare frequentemente l’esistenza di archi o in generale vogliamo accessi costanti
@@ -143,9 +146,16 @@ un algoritmo è:
 - **corretto**: funziona per tutti gli input del problema
 - **euristicamente corretto**: non garantisce sempre la soluzione ottima, ma spesso ne trova una buona
 - **sbagliato**: non restituisce la risposta corretta per almeno un input
+- [[Algoritmi noti]]
+--- 
+
 - **UNION-FIND**: struttura dati per la collezione $C$ delle componenti connesse di un grafo di $n$ nodi, testa efficientemente appartengono o meno alla stessa componente connessa
+
 [^4]: credo che sia circa $2^{\Omega(n)}$, ma senza l'uguale: chat mi conferma che è così e si scrive $2^{\omega(n)}$, $\omega$ indica crescita strettamente maggiore
 
+---
+# ottimizzazione e approssimazione
+_copertura tramite nodi_: dato un grado non diretto $G$, essa è un sottoinsieme $S$ dei suoi nodi tale che tutti gli archi di $G$ hanno almeno un estremo in $S$
 
-## Algoritmi noti
-[[Algoritmi noti]]
+- **algoritmi di approssimazione**
+- **euristiche**

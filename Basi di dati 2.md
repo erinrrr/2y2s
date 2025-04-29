@@ -35,9 +35,18 @@ to-do
 - settimana 6 
 	- [ ] lezione 10
 	- [ ] lezione 11
-- settimana 7 (07/04)
-	- [ ] lezione 12
+- settimana 7
+- [ ] lezione 12
 	- [ ] lezione 13
+ settimana 8
+	- [ ] lezione 14
+	- [ ] lezione 15
+ settimana 9
+	- [ ] lezione 16
+	- [ ] lezione 17
+ settimana 10 (28/04)
+	- [ ] lezione 18
+	- [ ] lezione 19
 
 
 dominio-association_class

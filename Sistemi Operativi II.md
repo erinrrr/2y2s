@@ -28,6 +28,7 @@
 	- [[Introduzione a C#Loop|Loop]]
 	- [[Introduzione a C#Stringhe|Stringhe]]
 	- [[Introduzione a C#Puntatori e allocazione dinamica della memoria|Puntatori e allocazione dinamica della memoria]]
+
 [[dir/dir reti/esercizi/esercizi]]
 
 to-do
@@ -48,6 +49,15 @@ to-do
 - settimana 6
 	- [ ] lezione 9
 	- [ ] lezione 10 (inizio homework)
-- settimana 7 (7/4)
+- settimana 7
 	- [x] lezione 11(annullata)
 	- [ ] lezione 12
+- settimana 8
+	- [ ] lezione 13
+	- [ ] lezione 14
+- settimana 9
+	- [ ] lezione 15
+	- [ ] lezione 16
+- settimana 10 (28/4)
+	- [ ] lezione 17
+	- [ ] lezione 18

@@ -42,7 +42,19 @@ to-do
 	- [ ] lezione 12
 	- [ ] lezione 13
 	- [ ] lezione 14
-- settimana 7 (07/04)
+- settimana 7
 	- [ ] lezione 15
 	- [ ] lezione 16
 	- [ ] lezione 17
+- settimana 8
+	- [ ] lezione 18
+	- [ ] lezione 19
+	- [ ] lezione 20
+- settimana 9
+	- [ ] lezione 21
+	- [ ] lezione 22
+	- [ ] lezione 23
+- settimana 10 (28/04)
+	- [ ] lezione 24
+	- [ ] lezione 25
+	- [ ] lezione 26

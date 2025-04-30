@@ -121,3 +121,5 @@ def assegnazioneAule(lista):
 - il for viene eseguito $n$ volte
 	- al caso pessimo può essere eseguita un'estrazione dall'heap seguita da un inserimento, entrambe costano $O(\log n)$ il for costa-> $O(n\log n)$
 - costo totale -> $\theta(n\log n)$
+
+[[esercizi algo#Esercizio slide 13 algoritmi greedy]]

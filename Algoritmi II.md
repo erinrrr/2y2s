@@ -29,8 +29,9 @@
 - [[Algoritmi Greedy]]
 
 
-
 [[uguaglianze asintotiche]]
+
+[[esercizi algo]]
 
 - [ ] esercizi
 

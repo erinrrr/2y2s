@@ -145,4 +145,4 @@ prova:
 		supponiamo che $ca$ abbia altezza $h$ e $cb < h$
 		l'altezza dopo la fusione è quella della componente di altezza maggiore che doveva essere già di altezza $h$, in questo caso $ca$, e conteneva da sola già $2^h$ elementi per ipotesi induttiva, quindi la nuova componente avrà almeno $2^h$nodi, contraddizione anche in questo caso
 
-![[Pasted-image-20250325192830.png]]
+![[file 38.png]]

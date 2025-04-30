@@ -21,7 +21,11 @@
 	- [[Grafi#Tecnica greedy e grafi pesati|Tecnica greedy e grafi pesati]]
 		- [[Grafi Pesati]]
 			- [[Grafi Pesati#Algoritmo di Dijkstra]]
-			- [[Grafi Pesati#Minimo albero di copertura]] 
+			- [[Grafi Pesati#Minimo albero di copertura]]
+			- [[Grafi Pesati#Union e Find]]
+				- [[Struttura dati per insiemi disgiunti]]
+			- [[Grafi Pesati#Cammini con pesi negativi e algoritmo di Bellman-Ford]]
+				- [[Cammini con pesi negativi]]
 
 [[uguaglianze asintotiche]]
 
@@ -44,8 +48,8 @@ to-do
 	- [x] lezione 10
 	- [x] lezione 11 (annullata) (ha lasciato degli esercizi da fare)
 - settimana 5
-	- [ ] lezione 12
-	- [ ] lezione 13
+	- [x] lezione 12
+	- [x] lezione 13
 	- [ ] lezione 14 (esercizi)
 - settimana 6
 	- [ ] lezione 15

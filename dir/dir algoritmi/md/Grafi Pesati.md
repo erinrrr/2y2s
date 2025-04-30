@@ -259,4 +259,5 @@ def Union(a, b, C):
 
 [[Struttura dati per insiemi disgiunti]]
 
-## Cammini con pesi negativi
+## Cammini con pesi negativi e algoritmo di Bellman-Ford
+[[Cammini con pesi negativi]]

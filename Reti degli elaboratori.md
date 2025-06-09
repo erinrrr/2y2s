@@ -20,6 +20,8 @@
 - [[Livello applicazione - HTTP, cookie, web cache| lezione 4 - Livello applicazione: HTTP, cookie, web cache]]
 
 
+[[Nozioni importanti, esame speed run]]
+
 to-do
 - settimana 1
 	- [x] lezione 1

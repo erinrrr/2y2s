@@ -51,3 +51,6 @@ una pagina web è costituita da:
 - protocollo che lavora a livello di applicazione del web
 - definisce come i client web richiedono pagine ai server web e come questi le trasferiscono ai client
 - basato su scambi di messaggi, modello client-server (request-response)
+- lato client:
+	- il browser web implementa l'interfaccia verso l'utente e il protocollo applicativo
+	1. il browser determina l'url

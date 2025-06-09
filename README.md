@@ -14,3 +14,11 @@ to do:
 [[Basi di dati 2]]
 [[Sistemi Operativi II]]
 [[Reti degli elaboratori]]
+
+
+| materie | appello giugno | appello luglio | appello settembre |
+| ------- | -------------- | -------------- | ----------------- |
+| algo2   | 05/06/2025     | 04/07/2025     | 19/09/2025        |
+| so2     | 09/06/2025     | 11/07/2025     | 09/09/2025        |
+| reti    | 16/06/2025     | 09/07/2025     | 10/09/2025        |
+| bd2     |                |                |                   |

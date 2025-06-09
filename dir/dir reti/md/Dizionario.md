@@ -31,6 +31,9 @@
 - RR: Resource Record
 - TTL: Time To Live
 - FTP: File Transfer Protocol
+- NAT: Network Address Translation [^1]
 
 ## parole parole parole
 - condotta: quantità di pacchetti che possono essere inviati senza riscontro
+
+[^1]: meccanismo che consente a più dispositivi in una rete locale (LAN) di condividere un unico indirizzo IP pubblico

@@ -32,6 +32,12 @@
 - TTL: Time To Live
 - FTP: File Transfer Protocol
 - NAT: Network Address Translation [^1]
+- ICANN: Internet Corporation for Assigned Names and Numbers
+- NAP: National Access Point
+- UA: User Agent
+- MTA: Message Transfer Agent
+- MAA: Message Access Agent
+
 
 ## parole parole parole
 - condotta: quantità di pacchetti che possono essere inviati senza riscontro

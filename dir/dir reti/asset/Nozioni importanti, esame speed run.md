@@ -3,7 +3,24 @@
 
 - differenza trasmissione-propagazione:
 	- la trasmissione è il tempo necessario a un nodo per far uscire il pacchetto quindi varia in base al rate del link e alla lunghezza del pacchetto.
-	- la propagazione invece indica il tempo che impiega un bit per percorrere il percorso una volta fuori dal nodo, varia quindi in base alla distanza.
+	- la propagazione invece indica il tempo che impiega un bit per percorrere il percorso una volta fuori dal nodo, varia quindi in base alla distanza
+
+- DNS
+	- Organizziamo i server in 3 livelli:
+	
+		1. Root
+		2. Top-level Domain (TLD)
+			1. Authoritative
+Infine troviamo i server locali delle applicazioni che sono quelli che fanno le richieste.
+
+![[file 54.png]]
+
+>Un **proxy riceve le richieste dal tuo computer, le inoltra a Internet**, riceve le risposte e te le rimanda indietro[^4]
+>- se chiedi una pagina web, il tuo computer → **chiede al proxy** → il proxy va su Internet → prende la pagina → te la restituisce
+
+server authoritative = server di competenza
+
+Una **query** è una richiesta che un client (come un programma o un utente) invia a un server o a un database per ottenere dati o una risposta [^5]
 
 ## La rete
 La rete come detto prima è organizzata a **layer** costruiti l’uno sull’altro, lo scopo di ogni layer è quello di offrire servizi agli strati superiori nascondendo i dettagli implementativi.
@@ -367,4 +384,285 @@ Questo formato serve anche a creare una gerarchia negli indirizzi infatti vedrem
 Ma quindi come facciamo da un indirizzo IP a ricavare un hostname facilmente utilizzabile da noi umani? Utilizziamo il **DNS*
 
 ### DNS - Domain Name System
+Il protocollo DNS serve quindi ad associare ad un indirizzo IP un nome host, notiamo però che con l’indirizzo IP possiamo rappresentare 232 indirizzi in totale e tutte queste coppie devono essere accessibili
 
+Per quanto riguarda la _memorizzazione_:
+- Si utilizza un **database distribuito** su una gerarchia di server DNS 
+
+Per quanto riguarda _l’accessibilità_:
+- Si usa un **protocollo a livello applicazione** che consente agli host di interrogare i database dei server ed eseguire le traduzioni
+
+Il DNS viene utilizzato anche dagli altri protocolli di livello applicazione per tradurre gli hostname e utilizza come protocollo per il trasporto l’UDP dato che ci serve più velocità che sicurezza per questo tipo di dati, di base utilizza la porta 53
+
+Utilizziamo UDP perché come vedremo più avanti abbiamo meno overhead ovvero pacchetti aggiuntivi utilizzati non per trasmettere dati ma per gestire le connessioni. Infatti i messaggi DNS sono molto corti e una connessione TCP richiede più tempo, inoltre questa connessione verrebbe usata per scambiare un solo messaggio
+
+_In generale (Esempio con HTTP)_:
+1. Un client HTTP richiede un URL ad esempio `www.google.com`
+2. Il browser prende il nome dell’host dall’URL e lo passa al lato client DNS
+3. Il client DNS invia una query ad un server DNS
+4. Il client DNS riceve una risposta che contiene l’indirizzo IP corrispondente all’hostname
+5. Adesso il browser può dare inizio alla connessione TCP verso il server HTTP localizzato a quell’indirizzo IP
+
+DNS:
+- è un protocollo del livello applicazione
+- viene eseguito dagli end systems secondo il paradigma client-server
+- utilizza un protocollo di trasporto end-to-end per traferire messaggi tra gli end system (UDP)
+- non è un’applicazione con cui gli utenti interagiscono direttamente (eccetto amministratori di rete)
+- fornisce una funzionalità di base di internet per le applicazioni utente
+- rispecchia la filosofia di concentrare la complessità nelle parti periferiche della rete
+- offre anche altri tipi di servizi oltre a questa traduzione
+
+##### Servizi DNS: Aliasing
+questo permette di associare un nome (o più di uno) più semplice ad un nome più complesso, ad esempio `server1.euw.azienda.com` potrebbe avere dei sinonimi più semplici come `azienda.com`
+
+quindi il primo, più “complesso” è l’**hostname canonico** mentre il secondo si chiama **alias**. Il funzionamento è uguale a quello per la traduzione tra indirizzo IP e nome host, quindi un client se chiede un alias riceverà nome canonico e indirizzo IP
+
+di solito questo servizio viene utilizzato per i server mail delle aziende dove sia mail che web server hanno lo stesso alias ma nomi canonici diversi
+
+##### Servizi DNS: Distribuzione del Carico
+spesso le grandi aziende non hanno un unico server perché potrebbe rallentare notevolmente il servizio che offrono
+
+anche in questo caso il DNS può aiutarci: l’azienda può creare più server uguali sparsi per il mondo tutti con indirizzi IP diversi e a tutti questi viene associato lo stesso hostname canonico
+
+quando un server DNS viene interrogato questo restituisce tutti gli indirizzi ma in ordine diverso in modo da spartire il traffico su più server, inoltre se uno non è funzionante possiamo sempre collegarci ad un altro
+
+##### Gerarchia Server DNS
+Adesso DNS è un’applicazione che gira su un gran numero di server sparsi per il mondo, non può essere centralizzato per vari motivi:
+- se crasha il server, Internet diventa praticamente inutilizzabile
+- troppe richieste da gestire per un singolo server
+- un solo server non potrà mai essere vicino ad ogni client del mondo e quindi rallenterebbe le persone più lontane
+- il server va aggiornato spesso per aggiungere nuovi nomi e con uno singolo sarebbe molto difficile anche mantenerlo online
+- un server centralizzato, non è scalabile
+
+
+si utilizza una gerarchia di server, in questo modo:
+- nessun server deve mantenere tutti le coppie hostname - indirizzo IP
+- mapping (traduzione) distribuito su svariati server
+- come memorizziamo le $2^{32}$ coppie in modo da renderle velocemente accessibili da tutti i client?
+
+Raggruppiamo i nomi in base al dominio, ad esempio, possiamo quindi raggruppare in un server solo gli indirizzi `.it` in uno solo quelli `.com` e così via…
+
+Organizziamo i server in 3 livelli: [^2]
+
+1. Root
+2. Top-level Domain (TLD)
+3. Authoritative
+
+Infine troviamo i server locali delle applicazioni che sono quelli che fanno le richieste 
+
+![[file 54.png]]
+
+[^2]: Quindi se ad esempio richiediamo la pagina `www.amazon.com`:
+	1. La richiesta arriva al server root il quale gli dirà dove trovare il server `.com`
+	2. Il server TLD gli dirà dove trovare il server `amazon.com`
+	3. Il server di amazon gli dirà dove trovare `www.amazon.com`
+
+###### Top Level Domain
+Sono i server che si occupano dei domini `com, org, net, edu...`, ad esempio in Italia abbiamo il `Registro.it` che ha sede a Pisa nel CNR e gestisce il dominio `.it`
+[^3]
+
+[^3]: ![[file 55.png]]
+###### Server di Competenza (authoritative server)
+Ogni organizzazione avrà il suo authoritative server in modo da rendere pubblici i suoi hostname, questi sono gestiti direttamente dall’organizzazione e di solito ce ne sono due, uno primario e uno secondario
+
+###### server DNS locale
+Questo non appartiene direttamente alla gerarchia dei server dato che sono interni agli ISP o organizzazioni, questo è anche detto **default name server**. Quando un host effettua una richiesta DNS la query viene inviata al suo server DNS locale, questo agisce come un proxy e inoltra la query in una gerarchia di server.
+
+
+
+[^4]: serve a:
+		- **Nasconde l’indirizzo IP** del client
+		- **Filtra o controlla** l’accesso a siti web (es. nelle reti aziendali o scolastiche) 
+		- **Accelera la navigazione** (memorizzando copie delle pagine richieste: caching) 
+		- **Anonimato e sicurezza** nella navigazione
+
+
+#### Query
+Ci sono diversi modi in cui possiamo gestire le query all’interno della gerarchia
+
+- **Query Iterativa**:
+	- con questo meccanismo:
+	- l’host fa la richiesta per risolvere un nome del dominio
+	- inoltra la richiesta al server DNS locale
+	- il server DNS locale inizia la risoluzione chiedendo ai server DNS root
+	- il server root risponde indicando dove trovare il server TLD,(`.com`)
+	- il server TLD indica dove si trova il server authoritative per quel dominio specifico
+	- il server authoritative fornisce l’indirizzo IP associato al nome richiesto 
+	- il DNS locale restituisce l’indirizzo IP all’host, che può così raggiungere la pagina web
+	- per fare la mappatura di un hostname sono stati inviati 8 messaggi
+	- ![[file 56.png|350]]
+- **Query ricorsiva**:
+	- in questo modo alleggeriamo il server locale e lasciamo il compito della traduzione all’ultimo server contattato:
+	- ![[file 57.png|350]]
+
+##### DNS caching
+- Dopo che un server DNS ha eseguito una mappatura (cioè ha risolto un nome di dominio), memorizza temporaneamente il risultato in cache
+- Questo meccanismo riduce il numero di richieste future per lo stesso dominio
+- I server DNS locali spesso mantengono in cache le informazioni sui server TLD (come `.com`, `.org`) e su quelli authoritative
+- Di conseguenza, i server root vengono contattati raramente, solo quando non c’è nulla in cache e serve iniziare una nuova risoluzione completa
+
+##### DNS: record e messaggi
+Il mapping è mantenuto all’interno di server sottoforma di **resource record (RR)**, ognuno di questi mantiene un mapping tra hostname, indirizzo IP, alias, nome canonico e altro
+
+- I server si scambiano questi record attraverso i messaggi DNS
+- un messaggio può contenere più RR
+
+**Record DNS**:
+-  sono memorizzati all’interno del database
+- vengono trasportati dai messaggi, hanno questa struttura:
+
+- `(Name, Value, Type, TTL)` dove:
+    - TTL è il tempo residuo di vita
+    - Type ha vari valori e a seconda di questi fa cambiare il significato di `name` e `value`
+
+Se Type vale `A`:
+- allora il record contiene una mappatura: **Hostname → IP address**
+- troveremo:
+	- sul campo `name` l’hostname 
+	- sul campo `value` l’indirizzo IP
+- Es. (relay1.bar.foo.com, 45.37.93.126, A)
+
+Se Type vale `CNAME`:
+- mappatura: **Alias ➔ Canonical Name** 
+- si tratta di una traduzione fra alias e nome canonico
+- troveremo:
+	- sul campo `name` l’alias 
+	- sul campo `value` nome canonico
+- Es. (foo.com, relay1.bar.foo.com, CNAME)
+
+Se Type vale `NS`:
+- mappatura: **Domain name ➔ Name Server**
+-  dominio come ad esempio `uniroma1.it` e su `value` il nome dell’host del server authoritative di quel dominio come ad esempio `di.uniroma1.it`
+- troveremo:
+	- sul campo `name` il dominio (come ad esempio `uniroma1.it`)
+	- sul campo `value` il nome dell’host del server authoritative di quel dominio (`di.uniroma1.it`) (server authoritative = server di competenza)
+- Es. (foo.com, dns.foo.com, NS)
+
+Se Type vale `MX`:
+- mappatura: **Alias ➔ mail server canonical name**
+- troveremo:
+	- `value` è il nome canonico del server di posta associato a `name`
+- Es. (foo.com, mail.bar.foo.com, MX)
+
+In generale:
+
+![](https://alem1105.github.io/Quartz/vault/Primo-Anno/Primo-Semestre/Immagini/Pasted-image-20250316110630.png)
+
+
+[^5]: - **DNS:**  
+	    Una query DNS è una richiesta fatta per conoscere l’indirizzo IP associato a un nome di dominio (es. "Qual è l'IP di www.google.com?")
+	    
+	- **Motori di ricerca (es. Google):**  
+	    Anche la frase che scrivi nella barra di ricerca è una query: "migliori ristoranti a Roma"
+	    
+	- **API Web:**  
+	    Un’app può inviare una query HTTP a un server REST per ottenere dati in formato JSON
+
+##### Messaggi DNS
+Le query e le risposte hanno lo stesso formato nel protocollo DNS
+
+Abbiamo un’intestazione da 12 byte che comprende:
+
+- Identificazione: 
+	- numero di 16 bit (2 byte) per la domanda, la risposta usa lo stesso numero
+- Flag che indicano:
+    - Domanda o Risposta
+    - richiesta di ricorsione
+    - ricorsione disponibile
+    - risposta di competenza (se il server non è competente per quel nome)
+- Contatori che specificano il numero di:
+	- domande
+	- record di risposta (Answer RR)
+	- record autorevoli (Authority RR)
+	- record addizionali (Additional RR)
+
+Dopo l’intestazione, il messaggio DNS è composto da **quattro blocchi**, corrispondenti alle quantità specificate nei campi dell’intestazione:
+- Domande (Question Section): 
+	- campi per il nome di dominio richiesto e il tipo di record cercato (A, MX, NS…)
+- Risposte (Answer Section):
+	- include i record DNS che rispondono alla query
+	- RR per la risposta, se abbiamo replicati ci saranno più RR
+	- se ci sono più risposte o duplicati, troveremo più record
+- Competenza (Authority Section): 
+	- fornisce informazioni sui server authoritative per il dominio richiesto
+- Informazioni aggiuntive(Additional Section): 
+	- contiene dati extra utili, ad esempio:
+		- se la risposta è di tipo MX (mail exchange), qui potrebbe esserci il record A (IP Address) con l’IP del server di posta indicato dal record MX
+
+![[file 58.png]]
+
+##### Inserire record nel database DNS
+Se ad esempio abbiamo appena creato una nuova società chiamata `Network Stud` e vogliamo registrare il nostro dominio all’interno di un DNS:
+1. Prima cosa dobbiamo contattare un registrar, ovvero delle aziende accreditate dall’ICANN che verificherà la disponibilità del nome e lo inserirà nel database
+2. Inseriamo in un nostro server DNS che sarà il server di competenza (ad esempio `dns1.networkstud.it`) e configuriamo i seguenti record:
+	- **A Record**: `www.networkstud.it` → `150.160.15.12` (indirizzo del server web)
+	- **MX Record**: `networkstud.it` → `mail.networkstud.it` (server di posta)
+	- eventualmente, un **record CNAME** per `mail.networkstud.it` → `mail.google.com` (se usiamo Gmail per la posta)
+3. A questo punto possiamo fornire al registrar i nomi e gli indirizzi dei nostri server DNS primario e secondario
+4. Il registrar provvede a inserire nel **server TLD `.it`** due **resource record (RR)**:
+    - un **record NS**: `(networkstud.it, dns1.networkstud.it, NS)`
+    - un **record A**: `(dns1.networkstud.it, 212.212.212.1, A)` (IP di esempio)
+
+![[file 59.png]]
+Si possono interrogare i server DNS con il comando `nslookup` dal terminale[^6]
+
+[^6]: - `nslookup www.di.uniroma1.it` - per cercare nei server DNS impostati di default gli indirizzi associati a `www.di.uniroma1.ti`
+	- `nslookup -type=NS uniroma1.it` - per restituire soltanto i tipi di record `NS` associati a `uniroma1.it`
+	- `nslookup -type=NS .` - per restituire i record `NS` del server radice ovvero `.`
+
+
+### FTP
+ Viene usato per trasferire file da / a un host remoto, va effettuata la connessione tramite il comando:
+- `ftp NomeHost` e vengono richiesti nome utente e password
+- `ftp > get file1.txt` per trasferire un file da un host remoto
+- `ftp > put file2.txt` per trasferire un file verso l’host remoto
+
+- FTP usa il modello client / server dove:
+	- il server è la macchina che mantiene i dati
+	- il client quello che richiede o invia
+
+Quando il client richiede una connessione il server verifica le credenziali e stabilisce una connessione sulla **porta 21**
+
+In realtà vengono stabilite due connessioni:
+- **Connessione di controllo**: 
+	- si occupa delle informazioni di controllo del trasferimento e 
+	- usa regole semplici
+	- è quella utilizzata per scambiare i comandi come ad esempio il cambio di directory
+	- è una connessione persistente
+- **Connessione dati**: 
+- si occupa del trasferimento dei file vero e proprio
+- questa viene aperta sulla _porta 20_
+- la connessione non è persistente:
+- viene chiusa alla fine di ogni trasferimento
+
+#### Comandi e Risposte FTP
+
+Ogni comando eseguito corrisponde ad una risposta da parte del server, le risposte sono molto simili a quelle già viste in HTTP.
+
+Alcuni comandi comuni:
+- `USER username`
+- `PASS password`
+- `LIST`: elenca i file nella directory corrente, questa viene inviata in una nuova connessione dati.
+- `RETR filename` recupera un file dalla directory corrente
+- `STOR filename` memorizza un file nell’host remoto
+
+Le risposte sono composte da un codice e una parte testuale supplementare per informazioni aggiuntive, alcuni codici di ritorno delle risposte:
+- `331 username OK, password required`
+- `125 data connection already open; transfer starting`
+- `425 Can´t open data connection`
+- `452 Error writing file`
+
+![[file 60.png]]
+
+### Posta Elettronica
+Vediamo i principali componenti utilizzati per la comunicazione mail:
+![[file 61.png]]
+- User Agent: app/programma usato dall'utente per scrivere, leggere e inviare messaggi di posta elettronica (Gmail)
+- Message Transfer Agent: Usato per trasferire il messaggio attraverso Internet (Postfix, Sendmail, Microsoft Exchange Server)
+- Message Access Agent: Usato per leggere la mail in arrivo (IMAP o POP3 sono i protocolli più usati, il software può essere lo stesso User Agent (es. Outlook che usa IMAP per leggere la posta)
+	(Gmail dal telefono, l’app (UA) usa IMAP (MAA) per recuperare le email dal server di Google)
+
+##### User Agent
+- viene attivato da un timer o dall’utente e informa quest’ultimo di nuove mail in arrivo
+- in messaggi in uscita o in arrivo vengono memorizzati sul server e quelli da inviare passano per il Mail Transfer Agent
+- 

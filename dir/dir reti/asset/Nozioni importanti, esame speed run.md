@@ -1228,3 +1228,222 @@ usando $2^{m-1}$:
 
 In generale:
 ![[file 98.png]]
+
+## TCP
+il protocollo TCP raggruppa un certo numero di byte da inviare in un segmento al quale poi aggiunge un’intestazione
+
+### Struttura Segmenti
+![[file 99.png]]
+
+- numero di sequenza: è il numero del primo byte dei dati trasmessi nel segmento
+- Acknowledgment number: è il numero di sequenza del prossimo byte che il client si aspetta di ricevere dal server
+
+Invece le _flag_ colorate in celeste indicano:
+- URG: puntatore urgente, questi dati vanno elaborati subito
+- ACK: riscontro valido
+- PSH: richiesta di push ovvero inviare i dati all’applicazione non appena possibile
+- RST: azzeramento connessione
+- SYN: sincronizzazione dei numeri di sequenza
+- FIN: chiusura della connessione
+
+### Connessione TCP
+La connessione TCP crea un percorso virtuale tra mittente e destinatario sopra all’indirizzo IP
+	IP, spedisce e basta, ed è privo di connessione
+	TCP, stabilisce la connessione
+
+
+Una connessione TCP è caratterizzata da 3 fasi:
+1. apertura connessione
+2. trasferimento dati
+3. chiusura connessione
+
+#### Apertura della connessione
+L’apertura della connessione avviene tramite un meccanismo chiamato **3 way handshake**:
+![[file 100.png]]
+
+1. il client invia un segmento con la flag `SYN`
+	- il numero di sequenza `seq` viene scelto casualmente dal client, in questo caso 8000
+2. il server riceve il messaggio e risponde con un `ACK + SYN`
+	- manderà ACK = 8001 dato che ha ricevuto 8000, quindi si aspetta dati a partire da 8001
+	- il suo `seq = 15000`anche questo è scelto a caso
+3. Il client risponde con un ultimo `ACK`
+
+Adesso si può iniziare a trasferire dati
+#### Trasferimento dati: Push
+![[file 101.png]]
+1. il client invia due segmenti da 1000 byte:
+	- i loro numeri di sequenza vanno da 8001 a 9000 e da 9001 a 10000
+2. il server risponde con un `ACK = 10001`
+	1. e invia il proprio segmento con numero di sequenza da 15001 a 17000
+	- il campo `rwnd = 3000` indica quanti byte può ricevere per volta il server, `receive window`
+3. Il client invia la sua `receive window` e un `ACK = 17001`
+
+Quando un'applicazione ha dei dati urgenti o vuole che il destinatario li elabori subito, imposta PSH = 1
+- il destinatario, una volta ricevuto il segmento con PSH, non aspetta di riempire ulteriormente il buffer TCP: passa subito i dati all’applicazione utente
+
+##### Trasferimento dati: Urgent
+i dati che hanno un flag `URG` vengono elaborati subito, indipendentemente dalla loro posizione nel flusso di byte
+
+questi dati urgenti vengono inseriti all’inizio di un nuovo segmento che potrà comunque avere dati non urgenti ma solo dopo quelli urgenti
+
+il campo `URG` viene fornito insieme ad un puntatore, questo puntatore indica dove finiscono i dati urgenti e iniziano quelli normali nel nuovo segmento
+
+#### Chiusura della Connessione
+entrambi le parti coinvolte nella connessione possono richiedere la chiusura
+di solito questa viene chiesta dal client, oppure dal server per timeout
+
+La procedura è simile a quella per aprire la connessione ma al posto di segnali `SYN` vengono inviati segnali `FIN`:
+![[file 102.png]]
+
+Esiste anche un altro tipo di chiusura, ovvero la **half - close**
+- non è sincronizzata fra le due parti
+- la chiusura infatti avviene solo da un lato mentre dall’altro la connessione rimane aperta
+- una delle due parti ha finito di inviare i dati e chiude la connessione
+- ma vuole comunque continuare a ricevere dall’altra parte finché anche questa non manderà un `FIN`
+
+![[file 103.png]]
+
+### Controllo degli Errori
+Come gestisce TCP i numeri di sequenza e gli ACK:
+- numeri di sequenza: numero del primo byte del segmento nel flusso di byte
+	- il numero iniziale viene scelto a caso
+- ACK: numero di sequenza del prossimo byte atteso dall’altro lato
+	- usa inoltre ACK cumulativi
+![[file 104.png]]
+
+per la gestione dei segmenti fuori sequenza:
+- non ci sono specifiche TCP
+- di solito è il destinatario che li mantiene in memoria e poi li “riceve” quando rispettano il giusto ordine
+
+### Affidabilità
+- si usa la **checksum** per scartare i segmenti che arrivano corrotti
+- usa degli ACK cumulativi e un timer associato al più vecchio pacchetto non riscontrato
+- il segmento viene ritrasmesso all’inizio della coda di spedizione[^11] 
+
+Vediamo come si comporta TCP in varie situazioni:
+
+**Regola 2**
+- arriva un segmento ordinato che ha il numero di sequenza attesto, allora tutti i dati precedenti sono stati riscontrati
+- per rispondere con un ACK si aspetta 500ms, in questo modo se arriva anche il segmento successivo viene inviato un solo ACK ma se entro questi 500ms non viene ricevuto il successivo si invia l’ACK singolo
+
+---
+
+**Regola 3**
+- arriva un segmento con numero di sequenza atteso e un altro segmento precedente è in attesa di trasmissione dell’ACK
+- si invia un singolo ACK cumulativo per entrambi
+
+---
+
+**Regola 4**
+- arriva un segmento non ordinato che ha quindi un numero di sequenza superiore a quello atteso e viene quindi rilevato un buco
+- viene subito inviato un ACK duplicato indicando il numero di sequenza del prossimo byte atteso
+	- questa procedura prende il nome di **ritrasmissione veloce**
+
+---
+
+**Regola 5**
+- arriva un segmento mancante ovvero è già stato ricevuto un suo successivo
+- viene inviato subito un ACK
+
+---
+
+**Regola 6**
+- arriva un segmento duplicato
+- invia un ACK che contiene il numero di sequenza atteso
+
+
+[^11]: La coda di spedizione (send buffer) è una **memoria nel lato mittente** dove vengono conservati temporaneamente i segmenti trasmessi ma non ancora confermati (ACK)
+
+
+### Ritrasmissione dei segmenti
+quando un segmento viene inviato viene comunque mantenuta una copia in una coda, in attesa di ricevere un riscontro
+
+Se questo riscontro non arriva possono accadere due cose:
+- se è il primo segmento all’inizio della coda può scadere il timer e viene quindi ritrasmesso
+	- viene anche rinviato il timer
+- vengono ricevuti 3 ACK duplicati e quindi avviene una **ritrasmissione veloce** del segmento senza aspettare il timer
+
+_FSM Mittente_
+![[file 105.png]]
+
+_FSM Destinatario_
+![[file 106.png]]
+
+Usando quindi i timer per gli ACK cumulativi avremo una situazione simile:
+![[file 108.png]]
+
+quando il client riceve 4001-5000 si aspetta 5001:
+- attende 500ms e non riceve niente e quindi invia ACK di 5001
+
+il server risponde con 5001-6000:
+- quindi il client aspetta per 500ms il 6001
+- dato che riceve 6001-7000 entro la finestra invia un singolo ACK di 7001
+
+### Segmento Smarrito
+![[file 109.png]]
+1. il client invia in ordine 501-600 e 601-700
+	- il server aspetta 701
+2. 701-800 viene spedito ma smarrito
+3. il client invia anche 801-900 e il server lo riceve
+	- siccome ha ricevuto un pacchetto superiore a quello che si aspettava rinvia un ACK di 701
+4. il client lo riceve e rispedisce 701-800
+5. a questo punto il server, una volta ricevuto spedisce l’ACK dei prossimi ovvero 901
+
+### Ritrasmissione Rapida
+![[file 110.png]]
+- viene perso il pacchetto 301-400
+- una volta che il client ha ricevuto 3 ACK duplicati per lo stesso pacchetto inizia la ritrasmissione veloce **prima dello scadere del timer** del 301
+
+### Riscontro smarrito senza ritrasmissione
+![[file 111.png]]
+- viene smarrito l'ACK di 701 ma non viene ritrasmesso dato che il server ha ricevuto dei segmenti successivi quindi può inviare direttamente ACK di 901
+	- non sempre accade questo
+
+### Riscontro smarrito con ritrasmissione
+![[file 112.png]]
+in questo caso l’ACK viene rispedito:
+- il server invia ACK 701 e il client non lo riceve
+- il client rispedisce quindi il primo pacchetto e il server riceve un duplicato
+- dato che è stato ricevuto un duplicato il server rinvia l’ACK con il numero di sequenza atteso
+
+
+### Riassunto su meccanismi del TCP
+- Pipeline
+- Numero di sequenza
+- ACK cumulativo e delayed
+	- conferma tutti i precedenti e posticipato nel caso di segmenti in sequenza
+- timeout basato su RTT, ovvero si ha un unico timer di ritrasmissione associato al più vecchio segmento non riscontrato
+	- se arriva un ACK intermedio si riavvia il timer del più vecchio non riscontrato
+- ritrasmissione
+    - singola ovvero solo sul segmento non riscontrato
+    - rapida quando si riceve il terzo ACK duplicato prima del timeout del timer
+
+### Controllo del Flusso
+L’obiettivo del controllo del flusso per il mittente è quello di non sovraccaricare il buffer del destinatario inviando troppi dati troppo velocemente
+- per fare questo il destinatario comunica al mittente lo spazio disponibile attraverso il campo `RWND` dell’header
+![[file 113.png]]
+
+La finestra di invio è completamente gestita dal destinatario:
+![[file 114.png]]
+mano a mano che vengono ricevuti i riscontri e inviati segmenti, la finestra si sposta verso destra
+riduciamo quindi la grandezza della finestra in base alla situazione attuale della rete e del destinatario
+
+esempio:
+![[file 115.png]]
+1. viene inviato il pacchetto 100
+2. il server con un ACK comunica la sua finestra grande 800
+	- il client quindi adatta la sua finestra di invio a 800
+3. il client aggiusta la sua finestra di invio e trasmette un ACK per stabilire la connessione
+4. il client invia 200 byte di dati (parte grigia)
+	- il server li riceve e fa scorrere la sua finestra di ricezione, 800-200 = 600
+5. il server invia ACK contenente anche la nuova finestra da 600
+	- Il client la riceve e fa scorrere anche la sua
+6. il client invia altri 300 byte
+	- il server li riceve e passa a 300 byte di finestra
+	- 100 byte di quelli ricevuti vengono passati all’applicazione e quindi li riguadagna la finestra, siamo a 400
+7. il server invia la nuova finestra in un ACK
+	- il client fa scorrere la finestra togliendo da sinistra i segmenti per i quali ha ricevuto ACK e aggiungendo a destra fino a raggiungere 400
+8. il server consuma altri 200 byte
+	- la finestra passa a 600
+	- invia un ACK al client che allargherà verso destra la finestra di invio per farla combaciare
+

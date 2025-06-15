@@ -37,7 +37,7 @@
 - UA: User Agent
 - MTA: Message Transfer Agent
 - MAA: Message Access Agent
-
+- SMTP: Simple Mail Transfer Protocol
 
 ## parole parole parole
 - condotta: quantità di pacchetti che possono essere inviati senza riscontro

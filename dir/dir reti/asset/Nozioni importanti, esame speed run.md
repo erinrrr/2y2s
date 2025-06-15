@@ -1,4 +1,7 @@
-## cose che palesemente non ricorderò
+# cose che palesemente non ricorderò
+
+IMPORTANTE: https://gaia.cs.umass.edu/kurose_ross/interactive/index.php
+
 - il **throughput** ci indica quanto velocemente riusciamo a inviare i dati. non é un’indicazione basata sulla tecnologia utilizzata come il bitrate o larghezza di banda, è quanto riusciamo ad inviare _realmente_ in quel momento
 
 - differenza trasmissione-propagazione:
@@ -7,10 +10,9 @@
 
 - DNS
 	- Organizziamo i server in 3 livelli:
-	
 		1. Root
 		2. Top-level Domain (TLD)
-			1. Authoritative
+		3. Authoritative
 Infine troviamo i server locali delle applicazioni che sono quelli che fanno le richieste.
 
 ![[file 54.png]]
@@ -22,7 +24,9 @@ server authoritative = server di competenza
 
 Una **query** è una richiesta che un client (come un programma o un utente) invia a un server o a un database per ottenere dati o una risposta [^5]
 
-## La rete
+- la combinazione di indirizzo IP + porta prende il nome di **socket address**
+
+# La rete
 La rete come detto prima è organizzata a **layer** costruiti l’uno sull’altro, lo scopo di ogni layer è quello di offrire servizi agli strati superiori nascondendo i dettagli implementativi.
 Le entità che formano questi strati prendono il nome di **peer**, quindi ad esempio due layer di **collegamento** formano un peer.
 
@@ -63,7 +67,7 @@ Le entità che formano questi strati prendono il nome di **peer**, quindi ad ese
 	- UDP può incapsulare DNS e SNMP
 
 # Livello applicazione
-### Intro TCP-IP
+## Intro TCP-IP
 Il livello applicazione serve ad offrire dei servizi agli utenti finali
 
 Indirizzamento TCP-IP:
@@ -78,7 +82,7 @@ tra i protocolli possiamo individuare:
 - Client - È il componente che richiede il servizio, può essercene più di uno e vanno in esecuzione soltanto quando richiesto.
 - Server - È quello che offre i servizi, è quindi sempre in esecuzione in attesa di richieste.
 
-### HTTP, cookie, web cache
+## HTTP, cookie, web cache
 Il WWW è formato da varie componenti:
 - **Web Client** - ovvero i browser che utilizza l’utente
 - **Web Server** - Dove sono memorizzate le applicazioni vere e proprie (Apache)
@@ -112,7 +116,7 @@ esistono _vari tipi di documenti web_:
 - Dinamico - Il contenuto viene creato dal server nel momento della ricezione di una richiesta
 - Attivo - Contiene degli script che vengono eseguiti sulla macchina del client
 
-#### HTTP (RFC 2616)
+### HTTP (RFC 2616)
 HTTP si basa sul modello Client - Server, il protocollo definisce in che modo i client devono richiedere le pagine e come i server devono trasferirle ai client. 
 
 Nello specifico:
@@ -160,7 +164,6 @@ Con le connessioni persistenti andiamo a risolvere alcuni dei problemi delle non
 - In questo modo i successivi invii tra client-server usano la stessa connessione
 - Non abbiamo quindi bisogno di un RTT per ogni oggetto ma di uno soltanto per la connessione e uno per ogni oggetto ricevuto.
 ---
-
 **Formato messaggi in una richiesta HTTP**:
 ![[dir/dir reti/asset/file 42.png]]
 
@@ -373,7 +376,7 @@ Questo serve per fare in modo che se la cache ha una copia aggiornata allora l�
 
 ![[file 53.png]]
 
-### Indirizzi IP
+## Indirizzi IP
 
 Sono composti da 32 bit e vengono usati per indirizzare i datagrammi, per noi umani sono più scomodi da usare ma sono più adatti alla macchine.
 
@@ -383,7 +386,7 @@ Questo formato serve anche a creare una gerarchia negli indirizzi infatti vedrem
 
 Ma quindi come facciamo da un indirizzo IP a ricavare un hostname facilmente utilizzabile da noi umani? Utilizziamo il **DNS*
 
-### DNS - Domain Name System
+## DNS - Domain Name System
 Il protocollo DNS serve quindi ad associare ad un indirizzo IP un nome host, notiamo però che con l’indirizzo IP possiamo rappresentare 232 indirizzi in totale e tutte queste coppie devono essere accessibili
 
 Per quanto riguarda la _memorizzazione_:
@@ -611,7 +614,7 @@ Si possono interrogare i server DNS con il comando `nslookup` dal terminale[^6]
 	- `nslookup -type=NS .` - per restituire i record `NS` del server radice ovvero `.`
 
 
-### FTP
+## FTP
  Viene usato per trasferire file da / a un host remoto, va effettuata la connessione tramite il comando:
 - `ftp NomeHost` e vengono richiesti nome utente e password
 - `ftp > get file1.txt` per trasferire un file da un host remoto
@@ -654,7 +657,7 @@ Le risposte sono composte da un codice e una parte testuale supplementare per in
 
 ![[file 60.png]]
 
-### Posta Elettronica
+# Posta Elettronica
 Vediamo i principali componenti utilizzati per la comunicazione mail:
 ![[file 61.png]]
 - User Agent: app/programma usato dall'utente per scrivere, leggere e inviare messaggi di posta elettronica (Gmail)
@@ -664,5 +667,308 @@ Vediamo i principali componenti utilizzati per la comunicazione mail:
 
 ##### User Agent
 - viene attivato da un timer o dall’utente e informa quest’ultimo di nuove mail in arrivo
-- in messaggi in uscita o in arrivo vengono memorizzati sul server e quelli da inviare passano per il Mail Transfer Agent
-- 
+- in messaggi in uscita o in arrivo vengono memorizzati sul server
+- i messaggi da inviare inoltre vengono passati al Mail Transfer Agent
+##### comunicazione MTA
+- comunicano tramite i _server di posta_ che hanno una mailbox contenente:
+	- tutti i messaggi in arrivo per gli utenti
+	- _coda di messaggi da trasmettere_ (tentativi ogni $x$ minuti per alcuni giorni)
+- sia per inviare messaggi tra i server, sia tra User Agent mittente e destinatario(il suo server di posta) si usa il protocollo **SMTP** (Simple Mail Transfer Protocol) 
+
+### SMTP
+- utilizza una connessione TCP client-server sulla **porta 25**
+- trasferimento diviso in 3 fasi:
+	- Handshaking: Quando i due server devono “riconoscersi”
+	- Trasferimento di Messaggi
+	- Chiusura
+
+![[file 62.png]]
+1. Alice usa il suo agente per comporre il messaggio da inviare alla mail di Roberto
+2. L’agente di Alice invia il messaggio al server di posta di Alice, questo viene inserito nella coda dei messaggi
+3. Il lato client SMTP apre una connessione TCP con il server di posta di Roberto
+4. Il client SMTP invia il messaggio di Alice sulla connessione TCP
+5. Il server di posta di Roberto riceve il messaggio e lo pone nella casella di posta di Roberto
+6. Roberto invoca il suo agente utente per leggere il messaggio
+
+Dal client mittente fino al server del destinatario si usa il protocollo SMTP poi il destinatario per scaricare la mail sul suo client può usare IMAP o POP
+
+###### Scambio di messaggi nel dettaglio
+
+1. Il client SMTP (server posta in invio) fa stabilire una connessione sulla porta 25 verso il server SMTP ricevente
+2. Client e Server effettuano handshaking ovvero il client indica indirizzo email di mittente e destinatario
+3. Il client invia il messaggio
+4. Il messaggio arriva al server destinatario
+5. Se ci sono altri messaggi si usa la stessa connessione, questa infatti è persistente, altrimenti si chiude
+
+![[file 63.png]]
+
+##### Formato dei Messaggi di Posta Elettronica
+Abbiamo due componenti principali:
+- Intestazione, composta da:
+    - To: Indirizzo/i destinatari
+    - From: Indirizzo del mittente
+    - Cc: Indirizzo di uno o più destinatari a cui si invia per conoscenza (carbon copy)
+    - Bcc: È come Cc ma i veri destinatari non sanno che anche questi in Bcc hanno ricevuto il messaggio (blind carbon copy)
+    - Subject: Argomento del messaggio
+    - Sender: Chi materialmente effettua l’invio, ad esempio il dipendente dell’azienda.
+- Corpo: il messaggio vero e proprio composto soltanto da caratteri ASCII
+
+### Protocollo MIME
+è un protocollo che aggiunge delle estensioni di messaggi di posta per inviare dei messaggi in formati non ASCII, quindi convertendo i dati prima di inviarli
+(intestazioni aggiuntive)
+
+![[file 64.png]]
+
+### Protocolli di Accesso alla Posta
+Il client dell’utente finale può usare diversi protocolli per accedere al server della post:
+-  SMTP svolge solo azioni di **push**, viene usato per trasferire i messaggi fra i server ma non può essere usato dall’utente
+- il client dell’utente finale ha bisogno di eseguire azioni di **pull** per scaricare e leggere i messaggi in arrivo dal server di posta
+
+Possiamo usare diversi protocolli per le azioni di pull:
+- POP3 (Post Office Protocol - v.3): Autorizzazione e download
+- IMAP (Internet Mail Access Protocol): Permette più funzioni e manipolazione di messaggi sul server
+- HTTP: Servizi come gmail, hotmail ecc…
+
+
+#### POP3
+permette al client di aprire una connessione TCP verso il server di posta sulla **porta 110**, poi si procede in 3 fasi:
+
+1. Autorizzazione: l’agente utente si identifica
+2. Transazione: l’agente utente recupera i messaggi
+3. Aggiornamento: dopo che il client ha finito e chiusa la connessione vengono cancellati i messaggi marcati per la rimozione
+
+Comandi utilizzabili con POP3, possiamo distinguerli in due fasi della comunicazione:
+
+- Fase di Autorizzazione
+    - `user` dichiara il nome dell’utente
+    - `pass` password
+    - Il server può rispondere con `+OK` o `-ERR`
+- Fase di Transazione
+    - `list` elenca i numeri dei messaggi
+    - `retr` ottiene i messaggi in base al numero
+    - `dele` cancella
+    - `quit`
+
+Con il POP3 quindi, usando la modalità “scarica e cancella” non possiamo rileggere le mail se cambiamo client, queste infatti non saranno più disponibili sul server
+
+L’utente infatti non può nemmeno creare cartelle o altro sul server, va tutto creato in locale sul proprio computer
+
+
+![[file 65.png|350]]
+
+#### IMAP
+- IMAP consente di creare cartelle anche sul server e quindi di organizzare i messaggi
+- a differenza di POP, IMAP mantiene lo stato delle sessioni dell'utente
+- il protocollo per fare questo associa a una cartella ogni messaggio arrivato dal server e poi fornisce agli utenti dei comandi per:
+	- creare cartelle e spostare messaggi da una cartella all’altra
+	- effettuare ricerche nelle cartelle del server Mantengono informazioni su:
+	- nomi cartelle
+	- associazioni messaggi - cartelle
+- inoltre vengono forniti comandi per ottenere le componenti dei messaggi:
+	- intestazione
+	- corpo del messaggio
+
+#### HTTP
+- alcuni mail server consentono l’accesso tramite web ovvero tramite HTTP
+- in questo caso l’agente utente diventa il browser 
+- comunica con il suo mailbox tramite HTTP
+- e anche il ricevente usa HTTP per accedere alla mailbox
+
+
+# Livello Trasporto
+- a livello di trasporto abbiamo una connessione logica ovvero gli host eseguono i processi come se fossero direttamente connessi
+- i protocolli di trasporto vengono eseguiti nei sistemi terminali e funzionano con un meccanismo di incapsulamento quando si invia un messaggio e decapsulamento quando si riceve
+<br>
+- a livello di rete abbiamo una comunicazione tra host basata sui servizi del livello di collegamento
+- mentre a livello di trasporto una comunicazione tra processi basata sui servizi del livello di rete
+![[file 67.png]]
+
+esempio:
+
+1 persona di un condominio invia una lettera a 1 persona di un altro condominio consegnandola/ricevendola a/da un portiere
+
+Possiamo individuare le seguenti figure:
+
+- processi = persone
+- messaggi delle applicazioni = lettere nelle buste
+- host = condomini
+- protocollo di trasporto = portieri dei condomini
+- protocollo del livello di rete = servizio postale
+
+Quindi notiamo che _i protocolli di trasporto_ (portieri) _lavorano a livello locale_ e non sono coinvolti al di fuori
+
+![[file 66.png|350]]
+
+## Indirizzamento
+I nuovi sistemi operativi sono multiutenti e multiprocesso questo significa che sia a livello client che server avremo diversi processi attivi. Per stabilire una comunicazione tra due processi sarà quindi necessario individuare:
+- host locale
+- host remoto
+- processo locale
+- processo remoto
+
+identificazioni:
+- l’host verrà identificato tramite un indirizzo IP
+- il processo tramite un numero di porta
+
+![[file 68.png]]
+
+- la combinazione di indirizzo IP + porta prende il nome di **socket address**
+
+### Incapsulamento / Decapsulamento
+Prima di venire spediti i dati vengono incapsulati, ovvero viene aggiunto un header che verrà poi riconosciuto quando arriva a destinazione
+![[file 69.png]]
+Questi pacchetti si chiamano:
+- segmenti se usiamo TCP
+- datagrammi utente se usiamo UDP
+
+Questo processo prende anche il nome di **Multiplexing / Demultiplexing**
+![[file 70.png]]
+
+_Multiplexing_:
+- il multiplexing a livello mittente raccoglie i dati da vari socket e li incapsula con l’intestazione corrispondente che verrà poi usata per il demultiplexing
+- ad esempio se in un host abbiamo due processi uno FTP e uno HTTP l’host dovrà raccogliere i dati da questi socket e passarli al livello di rete
+
+_Demultiplexing_:
+- deve consegnare i segmenti ricevuti al socket proprietario
+- li riconosce grazie agli header di intestazione di ogni messaggio
+
+funzionamento nello specifico:
+- l’host riceve i datagrammi IP, ognuno di questi ha un indirizzo IP di origine e di destinazione
+- ogni datagramma trasporta un segmento a livello di trasporto
+- ogni segmento ha un numero di porta per origine e uno per destinazione
+
+I pacchetti UDP e TCP sono strutturati nel seguente modo:
+![[file 71.png|350]]
+
+- i campi per la porta occupano 16 bit
+- possono assumere valori da 0 a 65535
+- i primi 1023 sono usati per servizi specifici, vengono chiamati **well known-port number**
+
+in generale funziona così:
+![[file 72.png]]
+
+### Socket
+- i socket permettono la comunicazione fra processi
+- questi appaiono si come terminali o file ma in realtà non sono entità fisiche
+- sono delle astrazioni, una struttura dati creata dal programma applicativo
+
+comunicare tra un processo client e uno server significa comunicare tra due socket
+
+sono composti da:
+- 32 bit di indirizzo IP
+- 16 bit numero di porta
+
+- l’interazione tra client e server è _bidirezionale_, ci serve quindi una coppia di indirizzi socket uno locale e uno remoto ovvero mittente e destinatario
+- questi due indirizzi si scambiano di posto a seconda del ruolo ovvero il mittente in una direzione è il destinatario nell’altra
+
+Individuazione degli indirizzi socket:
+- lato Client:
+	- Il client ha bisogno di socket address locale (client) e remoto (server)
+
+	- socket address locale: viene fornito dal sistema operativo questo infatti conosce l’indirizzo IP del computer sul quale il client è in esecuzione e anche il numero di porta assegnato
+	- socket address remoto: il numero di porta varia in base all’applicazione che stiamo usando, l’indirizzo viene fornito dal DNS oppure il socket intero è conosciuto dal programmatore se ad esempio sta testando un’applicazione
+
+- lato Server:
+	- anche il server ovviamente ha bisogno di socket address locale (server) e remoto (client)
+
+	- socket address locale: fornito dal sistema operativo, conosce l’indirizzo IP del computer e il numero di porta è noto al server perché assegnato dal progettista
+	- socket address remoto: è il socket address locale del client che si connette, questo viene trovato dal server all’interno del pacchetto di richiesta
+
+## Servizi di Trasporto
+Usiamo 2 servizi:
+- TCP: affidabile ma più lento
+- UDP: non affidabile ma più veloce
+
+### TCP
+- **orientato alla connessione**: è richiesto un setup fra i processi client e server
+
+funziona come un tubo:
+- il trasmettitore spinge i bit da una estremità e il ricevitore li prende dall’altra
+- viene quindi mantenuto l’ordine di trasmissione
+
+il TCP offre:
+- trasporto affidabile
+- controllo di flusso: il mittente evita il sovraccarico del destinatario
+- controllo della congestione: se la rete è sovraccaricata si riduce l’invio di dati
+
+non offre:
+- sistemi di sicurezza dei dati
+- temporizzazione [^7]
+- garanzia su ampiezza di banda minima
+
+
+[^7]: si riferisce alla gestione del tempo e dei ritardi nella trasmissione dei dati tra due punti in una rete
+
+### UDP - User Datagram Protocol
+- funziona **senza connessione** ovvero non è richiesto alcun setup fra processi client e server
+- abbiamo un trasferimento inaffidabile infatti i dati potrebbero non arrivare nello stesso ordine in cui li inviamo
+- non offre alcuni servizi del TCP, ossia:
+	- il controllo del flusso
+	- controllo della congestione
+
+usato:
+- principalmente per dati che appunto non richiedono affidabilità, come ad esempio streaming video o telefonia internet come Skype
+- comunemente usato per i broadcast, in quanto consente di inviare dati a più destinatari contemporaneamente senza la necessità di stabilire una connessione diretta con ciascuno di essi
+
+offre i servizi:
+- comunicazione tramite socket
+- multiplexing e demultiplexing dei pacchetti
+- incapsulamento e decapsulamento [^8]
+
+non fornisce:
+- controllo errori (è ammesso solo checksum)
+- controllo flusso o controllo congestione
+
+[^8]: 1. **Multiplexing e Demultiplexing**: si riferiscono alla gestione dei dati
+		- Il multiplexing è il processo di combinare più flussi di dati in un singolo flusso per la trasmissione, mentre 
+		- il demultiplexing è il processo inverso, cioè separare quel flusso combinato nei flussi originali
+		- questo è utile per inviare più dati attraverso una singola connessione
+	
+	2. **Incapsulamento e Decapsulamento**: si riferiscono alla preparazione e alla ricezione dei dati
+		- l'incapsulamento è il processo di avvolgere i dati in un pacchetto, aggiungendo le informazioni necessarie per la trasmissione (come indirizzi e controlli)
+		- il decapsulamento è il processo di estrazione dei dati dal pacchetto ricevuto, rimuovendo le informazioni aggiuntive
+
+
+- il mittente invia i pacchetti uno dopo l’altro e non si preoccupa dell’effettivo arrivo al destinatario
+- ogni pacchetto è indipendente dagli altri
+- non c’è coordinazione tra livello di trasporto mittente e destinatario 
+- si verificano anche situazioni in cui l'ordine di arrivo è diverso da quello di invio
+![[file 73.png]]
+
+
+##### Rappresentazione tramite FSM
+Possiamo rappresentare il comportamento di un protocollo di trasporto come un automa a stati finiti, questo rimane in uno stato finché un evento non lo modifica.
+
+La rappresentazione per UDP è:
+![[file 74.png]]
+
+- abbiamo soltanto lo stato `ready`
+- quando arriva un pacchetto o si deve inviarne uno, viene eseguita l'azione
+- una volta terminata, il sistema ritorna nello stato `ready`
+
+#### Datagrammi UDP
+Dato che non c’è flusso di dati, i processi devono inviare richieste di dimensioni sufficientemente piccole per essere inserite in un singolo datagramma
+
+Solo i processi che usano messaggi di dimensioni inferiori a 65507 byte possono utilizzare UDP, questo perché abbiamo:
+
+- 65535 - 8 byte di intestazione UDP e -20 byte di intestazione IP
+![[file 75.png]]
+
+struttura datagrammi UDP
+![[file 76.png]]
+
+##### Checksum
+Serve a rilevare errori nel datagramma trasmesso
+ruolo mittente e destinatario:
+- mittente
+	- divide il messaggio in “parole” da 16 bit
+	- il checksum viene inizialmente impostato a 0
+	- tutte le parole incluso il checksum vengono sommate usando l’addizione complemento a 1
+	- viene fatto il complemento a 1 della somma e quello che otteniamo è il checksum
+	- viene inviato il messaggio
+- destinatario
+	- viene ricevuto il messaggio
+	- viene diviso in parole da 16 bit
+	- tutte le parole vengono sommate con complemento a 1
+	- viene fatto il complemento a 1 della somma ed il risultato è il nuovo checksum
+	- se il checksum vale 0 allora il messaggio viene accettato altrimenti si scarta

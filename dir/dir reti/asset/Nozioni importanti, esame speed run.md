@@ -1102,3 +1102,129 @@ nella commutazione a pacchetto la congestione avviene se il carico della rete ov
 
 si parla di congestione perché arrivano più pacchetti di quelli che router e switch riescono a gestire:
 - quindi si riempiono le loro code portando alla perdita di pacchetti e rallentamenti
+
+## Livello Trasporto - Meccanismi di Trasferimento dati Affidabili
+
+### Stop and Wait
+sia mittente che destinatario hanno una finestra scorrevole di un solo pacchetto, quindi:
+- il mittente invia un pacchetto e attende il suo ACK prima di inviarne un altro
+- quando il pacchetto arriva, il destinatario calcola il suo checksum e se corretto invia un ACK altrimenti lo scarta e non informa il mittente
+- il mittente capisce che il pacchetto non è stato ricevuto correttamente tramite un timer
+
+questo significa che il mittente deve tenere una copia del pacchetto fino a che non riceve il suo ACK
+
+questo meccanismo garantisce:
+- controllo errori: tramite il **numero di sequenza** dei pacchetti, l’ACK e il timer
+- controllo del flusso: non è possibile inviare più di un pacchetto quindi non possono arrivare in ordine sparso
+
+per gestire i duplicati, lo stop and wait utilizza i numeri di sequenza, in questo caso 0 ed 1 sono sufficienti per il meccanismo
+
+quando viene ricevuto un pacchetto si invia un ACK con il numero di sequenza successivo, quindi se ricevo 0 invio ACK 1 e se ricevo 1 invio ACK 0, questo sta ad indicare qualche pacchetto sta aspettando
+
+_FSM che rappresenta il Mittente_
+![[file 85.png]]
+quindi invia un pacchetto e aspetta o un riscontro o la fine del timer prima di inviarne un altro
+
+_FSM che rappresenta il Destinatario_
+![[file 86.png]]
+sempre pronto a ricevere pacchetti, non va mai in stato di blocked
+
+#### Efficienza
+Prendiamo ad esempio un sistema che ha:
+- Rate = `1Mbps`
+- Ritardo di andata e ritorno di 1 bit = `20 ms`
+
+Abbiamo un valore di `rate * ritardo = 20'000 bit/ms`
+
+I pacchetti hanno dimensione `1000 bit` quindi significa che l’utilizzo del canale è `1000 / 20000 = 5%` dato che possiamo inviare un solo pacchetto alla volta
+abbiamo quindi una rete molto inefficiente
+
+Utilizziamo **protocolli con pipeline** ovvero dove il mittente può inviare più di un pacchetto alla volta
+vediamo **Go-Back-N** e **Ripetizione Selettiva**
+
+### Go Back N
+in questo meccanismo i numeri di sequenza sono calcolati modulo $2^m$ dove $m$ è la dimensione del numero di sequenza in bit
+
+anche qui inviamo gli ACK con il numero successivo a quello ricevuto, ovvero quello che stiamo aspettando
+la differenza è che qui usiamo un **ACK cumulativo**: ovvero tutti i pacchetti fino al numero di sequenza indicato nell’ACK sono stati ricevuti correttamente
+
+quindi se ACK = 7 -> significa che fino a 6 è stato tutti ricevuto e si sta aspettando il pacchetto 7
+
+la nostra finestra di scorrimento per l’invio non è più quindi da un solo slot:
+![[file 87.png]]
+- `Sf` indica il primo inviato, per il quale stiamo ancora aspettando un ACK
+- `Sn` indica il prossimo da inviare appena possibile
+
+1uindi se ad esempio arriva un ACK = 6
+![[file 88.png]]
+
+per quanto riguarda la finestra di ricezione invece rimaniamo con un solo slot
+- il destinatario è sempre in attesa di un solo pacchetto e qualsiasi arriva fuori sequenza viene scartato
+
+quindi se ad esempio siamo in attesa di 5 e arrivano 6,7 questi verranno scartati e dovranno essere rinviati successivamente
+
+qui entra il gioco il timer:
+- viene mantenuto per il più vecchio pacchetto inviato e per il quale non abbiamo ancora ricevuto un ACK
+- quando il timer scade “Go Back N” ovvero vengono rispediti tutti i pacchetti in attesa di riscontro
+
+esempio:
+ il primo pacchetto inviato e su quale si trova il timer è 3 (`Sf = 3`) e il mittente invia 6 quindi abbiamo `Sn = 7`
+ non arrivano ACK e scade il timer quindi vengono rinviati i pacchetti 3,4,5,6
+
+_FSM per rappresentare il mittente_
+![[file 89.png]]
+_FSM per il destinatario_
+![[file 90.png]]
+
+
+Ma con una finestra di $2^m$ i duplicati vengono gestiti correttamente?[^10]
+
+[^10]: _sending window_, è un concetto fondamentale nei protocolli affidabili come **Go-Back-N** e **Sliding Window**, usati per controllare **quanti pacchetti** un mittente può **inviare senza dover aspettare gli ACK** dal destinatario
+
+![[file 91.png]]
+in questo caso la finestra di ricezione viene riempita e tutti i segnali di ACK sono stati persi, cosa succede?
+- il destinatario sta di nuovo aspettando un pacchetto 0
+	- e scade anche il timer del mittente
+- vengono quindi rispediti tutti i pacchetti e ricevuti erroneamente come corretti quando in realtà erano già stati ricevuti
+
+La dimensione corretta per la finestra di invio è 2m−1:
+![[file 92.png]]
+In questo modo i pacchetti già ricevuti ma per i quali sono andati persi gli ACK vengono scartati quando ricevuti nuovamente (duplicati)
+
+### Ripetizione Selettiva
+- nel Go Back N se un pacchetto non viene ricevuto correttamente dobbiamo rinviare tutti quelli presenti nella finestra
+- questo è molto efficiente se la rete funziona sempre correttamente ma se ad esempio c’è congestione non lo è
+
+nella ripetizione selettiva vengono rispediti soltanto i pacchetti per i quali non è stato ricevuto un ACK:
+- in questo caso la finestra di invio e ricezione hanno la stessa dimensione
+
+![[file 93.png]]
+
+- per implementare questo meccanismo abbiamo bisogno di un timer per ciascun pacchetto in attesa di riscontro
+- quando un timer scade viene rispedito soltanto quel pacchetto
+
+_FSM per rappresentare il mittente_
+![[file 94.png]]
+_FSM per Destinatario_
+![[file 95.png]]
+
+le dimensione delle finestre abbiamo detto essere uguali e in questo meccanismo sono calcolate modulo $2^{m-1}$
+
+perché non possiamo usare $2^m-1$?
+![[file 96.png]]
+
+- in questo caso scade il timer per 0 e viene rispedito
+- il destinatario lo prende come nuovo pacchetto ma in realtà è un duplicato
+
+usando $2^{m-1}$:
+![[file 97.png]]
+
+
+
+> [!info] Protocolli Bidirezionali: Piggybacking
+> i meccanismi che abbiamo visto li abbiamo presentati in modo unidirezionale ovvero i pacchetti vengono spediti in una direzione e gli ACK in un'altra ma in realtà questi viaggiano in entrambe le direzioni, sia pacchetti che ACK
+> 
+   per migliorare l'efficienza dei protocolli bidirezionali si usa la tecnica **piggybacking** ovvero quando un pacchetto trasporta dati da A a B può trasportare anche gli ACK relativi ai pacchetti ricevuti da B e viceversa
+
+In generale:
+![[file 98.png]]

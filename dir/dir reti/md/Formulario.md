@@ -1,4 +1,4 @@
-### Delay
+## Delay
 - **Transmission delay**: $R_{t} = \dfrac{L}{R}$
 	- $L$ = lunghezza del pacchetto (in bit)
 	- $R$ = rate del collegamento (in bps)
@@ -68,3 +68,34 @@
 [^1]: ![[dir/dir reti/asset/file 36.png]]
 [^2]: il **rate** è una misura potenziale mentre il **throughput** è una misura effettiva
 
+## TCP
+**slow start**:
+- `cwnd = 1 MSS` inizio connessione
+- `cwnd = cwnd + 1` per ogni segmento riscontrato (esponenziale)
+
+- quando `cwnd` ≥ `ssthresh` (raggiungiamo ssthresh) → _congestion avoidance_
+- se perdiamo un pacchetto:
+	- `ssthresh = cwnd / 2`
+
+**congestion avoidance**:
+- `cwnd + 1` (lineare) (`cwnd = cwnd + 1 MSS ogni RTT` (ovvero `1/cwnd`))
+- congestione:
+	- TAHOE:
+		- `ssthresh = cwnd / 2`
+		- `cwnd = 1`
+		- _slow start_
+	- RENO:
+		- timeout:
+			- `ssthresh = cwnd / 2`
+			- `cwnd = 1`
+			- _slow start_
+		- 3 ACK duplicati:
+			- `ssthresh = cwnd / 2`
+			- `cwnd = ssthresh + 3`
+			- _fast recovery_
+
+**fast recovery**:
+- `cwnd = cwnd + 1 MSS` per ogni ACK duplicato ricevuto
+- quando arriva il **primo ACK cumulativo nuovo** che conferma la ricezione del segmento ritrasmesso, si esce da fast recovery:
+	- `cwnd = ssthresh`
+	-  _congestion avoidance_

@@ -26,6 +26,8 @@ Una **query** è una richiesta che un client (come un programma o un utente) inv
 
 - la combinazione di indirizzo IP + porta prende il nome di **socket address**
 
+Un **socket TCP** è un **endpoint** per una connessione di rete che utilizza il protocollo TCP (Transmission Control Protocol), i socket permettono a due programmi (di solito su macchine diverse) di comunicare tra loro.
+
 # La rete
 La rete come detto prima è organizzata a **layer** costruiti l’uno sull’altro, lo scopo di ogni layer è quello di offrire servizi agli strati superiori nascondendo i dettagli implementativi.
 Le entità che formano questi strati prendono il nome di **peer**, quindi ad esempio due layer di **collegamento** formano un peer.
@@ -972,3 +974,131 @@ ruolo mittente e destinatario:
 	- tutte le parole vengono sommate con complemento a 1
 	- viene fatto il complemento a 1 della somma ed il risultato è il nuovo checksum
 	- se il checksum vale 0 allora il messaggio viene accettato altrimenti si scarta
+
+esempio: inviare la seguente stringa da 32 bit: `11100110011001101101010101010101`
+la dividiamo quindi in parole da 16 e le sommiamo:
+![[file 77.png]]
+
+
+- UDP viene utilizzato anche da DNS, le applicazioni DNS inviano una query e aspettano una risposta dal server, se questa non arriva semplicemente fanno una query ad altri server
+- quindi la semplicità delle richieste DNS giustifica l’utilizzo di UDP che è anche più veloce
+- in generale viene spesso utilizzato per applicazioni di streaming multimediale dato che tollera una limitata perdita di pacchetti:
+![[file 78.png]]
+
+
+### intro a TCP
+possiamo vederlo come un flusso di byte che passa in tubo:
+![[file 79.png]]
+
+TCP a differenza di UDP ci offre anche:
+- un trasporto orientato alla connessione dove serve quindi un setup fra i client
+- controllo del flusso
+- controllo degli errori
+- controllo della congestione
+
+
+
+#### Demultiplexing orientato alla connessione
+La socket TCP è identificata da 4 parametri:[^9]
+- indirizzo IP e porta di origine
+- indirizzo IP e porta di destinazione
+
+un host server può supportare più socket TCP contemporanee dato che ogni socket è identificata dai 4 parametri
+si avrà una socket differente anche per lo stesso client, ogni richiesta viene trasmessa su una diversa socket
+
+- il server accetta tutte le connessioni sulla stessa socket e poi le sposta su una porta differente
+![[file 80.png]]
+
+- essendo orientato alla connessione non si verifica più l’evento che i messaggi arrivano in ordine diverso dall’invio
+- nel caso in cui in messaggio arrivi prima questo viene memorizzato a livello di trasporto e trasmesso solo dopo l’arrivo del suo predecessore
+
+
+[^9]: un **socket TCP** è un **endpoint** per una connessione di rete che utilizza il protocollo **TCP (Transmission Control Protocol)**
+	i socket permettono a due programmi (di solito su macchine diverse) di comunicare tra loro
+
+
+
+#### Rappresentazione tramite FSM
+![[file 81.png]]
+
+- l’apertura della connessione inizia dallo stato `closed` dove i due host si inviano dei pacchetti per stabilire la connessione
+- una volta stabilita possono scambiarsi i dati
+- quando hanno terminato si inviano un messaggio per chiudere la connessione
+
+#### Controllo di Flusso
+Quando un host produce dati che un altro host deve consumare deve esserci equilibrio fra velocità di produzione e di consumo:
+- Se produzione > consumo: il consumatore potrebbe sovraccaricarsi e potrebbe eliminare alcuni dati
+- Se consumo > produzione: Il consumatore rimane in attesa di dati riducendo l’efficienza del sistema.
+
+Il controllo del flusso però si occupa principalmente della prima problematica ovvero la perdita di dati
+
+
+Ci occupiamo del controllo del flusso a livello di trasporto, individuiamo 4 entità:
+- Processo e trasporto mittente
+- Processo e trasporto destinatario
+
+Ci sono 2 casi di controllo di flusso:
+![[file 82.png]]
+
+realizzazione del controllo del flusso:
+- implementiamo dei buffer ovvero delle zone di memoria che memorizzano i pacchetti
+- il consumatore invia dei segnali al produttore:
+    - il livello trasporto del mittente segnala al livello applicazione di sospendere l’invio dei messaggi quando il buffer è saturo
+	    - quando si svuota si può riprendere l’invio
+    - il livello trasporto del destinatario segnala al trasporto del mittente di sospendere l’invio dei messaggi quando il buffer è saturo
+	    - quando si svuota si può riprendere
+
+#### Controllo degli Errori
+dato che il livello di rete è inaffidabile, l’affidabilità va implementata a livello di trasporto e per farlo abbiamo bisogno di implementare un controllo degli errori che agisce sui pacchetti:
+- rilevare e scartare pacchetti corrotti
+- tracciare i pacchetti persi e il loro rinvio
+- riconoscere pacchetti duplicati
+- bufferizzare i pacchetti fuori sequenza finché non arrivano quelli mancanti
+
+*È il livello trasporto del destinatario a gestire il controllo errori e segnalarli al livello trasporto mittente*
+
+realizzazione:
+- numeriamo i pacchetti con un campo nell’header, numerazione sequenziale
+
+Poiché il numero di sequenza va inserito nell’intestazione, va specificata la dimensione massima:
+- se l’intestazione prevede $m$ bit per il numero di sequenza questi possono assumere valori da $0$ a $2^m−1$
+- i numeri di sequenza sono quindi considerati in modulo $2^m$ (ciclici)
+
+Questo numero di sequenza serve al destinatario per:
+- capire la sequenza dei pacchetti in arrivo
+- se ci sono pacchetti persi
+- se ci sono pacchetti duplicati
+
+il mittente come fa a capire che un pacchetto è andato perso?
+- il destinatario ad un ogni pacchetto ricevuto invia un **ACK (acknowledgment)** con il numero del pacchetto che ha ricevuto che funziona da notifica di ricezione
+
+#### Integrazione del controllo degli errori e del flusso
+- il controllo del flusso richiede 2 buffer uno per il mittente e uno per il destinatario
+- il controllo degli errori richiede un numero di sequenza e dei messaggi di ACK
+
+Possiamo combinare i due meccanismi tramite dei buffer numerati nel mittente e nel destinatario:
+
+Mittente
+- quando prepara un pacchetto usa come come numero di sequenza il numero $x$ della prima locazione libera nel buffer
+- quando invia il pacchetto ne memorizza una copia nella locazione $x$ del buffer
+- quando riceve il segnale ACK di un pacchetto libera la posizione di memoria occupata da quel pacchetto
+
+Destinatario
+- quando riceve un pacchetto con numero $y$ lo memorizza nella locazione $y$ fino a quando il livello applicazione non è pronto a riceverlo
+- quando passa il pacchetto al livello applicazione invia ACK al mittente
+
+Dato che i numeri di sequenza sono calcolati in modulo $2^m$ e quindi ciclici possiamo rappresentarli tramite un cerchio
+Il buffer viene rappresentato con un insieme di settori chiamati **sliding windows** che occupano una parte del cerchio
+![[file 83.png]]
+
+- finché il destinatario non svuota il suo buffer non vengono inviati nuovi pacchetti in modo da non sovraccaricare la rete
+
+Nella realtà per memorizzare i numeri di sequenza del prossimo pacchetto da inviare e dell’ultimo inviato si usano delle variabili e le sliding windows vengono rappresentate in modo lineare:
+![[file 84.png]]
+
+#### Controllo della Congestione
+nella commutazione a pacchetto la congestione avviene se il carico della rete ovvero il numero di pacchetti su di essa è superiore alla sua capacità
+- con il controllo della congestione usiamo delle tecniche per fare in modo che questa situazione non si verifichi mai
+
+si parla di congestione perché arrivano più pacchetti di quelli che router e switch riescono a gestire:
+- quindi si riempiono le loro code portando alla perdita di pacchetti e rallentamenti

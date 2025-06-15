@@ -1681,3 +1681,5 @@ Impariamo a costruire un’applicazione client / server che comunica utilizzando
 > il socket è quindi un’interfaccia locale creata dalle applicazioni dove i processi possono inviare e ricevere messaggi da processi di altre applicazioni
 > 
 > tramite questa possiamo inviare datagrammi inaffidabili oppure avere un trasporto affidabile con un flusso orientato di byte
+
+[[programmazione socket]]

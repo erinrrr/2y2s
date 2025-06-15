@@ -1580,3 +1580,104 @@ Poi va impostato anche un intervallo di timeout:
 $$
 \text{TimeoutInterval = EstimatedRTT} + 4 * \text{DevRTT}
 $$
+
+## Interfaccia Socket
+### Comunicazione tra Processi
+Nel paradigma client/server la comunicazione a livello di applicazione avviene fra:
+- processo client
+- processo server
+
+di solito il client è quello che inizia la comunicazione inviando una richiesta al server
+- il server è in attesa di richieste dai client
+
+### API: Application Programming Interface
+Se vogliamo sviluppare un programma in grado di comunicare con un altro programma abbiamo bisogno di un set di istruzioni che riescano a:
+- chiedere ai primi 4 livelli dello stack TCP/IP di aprire una connessione
+- inviare e ricevere dati
+- chiudere la connessione
+
+Un insieme di istruzioni di questo tipo si chiama **API**
+
+### Interfaccia Socket
+I primi 4 livelli quindi racchiudono quella che prende il nome di interfaccia socket:
+![[file 121.png]]
+
+Il socket appare quindi come un terminale / file ma non è fisico, è un’astrazione per una struttura dati utilizzata dalle applicazioni
+
+- se due applicazioni comunicano fra loro significa in realtà sono i loro socket che stanno comunicando
+
+Per permettere la comunicazione ci serve un **socket address**, composto da:
+- indirizzo IP - 32 bit
+- numero di porta - 16 bit
+
+### Indirizzamento dei Processi
+Due applicazioni per comunicare hanno bisogno di identificarsi:
+- tramite l’indirizzo _IP_ identifichiamo l’_host_ a cui inviare i dati
+- tramite il _numero di porta_ identifichiamo il _processo sull’host_
+
+Il numero di porta è contenuto negli header di livello di trasporto
+
+_Come viene recapitato un messaggio_
+![[file 122.png]]
+
+Ma come vengono individuati questi socket? 
+
+dato che la comunicazione è bidirezionale ne abbiamo bisogno sia lato client che lato server
+
+**Lato Server**
+- Socket Address locale:
+	- IP
+	- porta well-known fornita dal progettista 
+		- non cambia durante la vita del server
+
+- Socket Address remoto:
+	- corrisponde al socket address locale del client che invia le richieste al server
+		- indirizzo IP e la porta del client con cui il server comunica
+	- cambia per ogni connessione client diversa (anche se lo stesso client apre più connessioni, la porta remota cambia)
+
+Il server può gestire contemporaneamente molteplici connessioni dallo stesso client (stessa IP ma porte remote diverse)
+
+**Lato Client**
+- Socket Address locale:
+	- IP è quello della macchina client (fornito dal sistema operativo)
+	- la porta locale è scelta dinamicamente dal sistema operativo e chiamata porta “effimera” o “temporanea”
+	- deve essere libera (non occupata da un’altra connessione)
+
+Per il socket address remoto:
+- l’indirizzo IP viene fornito dal DNS
+- la porta è well-known in base all’applicazione, es 80 HTTP
+
+- se stiamo testando un’applicazione conosceremo sia IP che Porta
+
+## Socket TCP o UDP?
+Dato che i due processi per comunicare utilizzano i servizi offerti dal livello di trasporto e qui usiamo i protocolli TCP o UDP, in base a quello scelto cambia anche il tipo di socket da usare
+
+Il tipo da scegliere varia in base a quello di cui ha bisogno l’applicazione:
+- perdita di dati:
+	- alcune applicazioni tollerano la perdita di dati mentre altre hanno bisogno di una altissima fedeltà
+- temporizzazione:
+	- alcune applicazioni come i giochi online hanno bisogno di piccoli ritardi
+	- mentre altre come la posta elettronica non hanno particolari richieste
+- throughput:
+	- alcune applicazioni hanno bisogno di un’ampiezza di banda minima
+	- mentre ad altre non interessa
+- sicurezza:
+	- alcune applicazioni richiedono la cifratura dei dati
+
+TCP offre:
+- trasporto affidabile
+- servizio orientato alla connessione
+- controllo di flusso e congestione
+
+Mentre UDP offre:
+- trasporto non affidabile
+- servizio _non_ orientato alla connessione
+- nessun controllo di flusso e congestione
+
+
+### Programmazione con Socket
+Impariamo a costruire un’applicazione client / server che comunica utilizzando socket
+
+> il socket è quindi un’interfaccia locale creata dalle applicazioni dove i processi possono inviare e ricevere messaggi da processi di altre applicazioni
+> 
+> tramite questa possiamo inviare datagrammi inaffidabili oppure avere un trasporto affidabile con un flusso orientato di byte

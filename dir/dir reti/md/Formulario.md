@@ -99,3 +99,13 @@
 - quando arriva il **primo ACK cumulativo nuovo** che conferma la ricezione del segmento ritrasmesso, si esce da fast recovery:
 	- `cwnd = ssthresh`
 	-  _congestion avoidance_
+
+### RTT
+$\text{EstimatedRTT}_{t+1}=(1-\alpha) * \text{EstimatedRTT}_{t} +  \alpha * \text{SampleRTT}_{t+1}$
+- usually $\alpha = 0.125$
+
+
+$\text{DevRTT} = (1-\beta) * \text{DevRTT} + \beta * |\text{SampleRTT - EstimatedRTT}|$
+- usually $\beta = 0.25$
+
+$\text{TimeoutInterval = EstimatedRTT} + 4 * \text{DevRTT}$

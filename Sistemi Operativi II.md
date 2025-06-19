@@ -29,7 +29,7 @@
 	- [[Introduzione a C#Stringhe|Stringhe]]
 	- [[Introduzione a C#Puntatori e allocazione dinamica della memoria|Puntatori e allocazione dinamica della memoria]]
 
-[[dir/dir reti/esercizi/esercizi]]
+[[dir/dir sistemi/md/Esercizi|Esercizi]]
 
 to-do
 - settimana 1

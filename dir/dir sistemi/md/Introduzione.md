@@ -62,6 +62,9 @@ Gli utenti che possono eseguire il comando `sudo` sono definiti **sudoer** appar
 
 `sudo su -` dice che voglio diventare root user, chiede la pass dell'user attuale
 
+`su`: substitute user, serve per cambiare utente nella shell, solitamente per accedere come root
+- se non si specifica nessun user il comando proverà a cambiare all'utente `root`
+
 per il log out: `exit` o `ctrl+b` 
 
 `sudo`:
@@ -80,6 +83,6 @@ per il log out: `exit` o `ctrl+b`
 
 - **use case:** when you want to do multiple commands as root without typing `sudo` each time
 
----
+ogni tentativo di accedere alla root viene registrato in `/var/log/auth.log`
 
 [^4]: primarily available on Debian-based systems

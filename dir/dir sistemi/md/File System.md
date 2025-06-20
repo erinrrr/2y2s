@@ -91,7 +91,7 @@ i file passwd e group si trovano in:
 - `/etc/group` - contiene tutti i gruppi
 
 - hanno una struttura definita con la quale i programmatori possono “interfacciarsi” ad esempio come fa il comando `adduser`
-- entrambi sono organizzate per righe:
+- entrambi sono organizzate per _righe_:
 	- una riga è una sequenza di caratteri che termina con un carattere speciale chiamato `line feed` o `LF` ed è il valore `0x0A`
 	- ogni riga contiene dei campi separati da `:`
 - il file `passwd` ha la seguente struttura:
@@ -104,10 +104,10 @@ i file passwd e group si trovano in:
 - se una riga inizia per `#` significa che contiene un commento o che il suo contenuto non deve essere interpretato dalle applicazioni che usano il file
 
 ## Informazioni sui file
-- ogni file del filesystem viene identificato da una struttura dati **inode** [^11] ed univocamente identificato da un _inode number_
+- ogni file del filesystem viene identificato da una struttura dati **inode**[^11] ed univocamente identificato da un _inode number_
 - la cancellazione di un file libera l'inode number che verrà riutilizzato quando necessario per un nuovo file
 
-Un file ha diversi _attributi_:
+un file ha diversi _attributi_:
 - Typo - regular, block, fifo
 - User ID - ID dell’utente proprietario
 - Group ID - ID del gruppo a cui è associato il file
@@ -146,47 +146,59 @@ con il comando `ls -i -l file`vediamo:
 	- time
 	- size
 		- per le directory sarebbe la dimensione del file speciale che le descrive
-		- quello con la tabella di coppie $\text{nome\_file}-\text{inode\_number}$
-
-Il valore che si trova dopo il numero dei permessi, indica per le directory quanti file contengono (contando anche `.` e `..`), per i file questo vale 1
-
-Il valore `total ...` in alto invece indica la dimensione della directory in blocchi su disco[^3], solo quella directory senza comprendere le sub-directory di cui verrà considerata solo la dimensione del file speciale
+		- quello contenente la tabella di coppie $(\text{nome\_file},\text{inode\_number})$
+- il valore successivo ai diritti di accesso indica:
+	- per le directory quanti file contengono (contando anche `.` e `..`)
+		- per i file questo vale 1
+- il valore `total ...` in alto invece indica la dimensione della directory in blocchi su disco[^3], solo quella directory senza comprendere le sub-directory di cui verrà considerata solo la dimensione del file speciale
+- flag `-n`: like -l, but list numeric user and group IDs
+- flag `-l` +:
+	- `-c`: timestamp ctime
+	- `-u`: timestamp atime
+	- senza niente mostra anche il timestamp mtime
 
 [^3]: solitamente un blocco ha dimensione tra 1kB e 4kB
 
 per le informazioni estese usare il comando `info ls` ad esempio
 
-`ls -l file` mostra anche il timestamp mtime, per vedere quello ctime aggiungere `-c`, mentre `-u` per atime
-
-un altro comando per ricavare informazioni sui file è `stat [-c format] file`, che restituisce varie informazioni mentre con`stat -c %B filename` per ricaviamo la dimensione del blocco su disco che coincide con la dimensione di un settore di disco
+un altro comando per ricavare informazioni sui file è `stat [-c format] file`, che restituisce varie informazioni mentre con `stat -c %B filename` per ricaviamo la dimensione del blocco su disco che coincide con la dimensione di un settore di disco
 
 ## Permessi di accesso
 #### File
 - utente proprietario - chi crea il file/directory
 - gruppo proprietario - gruppo primario dell'utente proprietario
-il proprietario definisce i permessi di accesso, chi può leggere, scrivere ed eseguire un file/directory, sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valori `r,w,e`, esempio: ![[dir/dir sistemi/asset/file 6.png]]
+
+il proprietario definisce i permessi di accesso:
+- chi può leggere
+- scrivere
+- eseguire un file/directory
+
+sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valori `r,w,x`, esempio: ![[dir/dir sistemi/asset/file 6.png]]
+- il primo carattere è `d` se è una directory
+- altrimenti è un file e troviamo `-`
+
 generalmente:
 ![[dir/dir sistemi/asset/file 7.png|dir sistemi/asset/file 7.png]]
 #### Directory
 ![[dir/dir sistemi/asset/file 8.png]]
 
 #### Permessi speciali
-Questo tipo di permessi può essere applicato sia a file che a directory, troviamo:
-- sticky bit `t`
-- setuid bit `s`
-- setgid bit `s`
+Possono essere applicati sia a file che a directory, essi sono:
+- **sticky bit** - `t`
+- **setuid bit** - `s`
+- **setgid bit** - `s`
 
 ##### sticky bit
 - inutile sui file
-- se invece è applicato su una directory corregge il comportamento di `w+x` in modo da non permettere la cancellazione di file anche senza permessi sul file stesso.
+- applicato su una directory corregge il comportamento di `w+x` in modo da non permettere la cancellazione di file anche senza permessi sul file stesso
 
-Siano:
+siano:
 - $D$ una directory
 - $U$ e $U’$ due utenti diversi
 - $D$ appartiene a $U$
-- $D$ non appartiene a $U’$ ne al gruppo di $U’$
+- $D$ non appartiene a $U’$ né al gruppo di $U’$
 - $f$ un file in $D$
-Se $U’$ cerca di cancellare $f$ allora:
+se $U’$ cerca di cancellare $f$ allora:
 - senza sticky bit su $D$ sarà sufficiente avere i diritti di scrittura su $D$ anche se non li si hanno su $f$
 - con lo sticky bit sono necessari anche i permessi di scrittura su $f$ per cancellarlo
 

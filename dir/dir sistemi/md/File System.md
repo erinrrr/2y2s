@@ -141,15 +141,15 @@ con il comando `ls -i -l file`vediamo:
 - flag `-i`: l'inode number del file 
 - flag `-l`: 
 	- diritti
+	- il valore successivo indica:
+		- per le directory quanti file contengono (contando anche `.` e `..`)
+			- per i file questo vale 1
 	- user
 	- group
 	- time
 	- size
 		- per le directory sarebbe la dimensione del file speciale che le descrive
 		- quello contenente la tabella di coppie $(\text{nome\_file},\text{inode\_number})$
-- il valore successivo ai diritti di accesso indica:
-	- per le directory quanti file contengono (contando anche `.` e `..`)
-		- per i file questo vale 1
 - il valore `total ...` in alto invece indica la dimensione della directory in blocchi su disco[^3], solo quella directory senza comprendere le sub-directory di cui verrà considerata solo la dimensione del file speciale
 - flag `-n`: like -l, but list numeric user and group IDs
 - flag `-l` +:
@@ -179,8 +179,20 @@ sono definiti dalla terna User-Group-Others ognuna delle quali può avere i valo
 
 generalmente:
 ![[dir/dir sistemi/asset/file 7.png|dir sistemi/asset/file 7.png]]
+
 #### Directory
 ![[dir/dir sistemi/asset/file 8.png]]
+
+| perm | rappresentazione | significato pratico         | azioni possibili                                                                                                                                           |
+| ---- | ---------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0    | `---`            | nessun accesso              | nulla: né leggere, né scrivere, né attraversare, nemmeno che la directory esiste                                                                           |
+| 1    | `--x`            | solo attraversamento        | solo entrare nella dir (`cd`, accesso diretto sapendo il nome)                                                                                             |
+| 2    | `-w-`            | solo scrittura              | inutile da solo (senza `x`, non serve a niente) (posso eliminare solo con sudo a quanto pare (boh))                                                        |
+| 3    | `-wx`            | scrittura + attraversamento | **entri**, **crei**, **elimini** o **rinomini** file/dir all’interno (creare e cancellare file, ma non listare il contenuto) se si conosce il nome di essi |
+| 4    | `r--`            | solo lettura<br>            | **listare la directory** (`ls`), ma non puoi entrare né modificare                                                                                         |
+| 5    | `r-x`            | lettura + attraversamento   | puoi **elencare** e **entrare**, ma **non scrivere**, accesso ai file se si conosce il nome                                                                |
+| 6    | `rw-`            | lettura + scrittura         | puoi **elencare** e **scrivere**? no: senza `x` non entri né modifichi                                                                                     |
+| 7    | `rwx`            | tutti i permessi            | **tutto**: elenchi, entri, crei, elimini, rinomini                                                                                                         |
 
 #### Permessi speciali
 Possono essere applicati sia a file che a directory, essi sono:
@@ -203,10 +215,13 @@ se $U’$ cerca di cancellare $f$ allora:
 - con lo sticky bit sono necessari anche i permessi di scrittura su $f$ per cancellarlo
 
 ##### setuid bit
-- si usa solo per file eseguibili 
-- dato un file con il setuid bit settato, il file opererà con i permessi del proprietario di quel file  e non dell’esecutore quindi se il proprietario è root il programma viene eseguito con privilegi di root indipendentemente dall’esecutore
-- Il comando `passwd` ha il setuid, permette a un utente di cambiare solo la propria password, mentre l'utente root può cambiare la password di qualsiasi utente, il proprietario è root
-- generalmente non vogliamo che questo comportamento sia possibile, poiché come root possiamo eliminare dei file su cui non abbiamo permessi di scrittura o di cui non siamo proprietari, esempio il comando `rm`
+- _si usa solo per file eseguibili_
+- dato un file con il setuid bit settato, il file opererà con i _permessi del proprietario_ di quel file e _non dell’esecutore_ quindi:
+	- se il proprietario è root il programma viene eseguito con privilegi di root indipendentemente dall’esecutore
+- il comando `passwd` ha il setuid, permette a un utente di cambiare solo la propria password
+	- l'utente root può cambiare la password di qualsiasi utente
+	- il proprietario è root
+- generalmente non vogliamo che questo comportamento sia possibile, poiché come root possiamo eliminare dei file su cui non abbiamo permessi di scrittura o di cui non siamo proprietari, comando `rm`
 - i programmi con setuid implementano dei controlli interni per garantire che gli utenti non possano abusarne
 
 ##### setgid bit
@@ -222,9 +237,16 @@ I permessi speciali vengono visualizzati al posto del bit di execute(`x`):
 - il `setgid` nella terna group
 - lo `sticky` nella terna other
 
-se il permesso di esecuzione, quindi il bit della `x` c'era allora la `s`o la `t`saranno minuscoli altrimenti saranno maiuscoli
+caso:
+- abbiamo i permessi di esecuzione (c'è `x`):
+	- allora `s` o `t` saranno minuscoli
+- non abbiamo i permessi di esecuzione
+	- `s` o `t` saranno minuscoli
+- ovviamente rispettando la cardinalità
 
-- i permessi di un file appena creato dovrebbero essere `rw- r-- r--` = 666 - 022 (valore di umask generally)
+permessi default:
+- di un file appena creato sono `rw- r-- r--` = 666 - 022 (valore di umask generally)
+- di una directory sono: `d rwx r-x r-x`
 
 ### Cambiare i permessi di un file
 il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o directory, ci sono due modi:
@@ -235,7 +257,7 @@ il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o
 	- si possono fornire 3 numeri se si assume setuid, setgid e sticky settati
 	- dobbiamo effettuare somme in binario per decidere i permessi speciali[^4]
 - modalità simbolica:
-	- format: `chmod [ugoa][+-=][perms...]`[^5]
+	- format: `chmod [ugoa][+-=][perms...] filename`[^5]
 		- **+**: aggiungere permessi
 		- **-**: rimuovere permessi
 		- **=**: assegnare permessi esplicitamente, sovrascrivendo quelli esistenti con quelli specificati
@@ -244,6 +266,9 @@ il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o
 		- una o più lettere `rwxXst` per i permessi[^6]
 		- una lettera dell'insieme `{ugo}` 
 
+- `X`: (execute condizionale), aggiunge `x` solo se:
+	- il file è una directory
+	- o se almeno un utente aveva già il permesso di esecuzione[^7]
 
 [^4]: | Valore   | Significato                                   |
 | -------- | --------------------------------------------- |
@@ -269,14 +294,14 @@ il comando `chmod mode [, mode...] filename` setta i diritti di accesso a file o
 
 
 _esempi_
-- Per settare `rws r-S -w-` 
+- per settare `rws r-S -w-` 
 	- usiamo `chmod 6742 filename
 	- in modalità simbolica: `chmod u=rS,g=rws,o=w filename` oppure:
 	    - `chmod g+rwsx filename`
 	    - `chmod u+rs filename`
 	    - `chmod o+w filename
 
-- Per settare `rwx r-- -wT` usiamo `chmod 1742 filename`
+- per settare `rwx r-- -wT` usiamo `chmod 1742 filename`
 
 ###### Cambiare owner e gruppo di un file
 - `chown [-R] proprietario {file}`

@@ -92,3 +92,37 @@
 		- se è un device non deve essere montato
 	- alternativa `/sbin/mkfs`
 	- distrugge tutti i dati esistenti sulla partizione/dispositivo
+
+
+---
+#### comandi visti in [[Introduzione]]
+- sudo
+- adduser
+
+#### comandi visti in [[File System]]
+- mkdir
+- touch
+- mount
+- cat
+- ls
+
+[[File System#Cambiare i permessi di un file]]
+- `chmod mode [, mode...] filename`
+[[File System#Cambiare owner e gruppo di un file]]
+- `chown [-R] proprietario {file}`
+- `chgrp [-R] gruppo {file}`
+
+> line feed
+
+#### comandi visti in [[Processi]]
+- sleep
+- jobs
+- bg
+- fg
+- ps
+- top
+- kill
+- nice
+- renice
+- strace
+tutti descritti in [[Processi#Alcuni comandi]]

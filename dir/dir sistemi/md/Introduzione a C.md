@@ -1,30 +1,64 @@
 - C è un linguaggio ad alto livello
 
 ## Ambiente di sviluppo e di esecuzione in C
-- gcc (GNU Compiler Collection) è il compilatore C che svolge attività di pre-processamento, compilazione e linking
+- gcc (GNU Compiler Collection) è il compilatore C che svolge 4 attività per trasformare un file sorgente C in un eseguibile:
 ![[dir/dir sistemi/asset/file 12.png]]
-1. nell'editor scriviamo il codice e lo memorizziamo nel disco
-2. il pre-processamento ha tante funzioni, gestisce gli `include`, i condizionali, i commenti ecc, modella il codice già esistenti
-3. il compiler prende l'output del processamento e genera del codice assembly, che viene assemblato generando il codice macchina, detto anche _object code_ (`.o`)
-4. il linker:
-	- unisce gli object code in un eseguibile
-	- collega librerie esterne se utilizzate 
-	- genera l'entry point per il programma (`main`)
-	- esistono due tipi di linking:
-		- statico: il codice esterno viene copiato all'interno del file finale
-		- dinamico: il codice non viene compilato ma viene scritto il nome della libreria cui fa riferimento
+1. **Editing**
+    - il programmatore scrive il codice sorgente in un file `.c`, utilizzando un editor di testo
+    - il file viene salvato su disco
+2. **Pre-processing (Preprocessore)**
+    - identificato dal comando: `gcc -E file.c`
+    - rimuove i commenti, espande le macro (`#define`), include i file header (`#include`), e gestisce direttive condizionali (`#ifdef`, `#ifndef`, ecc.)
+    - produce un file sorgente intermedio puramente C, privo di direttive del preprocessore
+3. **Compilazione + Assemblaggio**
+    - compilazione (`gcc -S`): trasforma il codice C pre-processato in linguaggio assembly (`.s`)
+    - assemblaggio (`gcc -c`): l’assembler converte il codice assembly in object code (codice macchina), generando un file `.o`
+4. **Linking** (collegamento)
+    - combina uno o più file oggetto `.o` in un unico eseguibile
+    - collega anche le librerie necessarie (standard o esterne)
+    - genera il punto d’ingresso del programma (di solito la funzione `main`)
+    - **tipi di linking**:
+        - statico: copia direttamente il codice della libreria nell’eseguibile finale → eseguibile indipendente, ma più grande
+        - dinamico: inserisce solo un riferimento alla libreria (es. `.so` su Linux) → eseguibile più piccolo, ma dipende da librerie presenti a runtime
+
 ![[dir/dir sistemi/asset/file 13.png]]
+
 per quanto riguarda l'esecuzione:
-5. il loader prende il programma dal disco e lo carica in RAM
-6. la CPU esegue tutte le istruzioni quando possibile
+5. **Caricamento** - **loader**:
+	- il loader è un componente del sistema operativo
+	- caricare l'eseguibile (generato dal linker) dalla memoria secondaria (disco) alla memoria principale (RAM)
+	- allocare spazio per stack, heap e variabili globali
+	- risoluzione dei simboli dinamici, se il programma usa linking dinamico
+	- passare il controllo alla CPU nel punto di ingresso del programma (es. `main`)
+6. **Esecuzione** - **CPU**:
+	- una volta caricato in RAM, la CPU comincia a leggere ed eseguire le istruzioni del programma
+	- l'esecuzione segue il flusso di controllo del codice (istruzioni, salti, chiamate di funzione)
+	- le prestazioni dipendono anche dal sistema operativo, dalla gestione dei processi e dalla presenza di multitasking
+
+```css
+[file.c] —→ Preprocessore —→ [codice C pulito]
+               ↓
+         Compilatore —→ [assembly]
+               ↓
+          Assemblatore —→ [file.o]
+               ↓
+             Linker —→ [eseguibile]
+               ↓
+             Loader —→ [RAM]
+               ↓
+              CPU —→ [esecuzione]
+```
 
 quindi le fasi e i tool per creare ed eseguire un programma in C sono:
-- edit (editor di testo)
-- pre-process (gcc)
-- compile (gcc)
-- link (gcc)
-- load (SO)
-- execute (SO)
+
+```css
+Edit       → editor di testo
+Preprocess → gcc -E
+Compile    → gcc -S
+Link       → gcc -o
+Load       → Loader (SO)
+Execute    → CPU (via SO)
+```
 
 ##### Differenze con Java e con Python
 - la compilazione di un programma in Java con javac produce codice interpretabile dalla JVM, contenuto nel `.class`
@@ -205,7 +239,6 @@ esistono diversi modi per dichiarare le variabili:
 | float       | 4 byte       | 1.2E - 38 to  <br>3.4E + 38     | 6 decimal places  |
 | double      | 8 byte       | 2.3E - 308 to  <br>1.7E + 308   | 15 decimal places |
 | long double | 10 byte      | 3.4E - 4932 to  <br>1.1E + 4932 | 19 decimal places |
-
 
 ###### Char
 - per i caratteri si usa il tipo `char`

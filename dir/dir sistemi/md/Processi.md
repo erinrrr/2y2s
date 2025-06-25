@@ -124,32 +124,44 @@ alcune aree di memoria potrebbero essere condivise:
 	- il comando può leggere l'input da tastiera e scrivere su schermo
 	- finché non termina, il prompt non viene restituito e non si possono sottomettere altri comandi alla shell
 	- (praticamente tutti i casi visti finora)
-- **Background**
+
+- **Background**:
 	- il comando non può leggere l'input da tastiera ma può scrivere su schermo
 	- il prompt viene restituito immediatamente
 	- mentre il job viene eseguito in background si possono dare altri comandi alla shell
+
 <br>
+
 - il comando `sleep` ci permette di generare un processo che si mette in pausa per un tempo specificato nell'argomento
 	- possiamo scegliere la modalità, di base viene lanciato in foreground
 	- se inseriamo `&` viene inserito in background
+	- esempi:
+		- `sleep 10 &`
+		- `sleep 30 & ps | grep sleep`[^2]
+
 <br>
+
 - possiamo vedere il numero di job in esecuzione con `jobs [-l] [-p]`
-	- `bg`: porta un processo in background
-	- `fg`: porta un processo in foreground
-	- facendo `CTRL + Z` stoppiamo un processo, lo risvegliamo con `bg` o `fg`
-	- `kill %job_number` termina un processo in background
 - si possono identificare job anche con:
 	- `%prefix` dove prefix è la parte iniziale del job desiderato (`%sl` per sleep)
-	- `%+` oppure `%%` per l'ultimo job mandato
-	- `%-` per il penultimo job mandato
+	-	`%+` oppure `%%` per l'ultimo job mandato
+	-	`%-` per il penultimo job mandato
+
 <br>
+
+- `bg`: porta un processo in background
+- `fg`: porta un processo in foreground
+- facendo `CTRL + Z` stoppiamo un processo, lo risvegliamo con `bg` o `fg`
+- `kill %job_number` termina un processo in background
+
+<br>
+
 - possiamo eseguire un job composto da più comandi contemporaneamente tramite il **pipelining**: 
 	- `comando1 | comando2 | ... comando n`
-	- lo standard output di un comando $i$ diventa l'input del comando $i+1$
-	- se uso `|&` ridireziono lo standard error sullo standard input del comando successivo
-	- il comando `i+1` non deve necessariamente usare l'output/stderror del comando `i` quindi quello precedente
+	- lo std output di un comando `i` diventa lo std input del comando `i+1`
+	- `|&` redirige sia stdout che stderr del comando `i` come input per `i+1`
+	- il comando `i+1` non è obbligato ad usare l'output del comando precedente
 
---- 
 ###### Alcuni comandi
 - `ps [opzioni] [pid]`: display information about a selection of the active processes
 	- `-e`: tutti i processi di tutti gli utenti 
@@ -170,12 +182,14 @@ alcune aree di memoria potrebbero essere condivise:
 		- SZ: dimensione totale del processo in numero di pagine sia in memoria che su disco
 		- WCHAN: se il processo è in attesa di un qualche segnale o in sleep
 <br>
-- `top` è un `ps` interattivo:
-	- `-b`: non accetta più comandi interattivi ma continua a fare refresh ogni pochi secondi
+ - `top` è un `ps` interattivo:
+	- `-b` (batch): non accetta più comandi interattivi ma continua a fare refresh ogni pochi secondi
 	- `-n num`: effettua `num` refresh
 	- `-p`: funziona come in `ps
-	- da aperto `?` per avere una lista di comandi accettati
+	- durante l'esecuzione, premere `?` per avere una lista di comandi interattivi
+
 <br>
+
 - `kill [-l [signal]] [-signal] [pid...]`: send a signal to a process
 	- `-l`: mostra la lista dei segnali
 	- un segnale è identificato dal numero oppure da nome `+ [SIG]`
@@ -186,14 +200,22 @@ alcune aree di memoria potrebbero essere condivise:
 		- `SIGKILL, SIGINT`: terminazione processi (`SIGINT` = `ctrl + c`)
 		- `bg` invia `SIGCONT` al job indicato
 		- `SIGUSR1` e `SIGUSR2` sono impostati per essere usati dall’utente per le proprie necessità, consentono una semplice forma di comunicazione tra processi [^1]
+
 <br>
+
 - `nice [-n num] [comando]`: run a program with modified scheduling priority
 	- usato senza opzioni dice quant'è il *niceness* di partenza, ossia il valore che va aggiunto alla priorità del processo
 		- default impostato a $0$
 		- varia da $-19$ a $+20$
 	- `nice comando` lancia comando con niceness uguale a 0 o a `num` se dati
+
+<br>
+
 - `renice priority {pid}`:
 	- interviene su processi già in esecuzione
+
+<br>
+
 - `strace [-p pid] [comando]`:
 	- lancia un comando visualizzando tutte le sue system call
 	- oppure visualizza system call del processo `pid`
@@ -202,3 +224,16 @@ alcune aree di memoria potrebbero essere condivise:
 
 
 [^1]: ad esempio in un programma P1 possiamo assegnare un pezzo di codice a `SIGUSR1` e se un programma P2 invia un `SIGUSR1` a P1 questo eseguirà quel codice
+
+
+[^2]:`sleep 30 &`
+		- avvia un processo che dorme per 30 second
+		- grazie a `&` viene eseguito in background
+		- il terminale non si blocca e ti restituisce subito la prompt, stampa qualcosa tipo:
+			`[1] 12345`
+			dove:
+			- `[1]` - è l’ID del job
+			- `12345` - è il PID (Process ID)
+	`ps | grep sleep`
+		- `ps` - mostra i processi attivi dell’utente
+		- `grep sleep` - filtra l’output per mostrare solo quelli che contengono la parola "sleep"

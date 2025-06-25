@@ -1,18 +1,56 @@
 Le due entità fondamentali in Linux sono:
-- file - descrivono/rappresentano risorse
-- processi - permettono di elaborare dati e usare le risorse
+- **file** - descrivono/rappresentano risorse
+- **processi** - permettono di elaborare dati e usare le risorse
 
-quando un file eseguibile è in esecuzione prende il nome di processo
+>quando un file eseguibile è in esecuzione prende il nome di processo
+
 - sono esempi di processi quelli creati eseguendo i comandi presenti in [[Cheat sheet filesystem]]
 - eccezione per `echo` e `cd` che sono eseguiti all'interno del processo di shell
 - anche la *bash* è un processo
 - lo stesso file può dare vita a più processi (multitasking)
+- linux è multi-processo
 
->ridirezione dell'output:
+>redirezione dell'output:
 >possiamo usare i simboli `>` e `<` per redirigere l'output di un comando su di un file, con `ls > dirlist` andremo a scrivere l'output di `ls` nel file `dirlist`
 
+> [!info]+ file descriptor standard
+> | Nome                | Abbreviazione | Numero | Descrizione                                       |
+| ------------------- | ------------- | ------ | ------------------------------------------------- |
+| **Standard Input**  | `stdin`       | `0`    | Da dove legge il programma (di default: tastiera) |
+| **Standard Output** | `stdout`      | `1`    | Dove va l’output normale (di default: schermo)    |
+| **Standard Error**  | `stderr`      | `2`    | Dove va l’output di errore (di default: schermo)  | 
+>
+> - redirigere lo **stdout** in un file:
+> 	`comando > output.txt` equivalente a `comando 1> output.txt`
+>
+> - redirigere lo **stderr** in un file:
+> 	`comando 2> errori.txt`
+> 
+> - redirigere **stdout** e **stderr** insieme:
+> 	`comando > tutto.txt 2>&1`
+> 	- `> tutto.txt` → invia stdout nel file
+> 	- `2>&1` → invia stderr **allo stesso posto** di stdout
+> 
+> - redirezione dello **stdin**:
+>     `comando < input.txt` equivale a `comando 0< input.txt`
+>     il comando leggerà i dati da `input.txt` invece che dalla tastiera
+>     si può redigerlo da un file o da un altro comando
+> 
+>> [!NOTE]- esempi di redirezione
+> > - `ls > dirlist`
+> > 	- output di `ls` ridirezoinato in `dirlist`
+> > - `2>&1 ls > dirlist`
+> > 	- `stderr` ridirezionato in  `stdout`
+> > 	- `stdout` di `ls` ridirezionato su `dirlist` dopo che `stderr` è stato redirezionato e quindi `dirlist` contiene solo lo `std` di `ls`
+> > - `ls > dirlist 2>&1`
+> > 	- output di `ls` ridirezionato in `dirlist`
+> > 	- `stderr` ridirezionato in `stdout`
+> > 	- quindi sia `stderr` che `stdout` sono ridirezionati su `dirlist`
+> > - `ls 2>/dev/null` ??
+> > - `2>/dev/null ls` ??
+
 ### Rappresentazione dei processi
-- **PID** - Processi Idetifier
+- **PID** - Process Identifier
 	- identificatore univoco di un processo
 	- in un dato istante non ci possono essere 2 processi con lo stesso PID
 	- terminato un processo il suo PID viene liberato
@@ -27,16 +65,30 @@ quando un file eseguibile è in esecuzione prende il nome di processo
 		- Effective GID
 		- Saved UID: Saved User ID (UID avuto prima dell'esecuzione del SetUID)
 		- Saved GID
-		- Current Working DIrectory
+		- Current Working Directory
 		- Umask: file mode creation mask
 		- Nice: static priority of the process
+	- differenza tra RUID, EUID, SUID:
+		- RUID:
+			- utente che ha lanciato il processo
+			- serve per i controlli di accesso normali
+		- EUID:
+			- utente con cui il processo opera realmente
+			- determina i privilegi effettivi (es. accesso ai file)
+		- SUID:
+			- quando attivo su un file eseguibile:
+		    - alla sua esecuzione:
+			    - il EUID diventa il proprietario del file, non il chiamante
+			    - mentre il RUID è id di chi lo esegue
+			- usato per far concedere privilegi temporanei
+
 - **6 aree di memoria**
 	- Text Segment: istruzioni da eseguire in linguaggio macchina
-	- Data Segment: dati statici inizializzati e alcune costanti di ambiene
+	- Data Segment: dati statici inizializzati e alcune costanti di ambiente
 	- BSS: block started from symbol, dati statici non inizializzati
 	- Heap: dati dinamici (allocati con `malloc` e simili)
 	- Stack: chiamate a funzioni con i corrispondenti dati dinamici
-	- MMS: Memory Mapping Segment, librerie esterne dinamiche usate dal processo, estensione dell'heap in alcuni casi
+	- MMS: Memory Mapping Segment, tutto ciò che riguarda librerie esterne dinamiche usate dal processo, estensione dell'heap in alcuni casi
 
 alcune aree di memoria potrebbero essere condivise:
 - il text segment tra più istanze dello stesso processo
@@ -45,20 +97,34 @@ alcune aree di memoria potrebbero essere condivise:
 ![[dir/dir sistemi/asset/file 11.png]]
 
 ### Stati di un processo
-- Running (R): in esecuzione su un processore
-- Runnable (R): pronto per essere eseguito, in attesa che lo scheduler lo (ri)seleziona per l'esecuzione (non è in attesa di alcun evento)
-- Sleep (interruptible)(S): in attesa di un evento e non può essere scelto dallo scheduler
-- Zombie (Z): il processo è terminato ma il suo PCB viene ancora mantenuto dal kernel perché il processo padre non ha ancora richiesto il suo exit status
-- Stopped (T): caso particolare di sleeping, ricevuto STOP, in attesa di CONT
-- Traced (t): in esecuzione di debug, oppure in attesa di un segnale, altro caso particolare di sleeping
-- Uninterruptible sleep (D)_ come sleep ma sta facendo operazioni di IO su dischi lenti e non può né essere ucciso né interrotto
+- **Running** (R): in esecuzione su un processore
+- **Runnable** (R): 
+	- pronto per essere eseguito
+	- in attesa che lo scheduler lo (ri)seleziona per l'esecuzione
+	- non è in attesa di alcun evento
+- **Sleep** (interruptible)(S):
+	- in attesa di un evento
+	- non può essere scelto dallo scheduler
+- **Zombie** (Z):
+	- il processo è terminato
+	- le sue 6 aree di memoria non sono più in memoria
+	- il suo PCB viene ancora mantenuto dal kernel perché il processo padre non ha ancora richiesto il suo "exit status"
+- **Stopped** (T):
+	- caso particolare di sleeping
+	- ha ricevuto un segnale STOP, in attesa di CONT
+- **Traced** (t):
+	- in esecuzione di debug, oppure in attesa di un segnale
+	- altro caso particolare di sleeping
+- **Uninterruptible sleep** (D):
+	- come sleep ma sta facendo operazioni di IO su dischi lenti
+	- non può né essere ucciso, né interrotto
 
 ### Modalità di esecuzione dei processi
-- Foreground:
+- **Foreground**:
 	- il comando può leggere l'input da tastiera e scrivere su schermo
 	- finché non termina, il prompt non viene restituito e non si possono sottomettere altri comandi alla shell
 	- (praticamente tutti i casi visti finora)
-- Background
+- **Background**
 	- il comando non può leggere l'input da tastiera ma può scrivere su schermo
 	- il prompt viene restituito immediatamente
 	- mentre il job viene eseguito in background si possono dare altri comandi alla shell

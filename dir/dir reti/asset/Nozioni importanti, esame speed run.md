@@ -28,6 +28,19 @@ Una **query** è una richiesta che un client (come un programma o un utente) inv
 
 Un **socket TCP** è un **endpoint** per una connessione di rete che utilizza il protocollo TCP (Transmission Control Protocol), i socket permettono a due programmi (di solito su macchine diverse) di comunicare tra loro.
 
+> **Intensità del traffico**: $La/R$ dove:
+> - R = rate di trasmissione (bps)
+> - L = lunghezza del pacchetto (bit)
+> - a = tasso medio di arrivo dei pacchetti (pkt/s)
+> se tende ad 1 il ritardo è consistente
+> se maggiore di 1, più lavoro in arrivo di quanto possa essere svolto
+
+> [!info] Domanda: Cosa si intende per payload?
+Risposta: Il payload è la parte utile di un messaggio o di un pacchetto di dati, cioè i dati reali da trasmettere, esclusi gli header, i trailer e le altre informazioni di controllo.
+
+I pacchetti a livello di trasporto sono chiamati:
+- segmenti (TCP)
+- datagrammi utente (UDP)
 # La rete
 La rete come detto prima è organizzata a **layer** costruiti l’uno sull’altro, lo scopo di ogni layer è quello di offrire servizi agli strati superiori nascondendo i dettagli implementativi.
 Le entità che formano questi strati prendono il nome di **peer**, quindi ad esempio due layer di **collegamento** formano un peer.

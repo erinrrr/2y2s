@@ -87,9 +87,10 @@
 - `mkfs [-t type fsoptions] device`
 	- build a linux filesystem on device, su un dispositivo di archiviazione
 		- circa un formattazione, organizza lo spazio su disco secondo una struttura specifica preparando quella zona di memoria per memorizzare file in un determinato formato
+
 	- `-t`: specifica il tipo di filesystem (es. `ext4`, `xfs`, `vfat`)
 	- `device`: device su cui creare il filesystem, device file in `/dev` oppure file regolare, creato con `dd`
-		- se è un device non deve essere montato
+		- se è un device non deve essere monta to
 	- alternativa `/sbin/mkfs`
 	- distrugge tutti i dati esistenti sulla partizione/dispositivo
 

@@ -77,9 +77,9 @@ Le due entità fondamentali in Linux sono:
 			- determina i privilegi effettivi (es. accesso ai file)
 		- SUID:
 			- quando attivo su un file eseguibile:
-		    - alla sua esecuzione:
+			- alla sua esecuzione:
 			    - il EUID diventa il proprietario del file, non il chiamante
-			    - mentre il RUID è id di chi lo esegue
+			    - mentre il RUID è id di chi lo lancia
 			- usato per far concedere privilegi temporanei
 
 - **6 aree di memoria**
@@ -185,7 +185,7 @@ alcune aree di memoria potrebbero essere condivise:
  - `top` è un `ps` interattivo:
 	- `-b` (batch): non accetta più comandi interattivi ma continua a fare refresh ogni pochi secondi
 	- `-n num`: effettua `num` refresh
-	- `-p`: funziona come in `ps
+	- `-p`: funziona come in `ps`
 	- durante l'esecuzione, premere `?` per avere una lista di comandi interattivi
 
 <br>

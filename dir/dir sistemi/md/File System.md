@@ -161,7 +161,7 @@ con il comando `ls -i -l file`vediamo:
 
 per le informazioni estese usare il comando `info ls` ad esempio
 
-un altro comando per ricavare informazioni sui file è `stat [-c format] file`, che restituisce varie informazioni mentre con `stat -c %B filename` per ricaviamo la dimensione del blocco su disco che coincide con la dimensione di un settore di disco
+un altro comando per ricavare informazioni sui file è `stat [-c format] file`, che restituisce varie informazioni mentre con `stat -c %B filename` per ricavare la dimensione del blocco su disco che coincide con la dimensione di un settore di disco
 
 ## Permessi di accesso
 #### File

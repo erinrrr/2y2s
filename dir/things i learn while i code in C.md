@@ -1,3 +1,20 @@
+## programmazione socket
+[[dir/dir sistemi/md/Programmazione socket]]
+
+## alcune librerie
+- `#include <stdlib.h>` → funzioni standard di utilità (es. `malloc`, `free`, `exit`, conversioni `atoi`, `strtol`)
+- `#include <stdint.h>` → tipi interi con dimensione fissata (`uint8_t`, `int32_t`, ecc.), utili per portabilità
+- `#include <string.h>` → funzioni per manipolazione di stringhe e memoria (`strlen`, `strcpy`, `memcmp`, `memset`)
+- `#include <unistd.h>` → Chiamate di sistema POSIX di basso livello (`read`, `write`, `close`, `fork`, `exec`, `sleep`)
+- `#include <errno.h>` → definisce la variabile globale `errno` e costanti degli errori di sistema, usata per capire il motivo di un fallimento di una funzione di sistema
+
+- `#include <arpa/inet.h>` → funzioni per conversione di indirizzi IP e numeri di porta tra formati _testuale ↔ binario_ e _host ↔ network_ 
+- `#include <netinet/in.h>` → strutture e costanti per protocolli di rete Internet (IPv4/IPv6), come `sockaddr_in`, `sockaddr_in6`, `INADDR_ANY`
+- `#include <sys/socket.h>` → definizioni per la creazione e gestione di socket (strutture `sockaddr`, costanti `AF_INET`, `SOCK_STREAM`, funzioni `socket`, `bind`, `connect`)
+- `#include <sys/types.h>` → tipi di dati usati in chiamate di sistema (`size_t`, `ssize_t`, `off_t`, `pid_t`), spesso incluso insieme ad altri header POSIX
+
+POSIX stands for **Portable Operating System Interface** standard che specifica un insieme di API, comandi e comportamenti per rendere i programmi portabili tra diversi os di tipo unix e altri che lo implementano
+
 ## header file
  `.h`:
  - contiene dichiarazioni:
@@ -17,6 +34,8 @@ _uso in un programma_:
 - esempio: se in `main.c` abbiamo `#include "client.h"` allora durante la compilazione si farà `gcc main.c client.c -o main`
 - _trucco_: ogni `.c` include sempre il proprio `.h` all’inizio così:
 	- se cambi la firma di una funzione nel `.c` ma ti dimentichi di aggiornarla nel `.h`, il compilatore se ne accorge subito
+
+- **run**: una volta compilato tutto, si può eseguire il codice da terminale facendo `./main`
 
 ## funzioni file
 **apertura e chiusura:**
@@ -85,21 +104,6 @@ questo pattern serve per sapere **quanto è grande il file** e poi fa il `rewind
 
 possiamo anche:
 `L = (int)file_size`, dato che `ftell` restituisce un `long` in quanto la dimensione del file può essere più grande di un int
-
-## alcune librerie
-- `#include <stdlib.h>` → funzioni standard di utilità (es. `malloc`, `free`, `exit`, conversioni `atoi`, `strtol`)
-- `#include <stdint.h>` → tipi interi con dimensione fissata (`uint8_t`, `int32_t`, ecc.), utili per portabilità
-- `#include <string.h>` → funzioni per manipolazione di stringhe e memoria (`strlen`, `strcpy`, `memcmp`, `memset`)
-- `#include <unistd.h>` → Chiamate di sistema POSIX di basso livello (`read`, `write`, `close`, `fork`, `exec`, `sleep`)
-- `#include <errno.h>` → definisce la variabile globale `errno` e costanti degli errori di sistema, usata per capire il motivo di un fallimento di una funzione di sistema
-
-- `#include <arpa/inet.h>` → funzioni per conversione di indirizzi IP e numeri di porta tra formati _testuale ↔ binario_ e _host ↔ network_ 
-- `#include <netinet/in.h>` → strutture e costanti per protocolli di rete Internet (IPv4/IPv6), come `sockaddr_in`, `sockaddr_in6`, `INADDR_ANY`
-- `#include <sys/socket.h>` → definizioni per la creazione e gestione di socket (strutture `sockaddr`, costanti `AF_INET`, `SOCK_STREAM`, funzioni `socket`, `bind`, `connect`)
-- `#include <sys/types.h>` → tipi di dati usati in chiamate di sistema (`size_t`, `ssize_t`, `off_t`, `pid_t`), spesso incluso insieme ad altri header POSIX
-
-POSIX stands for **Portable Operating System Interface** standard che specifica un insieme di API, comandi e comportamenti per rendere i programmi portabili tra diversi os di tipo unix e altri che lo implementano
-
 
 ## mem
 | funzione                       | scopo                                                     | note                                                           |

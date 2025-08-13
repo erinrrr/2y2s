@@ -97,3 +97,69 @@ possiamo anche:
 - `#include <netinet/in.h>` → strutture e costanti per protocolli di rete Internet (IPv4/IPv6), come `sockaddr_in`, `sockaddr_in6`, `INADDR_ANY`
 - `#include <sys/socket.h>` → definizioni per la creazione e gestione di socket (strutture `sockaddr`, costanti `AF_INET`, `SOCK_STREAM`, funzioni `socket`, `bind`, `connect`)
 - `#include <sys/types.h>` → tipi di dati usati in chiamate di sistema (`size_t`, `ssize_t`, `off_t`, `pid_t`), spesso incluso insieme ad altri header POSIX
+
+POSIX stands for **Portable Operating System Interface** standard che specifica un insieme di API, comandi e comportamenti per rendere i programmi portabili tra diversi os di tipo unix e altri che lo implementano
+
+
+## mem
+| funzione                       | scopo                                                     | note                                                           |
+| ------------------------------ | --------------------------------------------------------- | -------------------------------------------------------------- |
+| `memcpy(dest, src, n)`         | copia n byte da `src` a `dest`                            | più veloce di `memmove`, ma **non** sicura su aree sovrapposte |
+| `memmove(dest, src, n)`        | copia n byte gestendo **aree sovrapposte**                | più sicura di `memcpy`, leggermente più lenta                  |
+| `memset(ptr, value, n)`        | riempie con `value` (byte) i primi n byte di `ptr`        | spesso usata per azzerare (`memset(buf, 0, size)`)             |
+| `memcmp(ptr1, ptr2, n)`        | confronta n byte tra 2 blocchi di memoria                 | restituisce `<0`, `0`, `>0` come `strcmp`                      |
+| `memchr(ptr, value, n)`        | cerca il **primo byte** uguale a `value` nei primi n byte | restituisce puntatore o `NULL`                                 |
+| `memrchr(ptr, value, n)` (GNU) | come `memchr` ma cerca **da destra verso sinistra**       | non standard POSIX                                             |
+
+## allocazione di memoria
+ **1. Allocazione statica**
+- quando: a _compile time_
+- dove: nella _data segment_ (o BSS se inizializzata a zero)
+- come: la memoria esiste per tutta la durata del programma
+- **esempio**:
+ ```c
+int x = 5;         // variabile globale o locale 'static'
+static int y = 10; // persiste per tutta l'esecuzione
+````
+- uso: variabili globali, costanti, buffer permanenti
+
+**2. Allocazione automatica (stack)**
+- quando: a _runtime_ all’entrata della funzione
+- dove: nello _stack_
+- come: viene liberata automaticamente quando la funzione ritorna.
+- **esempio**:
+```c
+void foo() {
+    int a = 10;   // locale, su stack
+    char buf[256]; // buffer temporaneo
+} // le variabili a e buf scompaiono qui
+```
+ **uso**: variabili temporanee, più veloce dell’heap
+
+**3. Allocazione dinamica (heap)**
+- quando: a _runtime_, su richiesta esplicita
+- dove: nell’_heap_
+- come: il programmatore deve liberarla manualmente (`free`)
+- **esempio**:
+```c
+int *p = malloc(10 * sizeof(int));
+if (!p) { /* errore allocazione */ }
+/* ... */
+free(p);
+```
+
+**funzioni principali**:
+- `malloc(size)` → alloca blocco non inizializzato
+- `calloc(n, size)` → come `malloc` ma azzera i byte 
+	- `n` = numero di elementi da allocare
+	- esempio: `calloc(10, sizeof(int))` → alloca spazio per 10 interi e li azzera
+- `realloc(ptr, new_size)` → ridimensiona blocco
+	- - `ptr` → puntatore a un blocco di memoria _già allocato_ con `malloc`/`calloc`/`realloc`
+	- se più grande → prova a estendere il blocco
+	- se più piccolo → tronca i dati in eccesso
+	- se `ptr == NULL` → si comporta come `malloc(new_size)`
+	- se `new_size == 0` e `ptr != NULL` → libera il blocco come `free(ptr)`
+- `free(ptr)` → libera blocco
+	- dopo `free(ptr)`, il puntatore diventa _dangling_ (non valido)
+	- spesso si imposta a `NULL` per sicurezza
+	- se `ptr == NULL` → non fa nulla

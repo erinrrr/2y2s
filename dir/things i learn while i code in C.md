@@ -163,3 +163,39 @@ free(p);
 	- dopo `free(ptr)`, il puntatore diventa _dangling_ (non valido)
 	- spesso si imposta a `NULL` per sicurezza
 	- se `ptr == NULL` → non fa nulla
+
+## macro
+- a **macro** is a name that gets replaced by some code or value before the compiler starts compiling, during the _preprocessing_ stage
+- they’re created using the `#define` directive
+
+Types of macros
+1. **Object-like macros**
+	- Behave like constants:
+	- `#define PI 3.14159`
+	- every time `PI` appears in the code, the preprocessor replaces it with `3.14159`
+
+2. **Function-like macros**
+    - work like inline functions, but are replaced textually
+    - `#define SQUARE(x) ((x) * (x))`
+    - `SQUARE(5)` becomes `((5) * (5))` before compilation
+
+
+**Key characteristics**:	
+- **no type checking** — the preprocessor just does a text replacement
+- **faster execution** (no function call overhead), but can cause bugs if not used carefully
+- **global scope** — once defined, it’s visible until undefined with `#undef`
+
+**Advantages**:
+- can make code more readable (e.g., `PORT` instead of `8080` everywhere)
+- easy to change a value in one place and have it updated everywhere
+**Disadvantages**:
+- no debugging info — once replaced, the compiler doesn’t know the macro name existed
+- can lead to unintended side effects due to simple text substitution:
+	- `#define SQUARE(x) x*x`, `int y = SQUARE(1+2);1` becomes `1+2*1+2 → 5, not 9`
+
+**Modern alternative**
+- in modern C/C++, for constants it’s safer to use:
+- `const int PORT = 8080;` 
+- `constexpr double PI = 3.14;`
+- `inline int square(int x) { return x * x; }` for functions
+

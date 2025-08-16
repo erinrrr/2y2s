@@ -203,3 +203,21 @@ Types of macros
 - `constexpr double PI = 3.14;`
 - `inline int square(int x) { return x * x; }` for functions
 
+##### bonus arduino
+quando viene compilato uno sketch Arduino, il sistema genera un vero `main()` in C++, che è qualcosa del genere:
+
+```c
+#include <Arduino.h>
+int main(void) {
+    init();        // inizializza hardware di base
+    setup();       // la tua funzione setup() definita nello sketch
+    for (;;) {     // corrisponde a un while true
+        loop();    // la tua funzione loop() definita nello sketch
+        if (serialEventRun) serialEventRun();
+    }
+    return 0;
+}
+```
+
+- il `main()` viene chiamato automaticamente dal framework Arduino quando il microcontrollore si avvia
+- `loop()` viene chiamata all’infinito finché il microcontrollore è acceso

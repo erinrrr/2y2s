@@ -1695,4 +1695,5 @@ Impariamo a costruire un’applicazione client / server che comunica utilizzando
 > 
 > tramite questa possiamo inviare datagrammi inaffidabili oppure avere un trasporto affidabile con un flusso orientato di byte
 
-[[programmazione socket]]
+[[dir/dir reti/md/programmazione socket|programmazione socket]] - reti
+[[dir/dir sistemi/md/Programmazione socket|Programmazione socket]] - sistemi

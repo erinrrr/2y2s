@@ -116,7 +116,7 @@ possiamo anche:
 | `memrchr(ptr, value, n)` (GNU) | come `memchr` ma cerca **da destra verso sinistra**       | non standard POSIX                                             |
 
 ## allocazione di memoria
- **1. Allocazione statica**
+ **1. allocazione statica**
 - quando: a _compile time_
 - dove: nella _data segment_ (o BSS se inizializzata a zero)
 - come: la memoria esiste per tutta la durata del programma
@@ -127,7 +127,7 @@ static int y = 10; // persiste per tutta l'esecuzione
 ````
 - uso: variabili globali, costanti, buffer permanenti
 
-**2. Allocazione automatica (stack)**
+**2. allocazione automatica (stack)**
 - quando: a _runtime_ all’entrata della funzione
 - dove: nello _stack_
 - come: viene liberata automaticamente quando la funzione ritorna.
@@ -140,7 +140,7 @@ void foo() {
 ```
  **uso**: variabili temporanee, più veloce dell’heap
 
-**3. Allocazione dinamica (heap)**
+**3. allocazione dinamica (heap)**
 - quando: a _runtime_, su richiesta esplicita
 - dove: nell’_heap_
 - come: il programmatore deve liberarla manualmente (`free`)
@@ -172,9 +172,9 @@ free(p);
 - a **macro** is a name that gets replaced by some code or value before the compiler starts compiling, during the _preprocessing_ stage
 - they’re created using the `#define` directive
 
-Types of macros
+types of macros
 1. **Object-like macros**
-	- Behave like constants:
+	- behave like constants:
 	- `#define PI 3.14159`
 	- every time `PI` appears in the code, the preprocessor replaces it with `3.14159`
 
@@ -184,24 +184,34 @@ Types of macros
     - `SQUARE(5)` becomes `((5) * (5))` before compilation
 
 
-**Key characteristics**:	
+**key characteristics**:	
 - **no type checking** — the preprocessor just does a text replacement
 - **faster execution** (no function call overhead), but can cause bugs if not used carefully
 - **global scope** — once defined, it’s visible until undefined with `#undef`
 
-**Advantages**:
+**advantages**:
 - can make code more readable (e.g., `PORT` instead of `8080` everywhere)
 - easy to change a value in one place and have it updated everywhere
-**Disadvantages**:
+**disadvantages**:
 - no debugging info — once replaced, the compiler doesn’t know the macro name existed
 - can lead to unintended side effects due to simple text substitution:
 	- `#define SQUARE(x) x*x`, `int y = SQUARE(1+2);1` becomes `1+2*1+2 → 5, not 9`
 
-**Modern alternative**
+**modern alternative**
 - in modern C/C++, for constants it’s safer to use:
 - `const int PORT = 8080;` 
 - `constexpr double PI = 3.14;`
 - `inline int square(int x) { return x * x; }` for functions
+
+**some macro**:
+```c
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+```
+- defined in `<stdlib.h>`
+- used because of:
+	- **portability**: while in practice `0` = success and `nonzero` = failure, the exact values may differ across systems
+	- **readability**: `return EXIT_FAILURE; // clearer than: return 1;`
 
 ##### bonus arduino
 quando viene compilato uno sketch Arduino, il sistema genera un vero `main()` in C++, che è qualcosa del genere:
@@ -216,8 +226,54 @@ int main(void) {
         if (serialEventRun) serialEventRun();
     }
     return 0;
-}
 ```
+
 
 - il `main()` viene chiamato automaticamente dal framework Arduino quando il microcontrollore si avvia
 - `loop()` viene chiamata all’infinito finché il microcontrollore è acceso
+
+
+## pezzi di codice
+
+#### `strncmp()`
+```c
+if (strncmp(ack_buf, "ACK", 3) != 0)
+```
+cosa fa?
+- controlla se le prime 3 lettere di `ack_buf` sono diverse da `"ACK"`
+- `strncmp(s1, s2, n)` confronta al massimo i primi `n` caratteri delle due stringhe:
+    - restituisce `0` se i primi `n` caratteri sono uguali
+    - un valore diverso da `0` se c’è differenza
+
+#### diff between `scanf()` and `getline()`
+```c
+scanf("%s", key)
+```
+- reads a word (sequence of non-whitespace characters)
+- stops at space, tab, or newline
+- example:
+	- input → `my secret key`, `scanf("%s", key);` → only stores `"my"`
+- if you don’t limit the size → _buffer overflow possible_
+	- better:
+```c
+char key[256]; scanf("%255s", key);   // max 255 chars, then '\0'
+``` 
+- no dynamic allocation: memory lives on the stack
+- `%255s` means: read at most 255 characters, then stop and add `'\0'`
+
+
+```c
+getline(&key, &len, stdin);
+```
+- reads a whole line, including spaces, until enter (`\n`)
+- can handle arbitrary length (since it reallocates buffer)
+
+so:
+
+- if your key is a single word with no spaces:
+	- `scanf("%s", key)` is enough (with width specifier to avoid overflow)
+	- simple, fast, fine for short, single-word inputs
+
+- if your key may contain spaces or could be very long:
+	- prefer `getline`
+	- safer, flexible, works with long or multi-word input, dynamic buffer

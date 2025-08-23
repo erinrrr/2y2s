@@ -183,7 +183,6 @@ types of macros
     - `#define SQUARE(x) ((x) * (x))`
     - `SQUARE(5)` becomes `((5) * (5))` before compilation
 
-
 **key characteristics**:	
 - **no type checking** — the preprocessor just does a text replacement
 - **faster execution** (no function call overhead), but can cause bugs if not used carefully
@@ -277,3 +276,77 @@ so:
 - if your key may contain spaces or could be very long:
 	- prefer `getline`
 	- safer, flexible, works with long or multi-word input, dynamic buffer
+
+#### diff between`u_int64` and `unsigned long long int`
+- `unsigned long long int`
+	- standard C type (since C99) that guarantees at least 64 bits (usually exactly 64 bits on modern systems)
+- `u_int64` 
+    - this is not standard C, but a BSD / system-specific typedef (from `<sys/types.h>`)
+    - it is typically defined as: `typedef unsigned long long u_int64;`
+
+#### `strtoull()`
+```c
+unsigned long long strtoull(const char *nptr, char **endptr, int base);
+```
+- str to ull (unsigned long long)
+- converts the string `nptr` into an `unsigned long long`
+    - `base` = 2…36 or 0 (where 0 auto-detects `0x` as hex, `0` prefix as octal, else decimal)
+    - `endptr` gets set to the first invalid character (useful for parsing mixed strings)
+
+#### `htobe64()`
+```c
+#include <endian.h>
+uint64_t x = 0x1122334455667788ULL;
+uint64_t y = htobe64(x);
+// On little-endian machine: y bytes reversed
+// On big-endian machine: y == x
+
+```
+
+- macro/function to convert a 64-bit integer from _host byte order_ to  _big-endian_ byte order
+- defined in `<endian.h>` (Linux, BSD)
+why:
+- different CPUs store multibyte integers differently:
+    - **Little-endian** (x86, ARM in most cases) → least significant byte first
+    - **Big-endian** (some network protocols, older architectures) → most significant byte first
+- network protocols usually require **big-endian** ("network byte order")
+#### term elucidation
+**BSD**:
+- Berkeley Software Distribution: variante storica di Unix sviluppata all’Università di Berkeley (anni ’70–’80)
+- mportante perché molte librerie, convenzioni e funzioni di sistema derivate da BSD sono poi confluite in Linux e altri Unix-like
+- esmpio: `u_int64`, `u_int32`
+
+**dereferenziato**:
+- dereferenziare un puntatore significa accedere al contenuno della memoria a cui il puntatore punta (ciò che si fa con l'operatore `*`)
+
+#### osservazione
+```c
+uint64_t key_be = htobe64(*(uint64_t*)K);
+```
+- in questo contesto `K` viene interpretato come un puntatore a `uint64_t` e poi dereferenziato
+
+`(uint64_t*)K`
+- reinterpreta l'indirizzo di `K` (che in questo caso è un `char*`) come se fosse un `uint64_y`
+- sostanzialmente dice al compilatore: "tratta questi 8 byte consecutivi come se fossero un unico intero senza segno da 64 bit"
+	- `char*` → puntatore a byte singoli
+	- `uint64_t*` → puntatore a blocchi da 8 byte
+
+`*(uint64_t*)K`
+- il `*` fa il **dereference**
+	- legge effettivamente quegli 8 byte e li interpreta come `uint64_t`
+
+`htobe64(...)` ("host to big endian 64")
+- prende quel numero e lo converte in big endian
+	- se il tuo host è già big endian → non fa niente
+	- se il tuo host è little endian → ribalta l’ordine dei byte per portarlo in big endian
+- serve poiché quando si mandano numeri via socket, c’è bisogno di un formato standard comune
+- per convenzione, tutti i protocolli di rete usano big endian
+
+```c
+uint64_t key_be = htobe64(strtoull(K, NULL, 10));
+```
+`strtoull(K, NULL, 10)`
+- `K` è una stringa che contiene un numero in ASCII
+- la funzione interpreta quella stringa come numero decimale in base 10 e lo converte in `uint64_t`
+
+`htobe64(...)` come sopra

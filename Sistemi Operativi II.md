@@ -28,6 +28,7 @@
 	- [[Introduzione a C#Loop|Loop]]
 	- [[Introduzione a C#Stringhe|Stringhe]]
 	- [[Introduzione a C#Puntatori e allocazione dinamica della memoria|Puntatori e allocazione dinamica della memoria]]
+- [[System Programming]]
 
 [[dir/dir sistemi/md/Esercizi|Esercizi]]
 

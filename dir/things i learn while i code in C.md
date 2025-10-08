@@ -350,3 +350,50 @@ uint64_t key_be = htobe64(strtoull(K, NULL, 10));
 - la funzione interpreta quella stringa come numero decimale in base 10 e lo converte in `uint64_t`
 
 `htobe64(...)` come sopra
+
+#### creazione file con contenuto da terminale
+``` shell
+echo "ciao mondo" > input.txt
+```
+- usa il principio di redirezione dell'input con l'operatore `>`
+
+# TODO
+- [ ] STRUCT
+- [ ] Nel tuo codice in `encode`:
+	`unsigned long long K_int = strtoull(K, NULL, 10);`
+	Questo vuol dire che la chiave `"emiliano"` viene interpretata come **numero decimale**
+	Dal momento che `"emiliano"` **non è una stringa numerica**, `strtoull` restituisce `0`
+	E infatti fare:
+	`c = (*blk) ^ 0;`
+	non cambia nulla → `C == F`.
+- [ ] `<stddef.h>`
+- [ ] `snprintf`
+- [ ] `pthread_create`, `pthread_join`, `pthread_mutex_lock`, `pthread_mutex_unlock`
+- [ ] segnali:
+    
+    `sigset_t set;`
+    
+    `sigset_t mask, oldmask;`
+    `sigemptyset(&set);`
+    
+    `sigaddset(&mask, SIGINT);`
+	`pthread_sigmask(SIG_BLOCK, &mask, &oldmask);`
+	`pthread_sigmask(SIG_SETMASK, &oldmask, NULL);`
+    
+- [ ] understand this:
+```c
+// Concateno le liste dei risultati (double linked list)
+    dinamic_alloc_block_t *head = NULL, *tail = NULL;
+    for (int i = 0; i < p; ++i) {
+        dinamic_alloc_block_t *sublist = tasks[i].res;
+        if (!sublist) continue;
+        if (!head) {
+            head = sublist;
+            tail = sublist;
+        } else {
+            tail->next = sublist;
+        }
+        // avanza 'tail' fino alla fine della sublist agganciata
+        while (tail->next) tail = tail->next;
+    }
+```
